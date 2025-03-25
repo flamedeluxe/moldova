@@ -36,17 +36,30 @@ class PublicationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->label('Заголовок')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('type')
-                    ->label('Тип')
-                    ->options(Publication::getTypeOptions()),
-                Forms\Components\DatePicker::make('published_at')
-                    ->label('Дата публикации')
-                    ->required()
-                    ->maxDate(now()),
+                Forms\Components\Grid::make(2)
+                    ->schema([
+                        Forms\Components\Group::make() // Группа для первой колонки
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Заголовок')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\Select::make('type')
+                                    ->label('Тип')
+                                    ->options(Publication::getTypeOptions()),
+                                Forms\Components\DatePicker::make('published_at')
+                                    ->label('Дата публикации')
+                                    ->required()
+                                    ->maxDate(now()),
+                            ]),
+
+                        Forms\Components\Group::make() // Группа для второй колонки
+                            ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Изображение'),
+                            ]),
+                    ]),
+
                 Forms\Components\Toggle::make('active')
                     ->columnSpan('full')
                     ->label('Активность'),
@@ -57,9 +70,6 @@ class PublicationResource extends Resource
                     ->label('Содержимое')
                     ->required()
                     ->columnSpan('full'),
-                Forms\Components\FileUpload::make('image')
-                    ->label('Изображение')
-                    ->columnSpan('full'),
                 Forms\Components\FileUpload::make('gallery')
                     ->label('Галерея')
                     ->panelLayout('grid')
@@ -67,7 +77,6 @@ class PublicationResource extends Resource
                     ->reorderable(true)
                     ->multiple()
                     ->columnSpan('full'),
-
             ]);
     }
 
