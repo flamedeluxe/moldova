@@ -7,6 +7,7 @@ use App\Filament\Resources\PublicationResource\RelationManagers;
 use App\Models\Publication;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -59,44 +60,14 @@ class PublicationResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('Изображение')
                     ->columnSpan('full'),
-                Builder::make('blocks')
-                    ->label('Блоки')
-                    ->columnSpan('full')
-                    ->blocks([
-                        Builder\Block::make('heading')
-                            ->schema([
-                                TextInput::make('content')
-                                    ->label('Heading')
-                                    ->required(),
-                                Select::make('level')
-                                    ->options([
-                                        'h1' => 'Heading 1',
-                                        'h2' => 'Heading 2',
-                                        'h3' => 'Heading 3',
-                                        'h4' => 'Heading 4',
-                                        'h5' => 'Heading 5',
-                                        'h6' => 'Heading 6',
-                                    ])
-                                    ->required(),
-                            ])
-                            ->columns(2),
-                        Builder\Block::make('paragraph')
-                            ->schema([
-                                Textarea::make('content')
-                                    ->label('Paragraph')
-                                    ->required(),
-                            ]),
-                        Builder\Block::make('image')
-                            ->schema([
-                                FileUpload::make('url')
-                                    ->label('Image')
-                                    ->image()
-                                    ->required(),
-                                TextInput::make('alt')
-                                    ->label('Alt text')
-                                    ->required(),
-                            ]),
-                    ])
+                Forms\Components\FileUpload::make('gallery')
+                    ->label('Галерея')
+                    ->panelLayout('grid')
+                    ->previewable(true)
+                    ->reorderable(true)
+                    ->multiple()
+                    ->columnSpan('full'),
+
             ]);
     }
 

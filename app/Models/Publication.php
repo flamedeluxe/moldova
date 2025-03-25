@@ -9,6 +9,7 @@ class Publication extends Model
 {
     protected $casts = [
         'blocks' => 'json',
+        'gallery' => 'array'
     ];
 
     public static function getTypeOptions(): array

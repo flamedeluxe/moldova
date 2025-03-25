@@ -25,6 +25,8 @@ class ConfigResource extends Resource
 
     protected static ?string $breadcrumb = 'Настройки';
 
+    protected static ?int $navigationSort = 200;
+
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
     public static function form(Form $form): Form
