@@ -26,7 +26,7 @@
                         </div>
                         <div class="item__info">
                             <div class="item__info-date">
-                                {{ $item->published_at }}
+                                {{ $item->date }}
                             </div>
                             <div class="item__info-title">
                                 {{ $item->title }}

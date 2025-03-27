@@ -21,8 +21,9 @@ class PublicationController extends BaseController
         return view('pages.publications.index', compact('news', 'events'));
     }
 
-    public function show(Publication $publication)
+    public function show($slug)
     {
+        $publication = Publication::query()->where('slug', $slug)->firstOrFail();
         return view('pages.publications.show', compact('publication'));
     }
 }

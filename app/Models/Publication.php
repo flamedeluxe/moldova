@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,10 @@ class Publication extends Model
     protected $casts = [
         'blocks' => 'json',
         'gallery' => 'array'
+    ];
+
+    protected $appends = [
+        'date'
     ];
 
     public static function getTypeOptions(): array
@@ -81,5 +86,10 @@ class Publication extends Model
             }
             $model->slug = \Str::slug($model->title);
         });
+    }
+
+    public function getDateAttribute()
+    {
+        return Carbon::parse($this->published_at)->translatedFormat('d M Y');
     }
 }

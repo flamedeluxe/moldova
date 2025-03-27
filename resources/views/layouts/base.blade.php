@@ -91,9 +91,15 @@
             <div class="col header__menu">
                 <div class="">
                     <ul>
-                        <li><a href="{{ route('about') }}">О нас</a></li>
-                        <li><a href="{{ route('projects.index') }}">Наши проекты</a></li>
-                        <li><a href="{{ route('publications.index') }}">Новости</a></li>
+                        <li class="{{ request()->route()->getName() == 'about' ? 'active' : '' }}">
+                            <a href="{{ route('about') }}">О нас</a>
+                        </li>
+                        <li class="{{ request()->route()->getName() == 'projects.index' ? 'active' : '' }}">
+                            <a href="{{ route('projects.index') }}">Наши проекты</a>
+                        </li>
+                        <li class="{{ request()->route()->getName() == 'publications.index' ? 'active' : '' }}">
+                            <a href="{{ route('publications.index') }}">Новости</a>
+                        </li>
                         <li>
                             <a href="#">Мы в регионах</a>
                             <div class="dropdown">
