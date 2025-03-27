@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProjectController;
@@ -16,6 +17,7 @@ Route::get('/projects/{slug}', [ProjectController::class, 'show'])->name('projec
 Route::get('/publications', [PublicationController::class, 'index'])->name('publications.index');
 Route::get('/publications/{slug}', [PublicationController::class, 'show'])->name('publications.show');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/region/{slug}', [RegionController::class, 'index'])->name('region');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 Route::get('/login', [AccountController::class, 'login'])->name('login');

@@ -274,6 +274,9 @@ img {
     flex: 0 0 20%;
     max-width: 20%;
 }
+.header__logo a {
+    border-bottom: 0;
+}
 .header__search {
     display: none;
     justify-content: flex-end;
@@ -1344,7 +1347,7 @@ img {
     font-size: .7rem;
 }
 .p-page__social {
-    display: flex;   
+    display: flex;
     gap: 0 .5rem;
     margin-top: 1rem;
 }
@@ -2214,7 +2217,7 @@ h5 {
 }
 .p-card {
     padding: 5rem 0 2rem;
-}    
+}
 .p-card__info {
     background: url(../img/card-back.png) no-repeat center center;
     background-size: cover;
@@ -2262,7 +2265,7 @@ h5 {
     line-height: 1.5rem;
     margin-bottom: 1rem;
 }
-.p-card__top { 
+.p-card__top {
     display: flex;
     gap: 0 2rem;
 }
@@ -2722,7 +2725,7 @@ h5 {
         padding-right: 1rem;
     }
     .p-about__title {
-        font-size: 1.5rem;  
+        font-size: 1.5rem;
         line-height: 2rem;
         margin-bottom: 2rem;
     }

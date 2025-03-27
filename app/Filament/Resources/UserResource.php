@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\City;
 use App\Models\Publication;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use App\Models\User;
@@ -14,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
@@ -42,6 +45,10 @@ class UserResource extends Resource
                     ->label('Имя')
                     ->columnSpanFull()
                     ->required(),
+                TextInput::make('fullname')
+                    ->label('Полное имя')
+                    ->columnSpanFull()
+                    ->required(),
                 TextInput::make('email')
                     ->label('Email')
                     ->columnSpanFull()
@@ -53,7 +60,7 @@ class UserResource extends Resource
                     ->required(),
                 Select::make('city')
                     ->label('Город')
-                    ->options(Publication::getCityOptions())
+                    ->options(City::all()->pluck('title', 'title'))
                     ->multiple()
                     ->columnSpanFull(),
                 TextInput::make('password')
@@ -63,6 +70,8 @@ class UserResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->minLength(6)
                     ->password(),
+                FileUpload::make('avatar')
+                    ->label('Аватар'),
             ]);
     }
 
@@ -75,6 +84,8 @@ class UserResource extends Resource
                 TextColumn::make('name')
                     ->label('Имя')
                     ->searchable(),
+                ImageColumn::make('avatar')
+                    ->label('Аватар'),
                 TextColumn::make('role_label')
                     ->label('Роль'),
                 TextColumn::make('updated_at')

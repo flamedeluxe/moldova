@@ -35,7 +35,9 @@
 </div>
 <div class="m-header">
     <div class="m-header__logo">
-        <img src="img/logo.svg" alt="logo">
+        <a href="/">
+            <img src="img/logo.svg" alt="logo">
+        </a>
     </div>
     <div class="m-header__controls">
         <div class="m-header__controls-search">
@@ -86,7 +88,9 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col header__logo">
-                <img src="img/logo.svg" alt="logo">
+                <a href="/">
+                    <img src="img/logo.svg" alt="logo">
+                </a>
             </div>
             <div class="col header__menu">
                 <div class="">
@@ -105,36 +109,15 @@
                             <div class="dropdown">
                                 <div class="dropdown__cities">
                                     <ul>
-                                        <li><a href="">Москва</a></li>
-                                        <li><a href="">Санкт-Петербург</a></li>
+                                        <li><a href="region/moskva">Москва</a></li>
+                                        <li><a href="region/sankt-peterburg">Санкт-Петербург</a></li>
                                     </ul>
                                 </div>
                                 <div class="dropdown__list">
                                     <ul>
-                                        <li><a href="">Воронеж</a></li>
-                                        <li><a href="">Екатеринбург</a></li>
-                                        <li><a href="">Иваново</a></li>
-                                        <li><a href="">Калуга</a></li>
-                                        <li><a href="">Калининград</a></li>
-                                        <li><a href="">Карелия</a></li>
-                                        <li><a href="">Краснодар</a></li>
-                                        <li><a href="">Кострома</a></li>
-                                        <li><a href="">Курск</a></li>
-                                        <li><a href="">Крым</a></li>
-                                        <li><a href="">Липецк</a></li>
-                                        <li><a href="">Мегион</a></li>
-                                        <li><a href="">Мурманск</a></li>
-                                        <li><a href="">Нижний Новгород</a></li>
-                                        <li><a href="">Ноябрьск</a></li>
-                                        <li><a href="">Подольск</a></li>
-                                        <li><a href="">Ростов-на-Дону</a></li>
-                                        <li><a href="">Рязань</a></li>
-                                        <li><a href="">Смоленск</a></li>
-                                        <li><a href="">Сочи</a></li>
-                                        <li><a href="">Ставрополь</a></li>
-                                        <li><a href="">Тула</a></li>
-                                        <li><a href="">Ярославль</a></li>
-                                        <li><a href="">Коломна</a></li>
+                                        @foreach($cities as $city)
+                                        <li><a href="{{ route('region', $city->slug) }}">{{ $city->title }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -272,9 +255,9 @@
                     </div>
                 </div>
                 <div class="faq__more">
-                    <a href="">
+                    <a href="{{ route('faq') }}">
                         <span>Все вопросы и ответы</span>
-                        <img src="img/more.svg" alt="">
+                        <img src="img/more.svg" alt="Все вопросы и ответы">
                     </a>
                 </div>
             </div>

@@ -60,132 +60,36 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="events__tags justify-content-end">
-                            <div class="tag active">
-                                <span>Все</span>
-                            </div>
-                            <div class="tag">
-                                <span>Культура</span>
-                            </div>
-                            <div class="tag">
-                                <span>Спорт</span>
-                            </div>
-                            <div class="tag">
-                                <span>Образование</span>
-                            </div>
+                            <div class="tag active"><span>Все</span></div>
+                            @foreach($categories as $item)
+                            <div class="tag"><span>{{ $item }}</span></div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row">
+                @foreach($events as $item)
                 <div class="col-12 col-sm-4">
                     <a href="" class="item">
                         <div class="item__img">
-                            <img src="img/news1.png" alt="">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
                         </div>
                         <div class="item__info">
                             <div class="item__info-date">
-                                27 января
+                                {{ $item->date }}
                             </div>
                             <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
+                                {{ $item->title }}
                             </div>
                             <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
+                                {!! $item->introtext !!}
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
             </div>
 
             <div class="events__more">
