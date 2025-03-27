@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Combined-Shape-path</title>
+    <g id="Сайт" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="001-Главная" transform="translate(-629.000000, -5072.500000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Group-8" transform="translate(-360.000000, 1478.000000)">
+                <g id="Footer" transform="translate(360.000000, 3249.000000)">
+                    <g id="Group-116" transform="translate(480.000000, 336.000000)">
+                        <g id="Group-114" transform="translate(137.000000, 0.000000)">
+                            <g id="Group-111" transform="translate(12.000000, 8.000000)">
+                                <path d="M6.26833159,10.7387228 L13.0907926,4.31596711 C13.3902239,4.03873026 13.0254035,3.90353798 12.6279071,4.15500168 L4.20776017,9.69682221 L0.570714777,8.51256746 C-0.21472665,8.26167937 -0.220366811,7.69862017 0.747055629,7.29381464 L14.9197987,1.59261481 C15.5671052,1.2860335 16.1918756,1.7548082 15.944763,2.78836892 L13.531142,14.6539407 C13.3625993,15.4971289 12.8742472,15.6987833 12.1976119,15.3093017 L6.26833159,10.7387228 Z" id="Combined-Shape-path"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

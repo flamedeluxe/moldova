@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48.0832611px" height="48.0832611px" viewBox="0 0 48.0832611 48.0832611" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>plus-circle</title>
+    <g id="Сайт" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="001-Главная" transform="translate(-837.958369, -3941.958369)" stroke="#ED1846" stroke-width="2">
+            <g id="Group-8" transform="translate(-360.000000, 1478.000000)">
+                <g id="FAQ-Section" transform="translate(360.000000, 2227.000000)">
+                    <g id="Group-83" transform="translate(32.000000, 148.000000)">
+                        <g id="Group-69-Copy" transform="translate(0.000000, 78.000000)">
+                            <g id="plus-circle" transform="translate(830.000000, 35.000000) rotate(45.000000) translate(-830.000000, -35.000000) translate(814.000000, 19.000000)">
+                                <circle id="Oval" cx="16" cy="16" r="16"></circle>
+                                <g id="Group-76" transform="translate(11.000000, 11.000000)">
+                                    <line x1="5" y1="0" x2="5" y2="10" id="Path"></line>
+                                    <line x1="0" y1="5" x2="10" y2="5" id="Path"></line>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

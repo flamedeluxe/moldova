@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="18.2px" viewBox="0 0 16 18.2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 45</title>
+    <g id="Сайт" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="005-Календарь-мероприятий" transform="translate(-1108.000000, -260.800000)">
+            <g id="Group-41" transform="translate(1096.000000, 253.000000)">
+                <g id="Group-4" transform="translate(12.000000, 8.000000)">
+                    <g id="Group-45" transform="translate(0.000000, 0.300000)">
+                        <rect id="Rectangle" fill="#FFFFFF" opacity="0.393282936" x="0" y="1.5" width="16" height="16.2" rx="1.77777778"></rect>
+                        <rect id="Rectangle" fill="#FFFFFF" opacity="0.703699" x="1" y="4.7" width="14" height="1" rx="0.5"></rect>
+                        <g id="Group-44" transform="translate(3.944444, 0.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7.61111111" y1="0" x2="7.61111111" y2="3" id="Path"></line>
+                            <line x1="0.5" y1="0" x2="0.5" y2="3" id="Path"></line>
+                            <line x1="7.61111111" y1="-8.52651283e-14" x2="7.61111111" y2="1.5" id="Path"></line>
+                            <line x1="0.5" y1="-8.52651283e-14" x2="0.5" y2="1.5" id="Path"></line>
+                        </g>
+                        <g id="Group-42" transform="translate(3.000000, 7.700000)" fill="#FFFFFF">
+                            <rect id="Rectangle" opacity="0.713698614" x="0" y="0.5" width="2" height="2" rx="1"></rect>
+                            <rect id="Rectangle-Copy-5" x="3.5" y="0" width="3" height="3" rx="1.5"></rect>
+                            <rect id="Rectangle-Copy-8" x="8" y="0.5" width="2" height="2" rx="1"></rect>
+                            <rect id="Rectangle-Copy-6" x="0" y="4.5" width="2" height="2" rx="1"></rect>
+                            <rect id="Rectangle-Copy-7" opacity="0.713698614" x="4" y="4.5" width="2" height="2" rx="1"></rect>
+                            <rect id="Rectangle-Copy-9" opacity="0.300000012" x="8" y="4.5" width="2" height="2" rx="1"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

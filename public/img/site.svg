@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15.25px" height="15.25px" viewBox="0 0 15.25 15.25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>globe</title>
+    <g id="Сайт" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="009-Сделано-молдованами-в-России" transform="translate(-79.375000, -1515.375000)" stroke="#000000" stroke-width="1.25">
+            <g id="Group-15-Copy-3" transform="translate(80.000000, 931.000000)">
+                <g id="Group-13" transform="translate(0.000000, 316.000000)">
+                    <g id="Group-14" transform="translate(0.000000, 28.000000)">
+                        <g id="Group-11" transform="translate(0.000000, 134.000000)">
+                            <g id="Group-10" transform="translate(0.000000, 104.000000)">
+                                <g id="globe" transform="translate(0.000000, 3.000000)">
+                                    <circle id="Oval" cx="7" cy="7" r="7"></circle>
+                                    <line x1="0" y1="7" x2="14" y2="7" id="Path"></line>
+                                    <path d="M7,0 C8.75089626,1.91684703 9.74592693,4.4044237 9.8,7 C9.74592693,9.5955763 8.75089626,12.083153 7,14 C5.24910374,12.083153 4.25407307,9.5955763 4.2,7 C4.25407307,4.4044237 5.24910374,1.91684703 7,0 L7,0 Z" id="Path"></path>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

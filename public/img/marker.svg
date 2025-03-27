@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="47.1054244px" height="39.0668198px" viewBox="0 0 47.1054244 39.0668198" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path</title>
+    <defs>
+        <polygon id="path-1" points="150.002395 134.920572 142.04191 127 134 134.996823 150.002395 151 166 134.996823 157.95809 127"></polygon>
+    </defs>
+    <g id="Сайт" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="001-Главная" transform="translate(-1028.447004, -3329.476401)" fill-rule="nonzero">
+            <g id="Group-8" transform="translate(-360.000000, 1478.000000)">
+                <g id="Map-Section" transform="translate(360.000000, 1564.000000)">
+                    <g id="Group-81" transform="translate(711.000000, 80.000000)">
+                        <g id="Path" transform="translate(191.000000, 88.000000)">
+                            <path stroke="#ED1846" stroke-width="5.33333333" d="M157.956964,123.238201 L169.776214,134.991186 L150.002677,154.771611 L130.223502,134.991469 L142.04247,123.238764 L150.001829,131.158215 L157.956964,123.238201 Z" fill="#ED1846" fill-rule="evenodd"></path>
+                            <path stroke="#FFFFFF" stroke-width="3.80952381" d="M157.957286,124.313001 L168.697296,134.992797 L150.002596,153.694008 L131.302501,134.992998 L142.04231,124.313403 L150.00199,132.233174 L157.957286,124.313001 Z"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

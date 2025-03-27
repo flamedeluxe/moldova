@@ -1,0 +1,701 @@
+window.addEventListener("load", (event) => {
+    if (document.querySelector(".hero .keen-slider")) hero();
+    if (document.querySelector(".projects .keen-slider")) projectsSlider();
+    if (document.querySelector(".p-page__slider.keen-slider")) pageSlider();
+    if (document.querySelector(".p-region__slider .keen-slider")) regionSlider();
+    if (document.querySelector(".p-about .keen-slider")) about();
+    if (document.querySelector(".p-acccount__events.keen-slider")) accountSlider();
+    if (document.querySelector(".partners-slider")) partners();
+    if (document.querySelector(".modal")) modals();
+    if (document.querySelector("[type='tel']")) phoneMask();
+    if (document.querySelector(".form-checkbox")) checkboxes();
+    if (document.querySelector(".nav")) sticky();
+    if (document.querySelector(".header-burger")) burger();
+    if (document.querySelector(".accordion-item")) accordion();
+    document.querySelectorAll(".tabs").forEach(tabs);
+    scrollTo();
+    sticky();
+    if (document.querySelector('.events__select')) {
+        initDatepicker();
+    }
+});
+
+function openModal(modalId, timeout = 0) {
+    const modal = document.querySelector(modalId);
+    const overlay = document.querySelector(".modal-overlay");
+    const html = document.documentElement;
+
+    modal.classList.add("active");
+    overlay.classList.add("active");
+    html.classList.add("overflow");
+
+    if (timeout > 0) setTimeout(() => {
+        modal.classList.remove("active");
+        overlay.classList.remove("active");
+        html.classList.remove("overflow");
+    }, timeout);
+}
+
+function closeModals() {
+    const html = document.documentElement;
+    const overlay = document.querySelector(".modal-overlay");
+
+    document.querySelectorAll(".modal").forEach(modal => {
+        modal.classList.remove("active");
+    })
+    
+    overlay.classList.remove("active");
+    html.classList.remove("overflow");
+}
+
+function checkboxes() {
+    document.querySelectorAll(".form-checkbox").forEach(checkboxContainer => {
+        checkboxContainer.addEventListener("click", event => {
+            // Проверяем, не кликнули ли по ссылке
+            if (event.target.tagName.toLowerCase() === "a") return;
+
+            const checkbox = checkboxContainer.querySelector("input[type='checkbox']");
+            checkbox.checked = !checkbox.checked;
+            event.preventDefault(); // Предотвращаем неожиданные действия
+        });
+    });
+}
+
+function initSlider(selector, options) {
+    const sliderElement = document.querySelector(selector);
+    const slider = new KeenSlider(sliderElement, options);
+
+    // Получаем существующие элементы управления
+    const controls = sliderElement.parentElement.querySelector(".keen-slider__controls");
+    if (!controls) return;
+
+    const arrowLeft = controls.querySelector(".keen-slider-arrow--left");
+    const arrowRight = controls.querySelector(".keen-slider-arrow--right");
+    const dots = controls.querySelector(".keen-slider-dots");
+
+    // Создаем точки в существующем контейнере
+    if (dots) {
+        const slides = sliderElement.querySelectorAll(".keen-slider__slide");
+        slides.forEach((_, idx) => {
+            const dot = document.createElement("button");
+            dot.className = "keen-slider-dot" + (idx === 0 ? " active" : "");
+            dot.addEventListener("click", () => {
+                slider.moveToIdx(idx);
+            });
+            dots.appendChild(dot);
+        });
+    }
+
+    // Обработчики для стрелок
+    if (arrowLeft) {
+        arrowLeft.addEventListener("click", () => slider.prev());
+    }
+    if (arrowRight) {
+        arrowRight.addEventListener("click", () => slider.next());
+    }
+
+    // Обновление активной точки при смене слайда
+    if (dots) {
+        slider.on("slideChanged", () => {
+            const sliderDots = controls.querySelectorAll(".keen-slider-dot");
+            sliderDots.forEach((dot, idx) => {
+                dot.classList.toggle("active", idx === slider.track.details.rel);
+            });
+        });
+    }
+}
+
+function accountSlider() {
+    initSlider(".p-acccount__events.keen-slider", {
+        loop: true,
+        slides: {
+            perView: 3.5,
+            spacing: 30
+        },
+        breakpoints: {
+            '(max-width: 768px)': {
+                slides: {
+                    perView: 1,
+                    spacing: 10
+                }
+            },
+        },
+    });
+}
+
+function about() {
+    initSlider(".p-about .keen-slider", {
+        loop: true,
+        slides: {
+            perView: 3,
+            spacing: 25
+        },
+        breakpoints: {
+            '(max-width: 768px)': {
+                slides: {
+                    perView: 1.2,
+                    spacing: 10
+                }
+            },
+        },
+    });
+}
+
+function hero() {
+    initSlider(".hero .keen-slider", {
+        loop: true,
+        slides: {
+            perView: 1,
+            spacing: 10
+        },
+        breakpoints: {
+            '(max-width: 768px)': {
+                slides: {
+                    perView: 1,
+                    spacing: 10
+                }
+            },
+        },
+    });
+}
+
+function projectsSlider() {
+    initSlider(".projects .keen-slider", {
+        loop: true,
+        slides: {
+            perView: 1.5,
+            spacing: 20
+        },
+        breakpoints: {
+            '(max-width: 768px)': {
+                slides: {
+                    perView: 1,
+                    spacing: 20
+                }
+            },
+        },
+    });
+}
+
+function pageSlider() {
+    initSlider(".p-page__slider.keen-slider", {
+        loop: true,
+        slides: {
+            perView: 1,
+            spacing: 20
+        },
+        breakpoints: {
+            '(max-width: 768px)': {
+                slides: {
+                    perView: 1,
+                    spacing: 20
+                }
+            },
+        },
+    });
+}
+
+function regionSlider() {
+    initSlider(".p-region__slider .keen-slider", {
+        loop: true,
+        slides: {
+            perView: 1,
+            spacing: 20
+        },
+        breakpoints: {
+            '(max-width: 768px)': {
+                slides: {
+                    perView: 1,
+                    spacing: 20
+                }
+            },
+        },
+    });
+}
+
+function partners() {
+    const sliderElement = document.querySelector('.partners-slider');
+    if (!sliderElement) return;
+
+    let slider = null;
+
+    function initPartnersSlider() {
+        if (window.innerWidth < 768 && !slider) {
+            slider = new KeenSlider(sliderElement, {
+                loop: true,
+                slides: {
+                    perView: 1.5,
+                    spacing: 20
+                }
+            });
+        }
+    }
+
+    function destroyPartnersSlider() {
+        if (window.innerWidth >= 768 && slider) {
+            slider.destroy();
+            slider = null;
+        }
+    }
+
+    // Инициализация при загрузке
+    initPartnersSlider();
+
+    // Обработка изменения размера окна
+    window.addEventListener('resize', () => {
+        if (window.innerWidth < 768) {
+            initPartnersSlider();
+        } else {
+            destroyPartnersSlider();
+        }
+    });
+}
+
+function modals() {
+    const html = document.documentElement;
+    
+    // Открытие модального окна
+    document.querySelectorAll("[data-modal]").forEach(trigger => {
+        trigger.addEventListener("click", function (event) {
+            event.preventDefault();
+            const modalId = this.getAttribute("data-modal");
+            const modal = document.querySelector(modalId);
+            const overlay = document.querySelector(".modal-overlay");
+            const formTitle = this.getAttribute("data-title");
+            const formField = modal.querySelector("[name='form']");
+
+            if (modal) {
+                modal.classList.add("active");
+                overlay.classList.add("active");
+                html.classList.add("overflow");
+                formField.value = formTitle;
+            }
+        });
+    });
+
+    // Закрытие модального окна
+    document.querySelectorAll(".modal-close, .modal-overlay").forEach(closeElement => {
+        closeElement.addEventListener("click", function () {
+            document.querySelectorAll(".modal, .modal-overlay").forEach(el => el.classList.remove("active"));
+            html.classList.remove("overflow");
+        });
+    });
+
+    // Закрытие по Escape
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            document.querySelectorAll(".modal, .modal-overlay").forEach(el => el.classList.remove("active"));
+            html.classList.remove("overflow");
+        }
+    });
+}
+
+function phoneMask() {
+    document.querySelectorAll('input[type="tel"]').forEach(input => {
+        input.addEventListener("input", maskPhone);
+        input.addEventListener("focus", maskPhone);
+        input.addEventListener("blur", maskPhone);
+        input.addEventListener("keydown", maskPhone);
+    });
+
+    function maskPhone(event) {
+        let keyCode = event.keyCode;
+        let input = event.target;
+        let pos = input.selectionStart;
+        let matrix = "+7 (___) ___-__-__";
+        let i = 0;
+        let def = matrix.replace(/\D/g, "");
+        let val = input.value.replace(/\D/g, "");
+
+        if (def.length >= val.length) val = def;
+
+        let newValue = matrix.replace(/[_\d]/g, a => i < val.length ? val.charAt(i++) : a);
+        i = newValue.indexOf("_");
+        if (i !== -1) {
+            if (i < 5) i = 3;
+            newValue = newValue.slice(0, i);
+        }
+
+        let reg = matrix
+            .substr(0, input.value.length)
+            .replace(/_+/g, a => "\\d{1," + a.length + "}")
+            .replace(/[+()]/g, "\\$&");
+        reg = new RegExp("^" + reg + "$");
+
+        if (!reg.test(input.value) || input.value.length < 5 || (keyCode > 47 && keyCode < 58)) {
+            input.value = newValue;
+        }
+        if (event.type === "blur" && input.value.length < 5) {
+            input.value = "";
+        }
+    }
+}
+
+function sticky() {
+    const nav = document.querySelector(".header");
+    if (!nav) return;
+
+    let navHeight = nav.offsetHeight;
+    let isSticky = false;
+
+    const updateNavState = () => {
+        const navTop = nav.getBoundingClientRect().top;
+        
+        if (window.scrollY > 0 && !isSticky) {
+            nav.classList.add("sticky");
+            isSticky = true;
+        } else if (window.scrollY == 0 && isSticky) {
+            nav.classList.remove("sticky");
+            isSticky = false;
+        }
+    };
+
+    updateNavState();
+
+    window.addEventListener("scroll", updateNavState);
+    window.addEventListener("resize", () => {
+        navHeight = nav.offsetHeight; // Пересчитываем высоту при изменении размеров экрана
+    });
+}
+
+function tabs(tabContainer) {
+    const tabs = tabContainer.querySelectorAll(".tabs-nav .tab");
+    const contents = tabContainer.querySelectorAll(".tabs-content .tab");
+    let sliderInstance = null;
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", function () {
+            // Удаляем active у всех вкладок и контента
+            tabs.forEach(t => t.classList.remove("active"));
+            contents.forEach(c => c.classList.remove("active"));
+
+            // Добавляем active к текущей вкладке и контенту
+            tab.classList.add("active");
+            contents[index].classList.add("active");
+
+            // Реинициализируем слайдер
+            initSlider(tabContainer);
+        });
+    });
+
+    function initSlider(container) {
+        // Удаляем предыдущий экземпляр слайдера, если он есть
+        if (sliderInstance) {
+            sliderInstance.destroy();
+        }
+        
+        const activeTab = container.querySelector(".tabs-content .tab.active .keen-slider");
+        if (!activeTab) return;
+
+        sliderInstance = new KeenSlider(activeTab, {
+            loop: true,
+            slides: {
+                perView: 2.5,
+                spacing: 10
+            },
+            breakpoints: {
+                '(max-width: 800px)': {
+                    slides: {
+                        perView: 1.5,
+                        spacing: 20
+                    }
+                },
+            },
+            created: function (instance) {
+                const prevBtn = container.querySelector(".tab.active .slider .slider-prev");
+                const nextBtn = container.querySelector(".tab.active .slider .slider-next");
+                const dotsContainer = container.querySelector(".tab.active .slider-dots");
+
+                if (prevBtn && nextBtn) {
+                    prevBtn.addEventListener("click", () => instance.prev());
+                    nextBtn.addEventListener("click", () => instance.next());
+                }
+
+                if (dotsContainer) {
+                    dotsContainer.innerHTML = ""; // Очищаем точки перед созданием новых
+                    for (let i = 0; i < instance.track.details.slides.length; i++) {
+                        const dot = document.createElement("button");
+                        dot.classList.add("slider-dot");
+                        dot.dataset.index = i;
+                        dot.addEventListener("click", () => instance.moveToIdx(i));
+                        dotsContainer.appendChild(dot);
+                    }
+                }
+
+                function updateActiveDots() {
+                    const activeIndex = instance.track.details.rel;
+                    if (dotsContainer) {
+                        dotsContainer.querySelectorAll(".slider-dot").forEach((dot, dotIndex) => {
+                            dot.classList.toggle("active", dotIndex === activeIndex);
+                        });
+                    }
+                }
+                instance.on("animationEnded", updateActiveDots);
+                updateActiveDots();
+            },
+        });
+    }
+
+    // Инициализируем слайдер для первой вкладки при загрузке страницы
+    initSlider(tabContainer);
+}
+
+function burger() {
+    const burger = document.querySelector('.header-burger');
+    const mobile = document.querySelector('.mobile');
+    const close = document.querySelector('.mobile-close');
+
+    burger.addEventListener("click", function (event) {
+        event.preventDefault();
+        mobile.classList.add('active');
+    });
+
+    close.addEventListener("click", function (event) {
+        event.preventDefault();
+        mobile.classList.remove('active');
+    });
+}
+
+function scrollTo() {
+    const anchors = document.querySelectorAll('a[href^="#"]');
+    const nav = document.querySelector(".nav"); // Фиксированное меню
+
+    console.log("Anchors found:", anchors.length); // Логируем количество якорей
+
+    anchors.forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const targetId = anchor.getAttribute("href").substring(1); // Убираем #
+            const target = document.getElementById(targetId); // Получаем элемент по ID
+
+            console.log("Clicked anchor:", anchor);
+            console.log("Target ID:", targetId);
+            console.log("Found target:", target);
+
+            if (!target) {
+                console.warn("Target not found for:", targetId);
+                return; // Если элемента нет, ничего не делаем
+            }
+
+            const navHeight = nav ? nav.offsetHeight : 0; // Высота меню
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
+
+            console.log("Scrolling to:", targetPosition, "with navHeight:", navHeight);
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth",
+            });
+        });
+    });
+}
+
+function accordion() {
+    const accordions = document.querySelectorAll(".accordion-item");
+
+    accordions.forEach(item => {
+        const header = item.querySelector(".accordion-header");
+        const content = item.querySelector(".accordion-content");
+
+        header.addEventListener("click", function () {
+            const isOpen = item.classList.contains("active");
+            
+            // Закрываем все аккордеоны
+            accordions.forEach(acc => {
+                acc.classList.remove("active");
+                acc.querySelector(".accordion-content").style.maxHeight = 0;
+            });
+
+            // Если текущий аккордеон не был открыт, открываем его
+            if (!isOpen) {
+                item.classList.add("active");
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchButton = document.querySelector('.header__controls-search button');
+    const searchInput = document.querySelector('.header__search');
+    const menu = document.querySelector('.header__menu > div:first-child');
+    const searchClose = document.querySelector('.header__search img');
+    let isSearchOpen = false;
+
+    searchButton.addEventListener('click', function() {
+        isSearchOpen = !isSearchOpen;
+        
+        if (isSearchOpen) {
+            searchInput.style.display = 'flex';
+            menu.classList.add('hidden');
+            searchInput.querySelector('input').focus();
+        } else {
+            searchInput.style.display = 'none';
+            menu.classList.remove('hidden');
+        }
+    });
+
+    // Закрытие поиска при клике на иконку
+    searchClose.addEventListener('click', function() {
+        isSearchOpen = false;
+        searchInput.style.display = 'none';
+        menu.classList.remove('hidden');
+    });
+
+    // Закрытие поиска при клике вне его области
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchButton.contains(e.target)) {
+            isSearchOpen = false;
+            searchInput.style.display = 'none';
+            menu.classList.remove('hidden');
+        }
+    });
+
+
+    // Переключение мобильного меню
+    const burgerIcon = document.querySelector('.m-header__controls-burger svg:first-child');
+    const burgerIconClose = document.querySelector('.m-header__controls-burger svg:nth-child(2)');
+    const mobileNav = document.querySelector('.m-header__nav');
+    
+    if (burgerIcon && mobileNav) {
+        burgerIcon.addEventListener('click', function() {
+            if (mobileNav.style.display === 'block') {
+                mobileNav.style.display = 'none';
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'inline';
+            } else {
+                mobileNav.style.display = 'block';
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'inline';
+            }
+        });
+    }
+
+    if (burgerIconClose && mobileNav) {
+        burgerIconClose.addEventListener('click', function() {
+            if (mobileNav.style.display === 'block') {
+                mobileNav.style.display = 'none';
+                this.style.display = 'none';
+                this.previousElementSibling.style.display = 'inline';
+            } else {
+                mobileNav.style.display = 'block';
+                this.style.display = 'none';
+                this.previousElementSibling.style.display = 'inline';
+            }
+        });
+    }
+
+    // Мобильный поиск
+    const mobileSearchBtn = document.querySelector('.m-header__controls-search');
+    const mobileSearch = document.querySelector('.m-search');
+    const mobileSearchClose = document.querySelector('.m-search__close');
+    const mobileSearchInput = document.querySelector('.m-search__input input');
+
+    if (mobileSearchBtn && mobileSearch) {
+        mobileSearchBtn.addEventListener('click', function() {
+            mobileSearch.style.display = 'block';
+            setTimeout(() => {
+                mobileSearch.classList.add('active');
+            }, 10);
+            mobileSearchInput.focus();
+        });
+    }
+
+    if (mobileSearchClose && mobileSearch) {
+        mobileSearchClose.addEventListener('click', function() {
+            mobileSearch.classList.remove('active');
+            setTimeout(() => {
+                mobileSearch.style.display = 'none';
+            }, 300);
+        });
+    }
+
+    // Закрытие поиска при клике вне поля ввода
+    document.addEventListener('click', function(e) {
+        if (mobileSearch && mobileSearch.style.display === 'block') {
+            if (!mobileSearchInput.contains(e.target) && !mobileSearchBtn.contains(e.target)) {
+                mobileSearch.classList.remove('active');
+                setTimeout(() => {
+                    mobileSearch.style.display = 'none';
+                }, 300);
+            }
+        }
+    });
+
+
+
+});
+
+function initDatepicker() {
+    const selectElement = document.querySelector('.events__select');
+
+
+    function setRange(dp, days) {
+        let selectedDates = dp.selectedDates;
+        let startDate;
+
+        if (selectedDates.length == 1) {
+            dp.clear();
+            dp.selectDate([]);
+            console.log(1)
+        }
+
+        startDate = new Date(); // Если нет выбранных дат, берем сегодня
+
+        let endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + days); // Устанавливаем конец диапазона через 7 дней
+
+        dp.selectDate([startDate, endDate]); // Устанавливаем новый диапазон
+        dp.setViewDate(startDate); // Устанавливаем отображаемую дату
+    }
+
+    let weekButton = {
+        content: 'Неделя',
+        className: 'button-select',
+        onClick: (dp) => {
+            setRange(dp, 7);
+        }
+    }
+
+    let monthButton = {
+        content: 'Месяц',
+        className: 'button-select',
+        onClick: (dp) => {
+            setRange(dp, 30);
+        }
+    }
+
+    let threeMonthsButton = {
+        content: '3 месяца',
+        className: 'button-select',
+        onClick: (dp) => {
+            setRange(dp, 30 * 3);
+        }
+    }
+
+    let submitButton = {
+        content: 'Показать мероприятия',
+        className: 'button-submit',
+        onClick: (dp) => {
+            let selectedDates = dp.selectedDates;
+            dp.hide();
+
+            let formattedDates = selectedDates.map(date => {
+                let d = new Date(date);
+                return d.toISOString().split('T')[0]; // Преобразуем в YYYY-MM-DD
+            });
+
+            console.log(formattedDates)
+        }
+    }
+
+
+    const datepicker = new AirDatepicker('[name="date"]', {
+        range: true,
+        position: 'bottom right',
+        buttons: [weekButton, monthButton, threeMonthsButton, submitButton],
+        multipleDatesSeparator: ' - ',
+        dateFormat: 'dd MMM',
+    });
+}

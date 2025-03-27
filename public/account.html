@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/air-datepicker@3.4.0/air-datepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-reboot.rtl.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="css/flatpickr.css">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_API_КЛЮЧ&lang=ru_RU" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="m-search">
+        <div class="m-search__input">
+            <input type="text" placeholder="Поиск по сайту…">
+        </div>
+        <div class="m-search__close">
+            <img src="img/close3.svg" alt="">
+            <span>Закрыть поиск</span>
+        </div>
+    </div>
+    <div class="m-header">
+        <div class="m-header__logo">
+            <img src="img/logo.svg" alt="logo">
+        </div>
+        <div class="m-header__controls">
+            <div class="m-header__controls-search">
+                <svg class="icon"><use xlink:href="img/sprite.svg#search"></use></svg>
+            </div>
+            <div class="m-header__controls-burger">
+                <svg class="icon"><use xlink:href="img/sprite.svg#burger"></use></svg>
+                <svg class="icon" style="display: none;"><use xlink:href="img/sprite.svg#close"></use></svg>
+            </div>
+        </div>
+    </div>
+    <div class="m-header__nav">
+        <div class="m-header__nav-menu">
+            <ul>
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Наши проекты</a></li>
+                <li><a href="#">Новости</a></li>
+                <li>
+                    <a href="#">Мы в регионах</a>
+                </li>
+                <li><a href="#">Вопросы и ответы</a></li>
+            </ul>
+
+            <button class="btn btn--transperant">
+                <img src="img/acc.svg" alt="">
+                <span>Личный кабинет</span>
+            </button>
+        </div>
+        <div class="m-header__nav-footer">
+            <div class="m-header__nav-footer_email">
+                <a href="mailto:info@moldovacenter.ru">info@moldovacenter.ru</a>
+            </div>
+            <div class="m-header__nav-footer_social">
+                <ul>
+                    <li><a href="#"><img src="img/vk.svg" alt=""></a></li>
+                    <li><a href="#"><img src="img/te.svg" alt=""></a></li>
+                    <li><a href="#"><img src="img/ok.svg" alt=""></a></li>
+                </ul>
+            </div>
+            <div class="m-header__nav-footer_text">
+                <a href="">Политика конфиденциальности 
+                    в отношении персональных данных</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col header__logo">
+                    <img src="img/logo.svg" alt="logo">
+                </div>
+                <div class="col header__menu">
+                    <div class="">
+                        <ul>
+                            <li><a href="#">О нас</a></li>
+                            <li><a href="#">Наши проекты</a></li>
+                            <li><a href="#">Новости</a></li>
+                            <li>
+                                <a href="#">Мы в регионах</a>
+                                <div class="dropdown">
+                                    <div class="dropdown__cities">
+                                        <ul>
+                                            <li><a href="">Москва</a></li>
+                                            <li><a href="">Санкт-Петербург</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown__list">
+                                        <ul>
+                                            <li><a href="">Воронеж</a></li>
+                                            <li><a href="">Екатеринбург</a></li>
+                                            <li><a href="">Иваново</a></li>
+                                            <li><a href="">Калуга</a></li>
+                                            <li><a href="">Калининград</a></li>
+                                            <li><a href="">Карелия</a></li>
+                                            <li><a href="">Краснодар</a></li>
+                                            <li><a href="">Кострома</a></li>
+                                            <li><a href="">Курск</a></li>
+                                            <li><a href="">Крым</a></li>
+                                            <li><a href="">Липецк</a></li>
+                                            <li><a href="">Мегион</a></li>
+                                            <li><a href="">Мурманск</a></li>
+                                            <li><a href="">Нижний Новгород</a></li>
+                                            <li><a href="">Ноябрьск</a></li>
+                                            <li><a href="">Подольск</a></li>
+                                            <li><a href="">Ростов-на-Дону</a></li>
+                                            <li><a href="">Рязань</a></li>
+                                            <li><a href="">Смоленск</a></li>
+                                            <li><a href="">Сочи</a></li>
+                                            <li><a href="">Ставрополь</a></li>
+                                            <li><a href="">Тула</a></li>
+                                            <li><a href="">Ярославль</a></li>
+                                            <li><a href="">Коломна</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="#">Вопросы и ответы</a></li>
+                        </ul>
+                    </div>
+                    <div class="header__search">
+                        <input type="text" placeholder="Поиск по сайту…">
+                        <img src="img/close.svg" alt="">
+                    </div>
+                </div>
+                <div class="col header__controls">
+                    <div class="header__controls-search">
+                        <button>
+                            <img src="img/search.svg" alt="">
+                        </button>
+                    </div>
+                    <div class="header__controls-acc">
+                        <button class="btn btn--transperant">
+                            <img src="img/acc.svg" alt="">
+                            <span>Личный кабинет</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-account">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-8">
+                    <div class="p-account__title">
+                        Валентин Войцеховский
+                    </div>
+                    <div class="p-account__info">
+                        <div class="item">
+                            <div class="item__title">
+                                Регион
+                            </div>
+                            <div class="item__text">
+                                Москва
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item__title">
+                                E-mail
+                            </div>
+                            <div class="item__text">
+                                valentin1909@moldovacenter.ru
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="item__title">
+                                Номер телефона
+                            </div>
+                            <div class="item__text">
+                                <a href="">указать</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-account__social">
+                        <a href="">
+                            <img src="img/vk.svg" alt="">
+                            <span>Вконтакте</span>
+                        </a>
+                        <a href="">
+                            <img src="img/te.svg" alt="">
+                            <span>Телеграм</span>
+                        </a>
+                        <a href="">
+                            <img src="img/ok.svg" alt="">
+                            <span>Одноклассники</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <div class="p-account__bar">
+                        <div class="p-account__bar-line"></div>
+                    </div>
+                    <div class="p-account__text">
+                        Чтобы начать полноценно пользоваться сервисом, <strong>заполните профиль и получите 
+                            350 баллов в подарок</strong>
+                    </div>
+                    <div class="p-account__btn">
+                        <button class="btn btn--default">
+                            Заполнить профиль
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-card">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-8">
+                    <div class="p-card__info">
+                        <img src="img/card2.png" alt="">
+                        <div class="p-card__info-caption">
+                            <div class="p-card__info-title">
+                                Получите карту гражданина Молдовы в РФ
+                            </div>
+                            <div class="p-card__info-text">
+                                Участвуйте в мероприятиях культурно-образовательного центра Молдовы, зарабатывайте баллы и получайте поощрения
+                            </div>
+                            <div class="p-card__info-btn">
+                                <a href="" class="btn btn--default">
+                                    Оформить карту
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <div class="p-card__contacts">
+                        <div class="p-card__contacts-title">
+                            <strong>Культурно-образовательный центр Молдовы</strong> в Москве
+                        </div>
+                        <div class="p-card__top">
+                            <div class="p-card__top-social">
+                                <a href="">
+                                    <img src="img/vk.svg" alt="">
+                                </a>
+                                <a href="">
+                                    <img src="img/te.svg" alt="">
+                                </a>
+                            </div>
+                            <div class="p-card__top-phone">
+                                <a href="">+7 (495) 540-45-15</a>
+                            </div>
+                        </div>
+                        <div class="p-card__address">
+                            <div>ул. Солянка, д. 1/2, стр. 1</div>
+                            <a href="">
+                                <span>На карте</span>
+                                <svg width="12" height="7" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m8.44 7-.686-.674 2.386-2.34H0v-.972h10.14L7.754.668 8.44 0 12 3.5z" fill="#ED1846" fill-rule="nonzero"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="p-card__links">
+                            <a href="">Вопросы и ответы</a>
+                            <a href="">Юридическая помощь</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="events">
+        <div class="container">
+            <div class="p-projects__top p-acccount__top">
+                <div class="p-projects__top-title">Посещайте мероприятия</div>
+                <div class="events__select">
+                    <div>
+                        <input type="text" name="date" placeholder="Выбрать даты" required>
+                    </div>
+                    <div class="keen-slider__controls">
+                        <button class="keen-slider-arrow keen-slider-arrow--left">
+                            <img src="img/prev.svg" alt="">
+                        </button>
+                        <button class="keen-slider-arrow keen-slider-arrow--right">
+                            <img src="img/next.svg" alt="">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-acccount__events keen-slider">
+                <div class="keen-slider__slide">
+                    <a href="" class="item">
+                        <div class="item__img">
+                            <img src="img/news1.png" alt="">
+                            <div class="item__img-badge">
+                                Новости
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__info-date">
+                                27 января
+                            </div>
+                            <div class="item__info-title">
+                                Концерт «Кто помнит, тот не знает поражения»
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="keen-slider__slide">
+                    <a href="" class="item">
+                        <div class="item__img">
+                            <img src="img/news1.png" alt="">
+                            <div class="item__img-badge">
+                                Новости
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__info-date">
+                                27 января
+                            </div>
+                            <div class="item__info-title">
+                                Концерт «Кто помнит, тот не знает поражения»
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="keen-slider__slide">
+                    <a href="" class="item">
+                        <div class="item__img">
+                            <img src="img/news1.png" alt="">
+                            <div class="item__img-badge">
+                                Новости
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__info-date">
+                                27 января
+                            </div>
+                            <div class="item__info-title">
+                                Концерт «Кто помнит, тот не знает поражения»
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="keen-slider__slide">
+                    <a href="" class="item">
+                        <div class="item__img">
+                            <img src="img/news1.png" alt="">
+                            <div class="item__img-badge">
+                                Новости
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__info-date">
+                                27 января
+                            </div>
+                            <div class="item__info-title">
+                                Концерт «Кто помнит, тот не знает поражения»
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="keen-slider__slide">
+                    <a href="" class="item">
+                        <div class="item__img">
+                            <img src="img/news1.png" alt="">
+                            <div class="item__img-badge">
+                                Новости
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__info-date">
+                                27 января
+                            </div>
+                            <div class="item__info-title">
+                                Концерт «Кто помнит, тот не знает поражения»
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="keen-slider__slide">
+                    <a href="" class="item">
+                        <div class="item__img">
+                            <img src="img/news1.png" alt="">
+                            <div class="item__img-badge">
+                                Новости
+                            </div>
+                        </div>
+                        <div class="item__info">
+                            <div class="item__info-date">
+                                27 января
+                            </div>
+                            <div class="item__info-title">
+                                Концерт «Кто помнит, тот не знает поражения»
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gifts">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+                    <div class="item">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="map bg--gray">
+        <div class="container">
+            <div class="wrap">
+                <div class="row gx-0">
+                    <div class="col-12 col-sm-6">
+                        <div class="map__title">
+                            <strong>Культурно-образовательный центр Молдовы</strong> в регионах
+                        </div>
+                        <div class="map__cities">
+                            <div class="map__cities-main">
+                                <ul>
+                                    <li><a href="">Москва</a></li>
+                                    <li><a href="">Санкт-Петербург</a></li>
+                                </ul>
+                            </div>
+                            <div class="map__cities-list">
+                                <ul>
+                                    <li><a href="">Воронеж</a></li>
+                                    <li><a href="">Екатеринбург</a></li>
+                                    <li><a href="">Иваново</a></li>
+                                    <li><a href="">Калуга</a></li>
+                                    <li><a href="">Калининград</a></li>
+                                    <li><a href="">Карелия</a></li>
+                                    <li><a href="">Краснодар</a></li>
+                                    <li><a href="">Кострома</a></li>
+                                    <li><a href="">Курск</a></li>
+                                    <li><a href="">Крым</a></li>
+                                    <li><a href="">Липецк</a></li>
+                                    <li><a href="">Мегион</a></li>
+                                    <li><a href="">Мурманск</a></li>
+                                    <li><a href="">Нижний Новгород</a></li>
+                                    <li><a href="">Ноябрьск</a></li>
+                                    <li><a href="">Подольск</a></li>
+                                    <li><a href="">Ростов-на-Дону</a></li>
+                                    <li><a href="">Рязань</a></li>
+                                    <li><a href="">Смоленск</a></li>
+                                    <li><a href="">Сочи</a></li>
+                                    <li><a href="">Ставрополь</a></li>
+                                    <li><a href="">Тула</a></li>
+                                    <li><a href="">Ярославль</a></li>
+                                    <li><a href="">Коломна</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+                    <div class="footer__logo">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="img/bw-logo-v.svg">
+                            <img src="img/logo-w.svg" alt="">
+                        </picture>
+                    </div>
+                    <div class="footer__text">
+                        Москва, ул. Лесная, д. 9
+                    </div>
+                    <div class="footer__link">
+                        <a href="mailto:info@moldovacenter.ru">info@moldovacenter.ru</a>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div class="row">
+                        <div class="col-12 col-sm-9">
+                            <div class="footer__search">
+                                <input type="text" placeholder="Поиск по сайту…">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-3">
+                            <div class="footer__acc">
+                                <a href="">
+                                    <img src="img/acc.svg" alt="">
+                                    <span>Личный кабинет</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer__nav">
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="footer__nav-ul">
+                                    <ul>
+                                        <li><a href="">О нас</a></li>
+                                        <li><a href="">Новости</a></li>
+                                        <li><a href="">Мы в регионах</a></li>
+                                        <li><a href="">Вопросы и ответы</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-9">
+                                <div class="footer__nav-title">
+                                    Наши проекты
+                                </div>
+                                <div class="footer__nav-list">
+                                    <ul>
+                                        <li><a href="">Карта гражданина Молдовы в России</a></li>
+                                        <li><a href="">Образовательные проекты</a></li>
+                                        <li><a href="">Общественные совет</a></li>
+                                        <li><a href="">Сделано молдаванами в России</a></li>
+                                        <li><a href="">Совет молодежи</a></li>
+                                        <li><a href="">Культурные проекты <span>скоро</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <div class="row">
+                    <div class="col-12 col-sm-4 order-3 order-sm-1">
+                        <div class="footer__copy">
+                            © АНО «Культурно-образовательный <br>
+                            центр Молдовы», 2025
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-5 order-1 order-sm-2">
+                        <div class="footer__social">
+                            <a href="">
+                                <img src="img/vk.svg" alt="">
+                                <span>Вконтакте</span>
+                            </a>
+                            <a href="">
+                                <img src="img/te.svg" alt="">
+                                <span>Телеграм</span>
+                            </a>
+                            <a href="">
+                                <img src="img/ok.svg" alt="">
+                                <span>Одноклассники</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-3 order-2 order-sm-3">
+                        <div class="footer__policy">
+                            <a href="">Политика конфиденциальности в отношении персональных данных</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.4.0/air-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        ymaps.ready(function () {
+            var myMap = new ymaps.Map('map', {
+                center: [55.76, 37.64], // Москва
+                zoom: 10,
+                controls: [],
+                behaviors: ['drag', 'multiTouch']
+            });
+
+            // Создаем кастомный маркер
+            var myPlacemark = new ymaps.Placemark([55.76, 37.64], {
+                balloonContent: `
+                    <div class="map-balloon">
+                        <div class="map-balloon__top">
+                            <div class="map-balloon__top-title">
+                                <h3>Москва</h3>
+                            </div>
+                            <div class="map-balloon__top-social">
+                                <a href=""><img src="img/vk.svg" alt=""></a>
+                                <a href=""><img src="img/te.svg" alt=""></a>
+                                <a href=""><img src="img/ok.svg" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="map-balloon__text">
+                            <p>ул. Лесная, д. 9</p>
+                            <p>+7 (999) 123-45-67</p>
+                        </div>
+                        <div class="map-balloon__bottom">
+                            <a href="">
+                                <span>Подробнее</span>
+                                <img src="img/more.svg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                `
+            }, {
+                iconLayout: 'default#image',
+                iconImageHref: 'img/marker.svg',
+                iconImageSize: [32, 32],
+                iconImageOffset: [-16, -32]
+            });
+
+            myMap.geoObjects.add(myPlacemark);
+        });
+    </script>
+</body>
+</html>

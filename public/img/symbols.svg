@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0" height="0">
+    <symbol id="search" width="14" height="14" viewBox="0 0 14 14">
+        <g fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="6" cy="6" r="5"></circle>
+            <line x1="13" y1="13" x2="10" y2="10"></line>
+        </g>
+    </symbol>
+</svg>
