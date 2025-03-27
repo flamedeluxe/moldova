@@ -14,6 +14,8 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -24,6 +26,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PublicationResource extends Resource
 {
@@ -47,8 +51,13 @@ class PublicationResource extends Resource
                             ->schema([
                                 TextInput::make('title')
                                     ->label('Заголовок')
-                                    ->required()
-                                    ->maxLength(255),
+                                    ->live()
+                                    ->afterStateUpdated(fn ($state, callable $set) =>
+                                        $set('slug', Str::slug($state))
+                                    ),
+                                TextInput::make('slug')
+                                    ->label('Алиас')
+                                    ->unique(ignoreRecord: true),
                                 Select::make('type')
                                     ->label('Тип')
                                     ->options(Publication::getTypeOptions()),
@@ -60,6 +69,9 @@ class PublicationResource extends Resource
                                     ->label('Город')
                                     ->options(Publication::getCityOptions())
                                     ->columnSpanFull(),
+                                TextInput::make('category')
+                                    ->label('Категория')
+                                    ->maxLength(255),
                             ]),
 
                         Group::make() // Группа для второй колонки
@@ -100,6 +112,7 @@ class PublicationResource extends Resource
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Фото'),
                 Tables\Columns\TextColumn::make('title')
+                    ->limit(25)
                     ->searchable()
                     ->label('Заголовок'),
                 Tables\Columns\TextColumn::make('type_label')
@@ -130,6 +143,7 @@ class PublicationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\ReplicateAction::make()->label(''),
                 Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([

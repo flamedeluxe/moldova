@@ -13,93 +13,28 @@
             </div>
 
             <div class="row gx-4">
+                @foreach($news as $item)
                 <div class="col-12 col-sm-4">
-                    <a href="" class="item">
+                    <a href="{{ route('publications.show', $item->slug) }}" class="item">
                         <div class="item__img">
-                            <img src="img/news1.png" alt="">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
+                            @if($item->category)
                             <div class="item__img-badge">
-                                Новости
+                                {{ $item->category }}
                             </div>
+                            @endif
                         </div>
                         <div class="item__info">
                             <div class="item__info-date">
-                                27 января
+                                {{ $item->published_at }}
                             </div>
                             <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
+                                {{ $item->title }}
                             </div>
                         </div>
                     </a>
                 </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__caption">
-                            <div class="item__caption-title">
-                                Сегодня Карта гражданина Молдовы в РФ перешагнула рубеж в пять тысяч участников
-                            </div>
-                            <div class="item__caption-date">
-                                27 января
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__caption">
-                            <div class="item__caption-title">
-                                Открытки из России уже отправились в Молдову! 🇲🇩
-                            </div>
-                            <div class="item__caption-date">
-                                27 января
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
             </div>
             <div class="events__more">
                 <button class="btn btn--default">
