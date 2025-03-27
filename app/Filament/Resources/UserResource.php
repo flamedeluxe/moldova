@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Publication;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use App\Models\User;
@@ -50,6 +51,11 @@ class UserResource extends Resource
                     ->options(User::getRoleOptions())
                     ->columnSpanFull()
                     ->required(),
+                Select::make('city')
+                    ->label('Город')
+                    ->options(Publication::getCityOptions())
+                    ->multiple()
+                    ->columnSpanFull(),
                 TextInput::make('password')
                     ->label('Пароль')
                     ->columnSpanFull()
@@ -122,5 +128,11 @@ class UserResource extends Resource
     {
         $user = auth()->user();
         return $user->role === 'admin' || $record->role !== 'admin';
+    }
+
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+        return $user->role === 'admin';
     }
 }

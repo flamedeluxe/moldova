@@ -90,4 +90,10 @@ class ConfigResource extends Resource
             'edit' => Pages\EditConfig::route('/{record}/edit'),
         ];
     }
+
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+        return $user->role === 'admin';
+    }
 }

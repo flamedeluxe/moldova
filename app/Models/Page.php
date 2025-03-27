@@ -10,4 +10,9 @@ class Page extends Model
         'content' => 'json',
         'gallery' => 'array'
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }

@@ -16,6 +16,10 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $casts = [
+        'city' => 'array',
+    ];
+
     public function canAccessPanel(Panel $panel): bool
     {
         return in_array($this->role, ['admin', 'manager']) && $this->active;

@@ -20,6 +20,8 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -39,15 +41,18 @@ class QuestionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                TextInput::make('title')
                     ->label('Заголовок')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('active')
+                Toggle::make('active')
                     ->columnSpan('full')
                     ->label('Активность'),
                 Textarea::make('content')
                     ->label('Текст')
+                    ->columnSpanFull()
+                    ->rows(5)
                     ->required()
                     ->maxLength(255),
             ]);
@@ -57,10 +62,10 @@ class QuestionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                TextColumn::make('title')
                     ->searchable()
                     ->label('Заголовок'),
-                Tables\Columns\ToggleColumn::make('active')
+                ToggleColumn::make('active')
                     ->label('Активность'),
             ])
             ->filters([

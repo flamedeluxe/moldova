@@ -7,8 +7,12 @@ use App\Filament\Resources\PublicationResource\RelationManagers;
 use App\Models\Publication;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -19,6 +23,7 @@ use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Illuminate\Support\Facades\Auth;
 
 class PublicationResource extends Resource
 {
@@ -36,41 +41,44 @@ class PublicationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Grid::make(2)
+                Grid::make(2)
                     ->schema([
-                        Forms\Components\Group::make() // Группа для первой колонки
+                        Group::make() // Группа для первой колонки
                             ->schema([
-                                Forms\Components\TextInput::make('title')
+                                TextInput::make('title')
                                     ->label('Заголовок')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\Select::make('type')
+                                Select::make('type')
                                     ->label('Тип')
                                     ->options(Publication::getTypeOptions()),
-                                Forms\Components\DatePicker::make('published_at')
+                                DatePicker::make('published_at')
                                     ->label('Дата публикации')
                                     ->required()
                                     ->maxDate(now()),
+                                Select::make('city')
+                                    ->label('Город')
+                                    ->options(Publication::getCityOptions())
+                                    ->columnSpanFull(),
                             ]),
 
-                        Forms\Components\Group::make() // Группа для второй колонки
+                        Group::make() // Группа для второй колонки
                             ->schema([
                                 Forms\Components\FileUpload::make('image')
                                     ->label('Изображение'),
                             ]),
                     ]),
-
-                Forms\Components\Toggle::make('active')
+                Toggle::make('active')
                     ->columnSpan('full')
                     ->label('Активность'),
-                Forms\Components\RichEditor::make('introtext')
+                RichEditor::make('introtext')
                     ->label('Вводный текст')
                     ->columnSpan('full'),
-                Forms\Components\RichEditor::make('content')
+                RichEditor::make('content')
                     ->label('Содержимое')
                     ->required()
                     ->columnSpan('full'),
-                Forms\Components\FileUpload::make('gallery')
+                FileUpload::make('gallery')
                     ->label('Галерея')
                     ->panelLayout('grid')
                     ->previewable(true)
@@ -82,7 +90,12 @@ class PublicationResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $user = Auth::user();
+
         return $table
+            ->query(
+                static::getUserPublicationQuery($user)
+            )
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Фото'),
@@ -91,6 +104,8 @@ class PublicationResource extends Resource
                     ->label('Заголовок'),
                 Tables\Columns\TextColumn::make('type_label')
                     ->label('Тип'),
+                Tables\Columns\TextColumn::make('city')
+                    ->label('Город'),
                 Tables\Columns\TextColumn::make('published_at')
                     ->label('Дата публикации'),
                 Tables\Columns\ToggleColumn::make('active')
@@ -139,4 +154,36 @@ class PublicationResource extends Resource
             'edit' => Pages\EditPublication::route('/{record}/edit'),
         ];
     }
+
+    /**
+     * Фильтр записей по городам пользователя
+     */
+    protected static function getUserPublicationQuery($user): \Illuminate\Database\Eloquent\Builder
+    {
+        $cities = is_array($user->city)
+            ? $user->city
+            : array_map('trim', explode(',', (string) $user->city));
+
+        return !empty($cities)
+            ? \App\Models\Publication::query()->whereIn('city', $cities)
+            : \App\Models\Publication::query();
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        $user = Auth::user();
+
+        // Если у пользователя нет ограничения по городам, он может редактировать все
+        if (empty($user->city)) {
+            return true;
+        }
+
+        // Разбиваем строку городов в массив (если это строка)
+        $userCities = is_array($user->city) ? $user->city : array_map('trim', explode(',', (string) $user->city));
+
+        // Разрешаем редактирование только если город публикации есть в списке городов пользователя
+        return in_array($record->city, $userCities);
+    }
+
+
 }
