@@ -35,7 +35,7 @@ class QuestionResource extends Resource
     protected static ?string $pluralLabel = 'Вопросы';
 
     protected static ?string $breadcrumb = 'Вопросы';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
     public static function form(Form $form): Form
     {

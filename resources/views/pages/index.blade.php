@@ -66,96 +66,40 @@
         </div>
     </div>
 
-    <div class="events">
+    <div class="events" x-data="news()">
         <div class="container">
             <div class="row gx-4">
+                @foreach($news as $idx => $item)
                 <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                            <div class="item__img-badge">
-                                Новости
+                    <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                        @if($idx == 1 || $idx == 5)
+                            <div class="item__caption">
+                                <div class="item__caption-title">
+                                    {{ $item->title }}
+                                </div>
+                                <div class="item__caption-date">
+                                    {{ $item->date }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
+                        @else
+                            <div class="item__img">
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
+                                <div class="item__img-badge">
+                                    {{ $item->category }}
+                                </div>
                             </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
+                            <div class="item__info">
+                                <div class="item__info-date">
+                                    {{ $item->date }}
+                                </div>
+                                <div class="item__info-title">
+                                    {{ $item->title }}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </a>
                 </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__caption">
-                            <div class="item__caption-title">
-                                Сегодня Карта гражданина Молдовы в РФ перешагнула рубеж в пять тысяч участников
-                            </div>
-                            <div class="item__caption-date">
-                                27 января
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__caption">
-                            <div class="item__caption-title">
-                                Открытки из России уже отправились в Молдову! 🇲🇩
-                            </div>
-                            <div class="item__caption-date">
-                                27 января
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                @endforeach
             </div>
             <div class="events__more">
                 <button class="btn btn--default">
@@ -171,42 +115,16 @@
         </div>
         <div class="container">
             <div class="keen-slider">
+                @foreach($projects as $item)
                 <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm1.jpg">
-                        <img src="img/p1.png" alt="">
-                    </picture>
+                    <a href="{{ route('projects.show', $item->slug) }}">
+                        <picture>
+                            <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $item->image_m) }}">
+                            <img src="{{ asset('storage/' . $item->banner) }}" alt="{{ $item->title }}">
+                        </picture>
+                    </a>
                 </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm2.jpg">
-                        <img src="img/p2.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm3.jpg">
-                        <img src="img/p3.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm1.jpg">
-                        <img src="img/p1.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm2.jpg">
-                        <img src="img/p2.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm3.jpg">
-                        <img src="img/p3.png" alt="">
-                    </picture>
-                </div>
+                @endforeach
             </div>
             <div class="keen-slider__controls">
                 <button class="keen-slider-arrow keen-slider-arrow--left">
@@ -220,7 +138,7 @@
         </div>
     </div>
 
-    <div class="events bg--gray">
+    <div class="events bg--gray" x-data="events()">
         <div class="container">
             <div class="events__top">
                 <div class="row">

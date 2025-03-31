@@ -34,7 +34,7 @@ class CityResource extends Resource
 
     protected static ?string $breadcrumb = 'Города';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
     public static function form(Form $form): Form
     {
@@ -55,7 +55,7 @@ class CityResource extends Resource
                     ->unique(ignoreRecord: true),
                 TextInput::make('coors')
                     ->label('Координаты')
-                    ->mask('99.999999, 99.999999')
+                    ->mask('99.999999,99.999999')
                     ->placeholder('00.000000, 00.000000')
                     ->columnSpan('full')
                     ->required()

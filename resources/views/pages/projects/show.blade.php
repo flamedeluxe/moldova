@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="p-page">
+    <div class="p-page {{ $project->page_class }}">
         <div class="p-page__hero" style="background-image: url({{ asset('storage/' . $project->image_back) }});">
             <div class="container">
                 <img src="{{ asset('storage/' . $project->image) }}" class="p-page__hero-img" alt="">
@@ -10,8 +10,15 @@
                         <div class="wrapper">
                             <div class="p-page__top">
                                 <div class="p-page__back">
-                                    <a href=""><img src="img/back.svg" alt=""></a>
-                                    <span>Наши проекты</span>
+                                    <a href="{{ route('projects.index') }}">
+                                        <svg width="13" height="13">
+                                            <g fill="#FFF" fill-rule="evenodd">
+                                                <circle opacity=".2" cx="6.5" cy="6.5" r="6.5"/>
+                                                <path d="m3.346 6.84-.021-.037-.046-.11-.021-.094a.654.654 0 0 1 0-.198l.02-.089.022-.062.031-.065.045-.07.064-.075 2.6-2.6a.65.65 0 0 1 .92.92L5.47 5.849l3.63.001a.65.65 0 1 1 0 1.3l-3.632-.001L6.96 8.64a.65.65 0 0 1 .068.84l-.068.08a.65.65 0 0 1-.92 0l-2.6-2.6-.042-.047-.052-.073Z" fill-rule="nonzero" opacity=".8"/>
+                                            </g>
+                                        </svg>
+                                        <span>Наши проекты</span>
+                                    </a>
                                 </div>
                                 <div class="p-page__title">
                                     {{ $project->title }}

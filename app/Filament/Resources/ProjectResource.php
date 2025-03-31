@@ -4,9 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
-use App\Models\Publication;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
@@ -20,8 +18,6 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Builder;
 use Illuminate\Support\Str;
@@ -36,7 +32,7 @@ class ProjectResource extends Resource
 
     protected static ?string $breadcrumb = 'Проекты';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function form(Form $form): Form
     {
@@ -51,6 +47,8 @@ class ProjectResource extends Resource
                 TextInput::make('slug')
                     ->label('Алиас')
                     ->unique(ignoreRecord: true),
+                TextInput::make('page_class')
+                    ->label('CSS класс страницы'),
                 Toggle::make('active')
                     ->columnSpanFull()
                     ->label('Активность'),
@@ -92,11 +90,9 @@ class ProjectResource extends Resource
                                 'vk' => 'Вконтакте',
                                 'ok' => 'Одноклассники',
                                 'te' => 'Телеграм',
-                            ])
-                            ->required(),
+                            ]),
                         TextInput::make('link')
-                            ->label('Ссылка')
-                            ->required(),
+                            ->label('Ссылка'),
                     ])
                     ->columns(2),
                 Builder::make('blocks')

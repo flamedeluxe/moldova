@@ -30,7 +30,7 @@ class PageResource extends Resource
 
     protected static ?string $breadcrumb = 'Страницы';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
 
     public static function form(Form $form): Form
     {

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\City;
 use App\Models\Config as Configuration;
+use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
@@ -30,8 +31,12 @@ class AppServiceProvider extends ServiceProvider
             try {
                 $configs = Configuration::all();
 
-                $cities = City::query()->where('active', 1)->whereNotIn('title', ['Москва', 'Санкт-Петербург'])->get();
-                View::share('cities', $cities);
+                View::composer('*', function ($view) {
+                    $projects = Project::activeSorted()->get();
+                    $cities = City::active()->whereNotIn('title', ['Москва', 'Санкт-Петербург'])->get();
+                    $regions = City::active()->get();
+                    $view->with(compact('projects', 'cities', 'regions'));
+                });
 
                 foreach ($configs as $config) {
                     Config::set('site.' . $config->key, json_decode($config->value, true) ?? $config->value);

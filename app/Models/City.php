@@ -10,4 +10,9 @@ class City extends Model
         'social' => 'array',
         'gallery' => 'array',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }

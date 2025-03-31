@@ -26,7 +26,9 @@
 <body class="@if(in_array(request()->route()->getName(), ['login', 'register'])) justify-content-sm-center @endif">
 <div class="m-search">
     <div class="m-search__input">
-        <input type="text" placeholder="Поиск по сайту…">
+        <form action="{{ route('search') }}" method="get">
+            <input type="text" name="query" placeholder="Поиск по сайту…">
+        </form>
     </div>
     <div class="m-search__close">
         <img src="img/close3.svg" alt="">
@@ -125,10 +127,10 @@
                         <li><a href="{{ route('faq') }}">Вопросы и ответы</a></li>
                     </ul>
                 </div>
-                <div class="header__search">
-                    <input type="text" placeholder="Поиск по сайту…">
+                <form action="{{ route('search') }}" method="get" class="header__search">
+                    <input type="text" name="query" placeholder="Поиск по сайту…">
                     <img src="img/close.svg" alt="">
-                </div>
+                </form>
             </div>
             <div class="col header__controls">
                 <div class="header__controls-search">
@@ -335,12 +337,9 @@
                             </div>
                             <div class="footer__nav-list">
                                 <ul>
-                                    <li><a href="">Карта гражданина Молдовы в России</a></li>
-                                    <li><a href="">Образовательные проекты</a></li>
-                                    <li><a href="">Общественные совет</a></li>
-                                    <li><a href="">Сделано молдаванами в России</a></li>
-                                    <li><a href="">Совет молодежи</a></li>
-                                    <li><a href="">Культурные проекты <span>скоро</span></a></li>
+                                    @foreach($projects as $project)
+                                    <li><a href="{{ route('projects.show', $project->slug) }}">{{ $project->title }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -393,40 +392,47 @@
             behaviors: ['drag', 'multiTouch']
         });
 
-        // Создаем кастомный маркер
-        var myPlacemark = new ymaps.Placemark([55.76, 37.64], {
-            balloonContent: `
+        const cities = @json($regions);
+
+        cities.forEach(city => {
+            if (city.coors) {
+                var coordinates = city.coors.split(',').map(Number);
+                var socialLinks = city.social ? city.social.map(s => `<a href="${s.link}"><img src="img/${s.service}.svg" alt=""></a>`).join('') : '';
+                var socialBlock = socialLinks ? `<div class="map-balloon__top-social">${socialLinks}</div>` : '';
+
+                var placemark = new ymaps.Placemark(coordinates, {
+                    balloonContent: `
                     <div class="map-balloon">
                         <div class="map-balloon__top">
                             <div class="map-balloon__top-title">
-                                <h3>Москва</h3>
+                                <h3>${city.title}</h3>
                             </div>
-                            <div class="map-balloon__top-social">
-                                <a href=""><img src="img/vk.svg" alt=""></a>
-                                <a href=""><img src="img/te.svg" alt=""></a>
-                                <a href=""><img src="img/ok.svg" alt=""></a>
-                            </div>
+                            ${socialBlock}
                         </div>
                         <div class="map-balloon__text">
-                            <p>ул. Лесная, д. 9</p>
-                            <p>+7 (999) 123-45-67</p>
+                            <p>${city.phone || ''}</p>
+                            <p>${city.email || ''}</p>
                         </div>
                         <div class="map-balloon__bottom">
-                            <a href="">
+                            <a href="regions/${city.slug}">
                                 <span>Подробнее</span>
                                 <img src="img/more.svg" alt="">
                             </a>
                         </div>
                     </div>
                 `
-        }, {
-            iconLayout: 'default#image',
-            iconImageHref: 'img/marker.svg',
-            iconImageSize: [32, 32],
-            iconImageOffset: [-16, -32]
-        });
+                }, {
+                    iconLayout: 'default#image',
+                    iconImageHref: 'img/marker.svg',
+                    iconImageSize: [32, 32],
+                    iconImageOffset: [-16, -32]
+                });
 
-        myMap.geoObjects.add(myPlacemark);
+                myMap.geoObjects.add(placemark);
+            }
+
+            myMap.setBounds(myMap.geoObjects.getBounds());
+        });
     });
 </script>
 

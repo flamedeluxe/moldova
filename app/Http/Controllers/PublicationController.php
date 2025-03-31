@@ -36,8 +36,8 @@ class PublicationController extends BaseController
         if(request()->page && request()->page > 1) {
             $events = $events->offset((request()->page - 1) * 6);
         }
-        if(request()->cateogry && request()->cateogry != 'Все') {
-            $events = $events->where('category', request()->cateogry);
+        if(request()->category && request()->category != 'Все') {
+            $events = $events->where('category', request()->category);
         }
 
         $news = $news->limit(6)->get();
