@@ -151,66 +151,20 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="events__dates">
-                            <div class="date">
-                                <div class="day">
-                                    27
+                            @foreach($eventDates as $date)
+                                <div class="date">
+                                    <div class="day">
+                                        {{ $date->day }}
+                                    </div>
+                                    <div class="month">
+                                        {{ $date->locale('ru')->monthName|substr(0, 3) }}
+                                    </div>
                                 </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="events__select">
                             <div>
-                                <input type="text" name="date" placeholder="Выбрать даты" required>
+                                <input type="text" x-model="date" name="date" @change="filter" placeholder="Выбрать даты" required>
                             </div>
                         </div>
                     </div>
@@ -220,7 +174,7 @@
             <div class="row">
                 <template  x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
-                        <a :href="`news/${item.slug}`" class="item">
+                        <a :href="`publications/${item.slug}`" class="item">
                             <div class="item__img">
                                 <img :src="`storage/${item.image}`" :alt="item.title">
                             </div>
@@ -237,9 +191,9 @@
                 </template>
             </div>
 
-            <div class="events__more">
-                <button class="btn btn--default">
-                    Предыдущие события
+            <div class="events__more" x-show="items.length > total">
+                <button class="btn btn--default" @click.prevent="nextPage">
+                    Предыдущие новости
                 </button>
             </div>
         </div>
@@ -251,42 +205,16 @@
         </div>
         <div class="container">
             <div class="keen-slider">
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm1.jpg">
-                        <img src="img/p1.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm2.jpg">
-                        <img src="img/p2.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm3.jpg">
-                        <img src="img/p3.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm1.jpg">
-                        <img src="img/p1.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm2.jpg">
-                        <img src="img/p2.png" alt="">
-                    </picture>
-                </div>
-                <div class="keen-slider__slide slide">
-                    <picture>
-                        <source media="(max-width: 768px)" srcset="img/pm3.jpg">
-                        <img src="img/p3.png" alt="">
-                    </picture>
-                </div>
+                @foreach($projects as $item)
+                    <div class="keen-slider__slide slide">
+                        <a href="{{ route('projects.show', $item->slug) }}">
+                            <picture>
+                                <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $item->image_m) }}">
+                                <img src="{{ asset('storage/' . $item->banner) }}" alt="{{ $item->title }}">
+                            </picture>
+                        </a>
+                    </div>
+                @endforeach
             </div>
             <div class="keen-slider__controls">
                 <button class="keen-slider-arrow keen-slider-arrow--left">
@@ -343,6 +271,7 @@
             categories: @json($categories),
             loading: false,
             total: @json($events_total),
+            date: '',
             page: 1,
             category: '',
             error: '',
@@ -350,6 +279,7 @@
                 this.category = 'Все';
             },
             filter() {
+                this.date = document.querySelector('[x-model="date"]').value;
                 this.category = ''; // Очистка категории при фильтрации
                 this.get(); // Перезагрузка данных
             },
@@ -360,7 +290,7 @@
             async get() {
                 this.loading = true;
                 this.error = '';
-                const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}`, {
+                const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}&date=${this.date}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

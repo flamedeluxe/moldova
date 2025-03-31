@@ -32,7 +32,7 @@
             </div>
             <div class="events__more" x-show="items.length > total">
                 <button class="btn btn--default" @click.prevent="nextPage">
-                    Следующие новости
+                    Предыдущие новости
                 </button>
             </div>
         </div>

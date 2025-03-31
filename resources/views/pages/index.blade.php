@@ -139,163 +139,104 @@
     </div>
 
     <div class="events bg--gray" x-data="events()">
-        <div class="container">
+        <div class="container" :class="loading ? 'opacity-50' : ''">
             <div class="events__top">
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <div class="events__top-title">
-                            <span>Афиша</span>
+                            <span>Ближайшие мероприятия</span>
                             <a href="">Москва</a>
                         </div>
                         <div class="events__top-more">
                             <img src="img/loc.svg" alt="">
                             <span>Найти свой город</span>
                         </div>
-                        <div class="events__tags">
-                            <div class="tag active">
-                                <span>Все</span>
-                            </div>
-                            <div class="tag">
-                                <span>Культура</span>
-                            </div>
-                            <div class="tag">
-                                <span>Спорт</span>
-                            </div>
-                            <div class="tag">
-                                <span>Образование</span>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="events__dates">
-                            <div class="date">
-                                <div class="day">
-                                    27
+                        <div class="events__tags justify-content-end">
+                            <template x-for="(item, idx) in categories" :key="idx">
+                                <div
+                                    class="tag"
+                                    :class="category === item ? 'active' : ''"
+                                    @click="category = item; get()"
+                                    x-text="item">
                                 </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                            <div class="date">
-                                <div class="day">
-                                    30
-                                </div>
-                                <div class="month">
-                                    Янв
-                                </div>
-                            </div>
-                        </div>
-                        <div class="events__select">
-                            <div>
-                                <input type="text" name="date" placeholder="Выбрать даты" required>
-                            </div>
+                            </template>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
+                <template  x-for="item in items" x-key="item.id">
+                    <div class="col-12 col-sm-4">
+                        <a :href="`news/${item.slug}`" class="item">
+                            <div class="item__img">
+                                <img :src="`storage/${item.image}`" :alt="item.title">
                             </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
+                            <div class="item__info">
+                                <div class="item__info-date" x-html="item.date">
+                                </div>
+                                <div class="item__info-title" x-html="item.title">
+                                </div>
+                                <div class="item__info-text" x-html="item.introtext">
+                                </div>
                             </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <a href="" class="item">
-                        <div class="item__img">
-                            <img src="img/news1.png" alt="">
-                        </div>
-                        <div class="item__info">
-                            <div class="item__info-date">
-                                27 января
-                            </div>
-                            <div class="item__info-title">
-                                Концерт «Кто помнит, тот не знает поражения»
-                            </div>
-                            <div class="item__info-text">
-                                ул. Волхонка, д. 15, Зал Церковных Соборов Храма Христа Спасителя.
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                </template>
             </div>
 
-            <div class="events__more">
-                <button class="btn btn--default">
+            <div class="events__more" x-show="items.length > total">
+                <button class="btn btn--default" @click.prevent="nextPage">
                     Следующие события
                 </button>
             </div>
         </div>
     </div>
+
+    <script>
+        function events() {
+            return {
+                items: @json($events),
+                categories: @json($categories),
+                loading: false,
+                total: @json($events_total),
+                page: 1,
+                category: '',
+                error: '',
+                init() {
+                    this.category = 'Все';
+                },
+                filter() {
+                    this.category = ''; // Очистка категории при фильтрации
+                    this.get(); // Перезагрузка данных
+                },
+                nextPage() {
+                    this.page++; // Переход на следующую страницу
+                    this.get(); // Получение данных для следующей страницы
+                },
+                async get() {
+                    this.loading = true;
+                    this.error = '';
+                    const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .finally(() => {
+                            this.loading = false;
+                        });
+
+                    if (response.ok) {
+                        this.items = await response.json(); // Обновление списка данных
+                    } else {
+                        this.error = 'Ошибка загрузки данных';
+                    }
+                }
+            }
+        }
+    </script>
 @endsection
