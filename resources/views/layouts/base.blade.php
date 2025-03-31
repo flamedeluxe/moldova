@@ -162,36 +162,15 @@
                     <div class="map__cities">
                         <div class="map__cities-main">
                             <ul>
-                                <li><a href="">Москва</a></li>
-                                <li><a href="">Санкт-Петербург</a></li>
+                                <li><a href="region/moskva">Москва</a></li>
+                                <li><a href="region/sankt-peterburg">Санкт-Петербург</a></li>
                             </ul>
                         </div>
                         <div class="map__cities-list">
                             <ul>
-                                <li><a href="">Воронеж</a></li>
-                                <li><a href="">Екатеринбург</a></li>
-                                <li><a href="">Иваново</a></li>
-                                <li><a href="">Калуга</a></li>
-                                <li><a href="">Калининград</a></li>
-                                <li><a href="">Карелия</a></li>
-                                <li><a href="">Краснодар</a></li>
-                                <li><a href="">Кострома</a></li>
-                                <li><a href="">Курск</a></li>
-                                <li><a href="">Крым</a></li>
-                                <li><a href="">Липецк</a></li>
-                                <li><a href="">Мегион</a></li>
-                                <li><a href="">Мурманск</a></li>
-                                <li><a href="">Нижний Новгород</a></li>
-                                <li><a href="">Ноябрьск</a></li>
-                                <li><a href="">Подольск</a></li>
-                                <li><a href="">Ростов-на-Дону</a></li>
-                                <li><a href="">Рязань</a></li>
-                                <li><a href="">Смоленск</a></li>
-                                <li><a href="">Сочи</a></li>
-                                <li><a href="">Ставрополь</a></li>
-                                <li><a href="">Тула</a></li>
-                                <li><a href="">Ярославль</a></li>
-                                <li><a href="">Коломна</a></li>
+                                @foreach($cities as $city)
+                                    <li><a href="{{ route('region', $city->slug) }}">{{ $city->title }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
