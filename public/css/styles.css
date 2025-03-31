@@ -1230,6 +1230,7 @@ img {
 }
 .p-about__items-item-img {
     overflow: hidden;
+    aspect-ratio: 1/1;
 }
 .p-about__items-item-img img {
     width: 100%;

@@ -53,12 +53,21 @@ class CityResource extends Resource
                     ->columnSpan('full')
                     ->required()
                     ->unique(ignoreRecord: true),
+                TextInput::make('coors')
+                    ->label('Координаты')
+                    ->mask('99.999999, 99.999999')
+                    ->placeholder('00.000000, 00.000000')
+                    ->columnSpan('full')
+                    ->required()
+                    ->unique(ignoreRecord: true),
                 Grid::make(2)
                     ->schema([
                         Group::make()
                             ->schema([
                                 TextInput::make('phone')
                                     ->label('Телефон')
+                                    ->mask('+9 (999) 999-99-99')
+                                    ->placeholder('+9 (999) 999-99-99')
                                     ->columnSpan('full'),
                                 TextInput::make('address')
                                     ->label('Адрес')

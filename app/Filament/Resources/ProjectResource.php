@@ -56,10 +56,6 @@ class ProjectResource extends Resource
                                 ->label('Дата публикации')
                                 ->required()
                                 ->maxDate(now()),
-                            Select::make('city')
-                                ->label('Город')
-                                ->options(Publication::getCityOptions())
-                                ->columnSpanFull(),
                         ]),
 
                         Group::make() // Группа для второй колонки

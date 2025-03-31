@@ -43,7 +43,7 @@ function closeModals() {
     document.querySelectorAll(".modal").forEach(modal => {
         modal.classList.remove("active");
     })
-    
+
     overlay.classList.remove("active");
     html.classList.remove("overflow");
 }
@@ -253,7 +253,7 @@ function partners() {
 
 function modals() {
     const html = document.documentElement;
-    
+
     // Открытие модального окна
     document.querySelectorAll("[data-modal]").forEach(trigger => {
         trigger.addEventListener("click", function (event) {
@@ -340,7 +340,7 @@ function sticky() {
 
     const updateNavState = () => {
         const navTop = nav.getBoundingClientRect().top;
-        
+
         if (window.scrollY > 0 && !isSticky) {
             nav.classList.add("sticky");
             isSticky = true;
@@ -383,7 +383,7 @@ function tabs(tabContainer) {
         if (sliderInstance) {
             sliderInstance.destroy();
         }
-        
+
         const activeTab = container.querySelector(".tabs-content .tab.active .keen-slider");
         if (!activeTab) return;
 
@@ -500,7 +500,7 @@ function accordion() {
 
         header.addEventListener("click", function () {
             const isOpen = item.classList.contains("active");
-            
+
             // Закрываем все аккордеоны
             accordions.forEach(acc => {
                 acc.classList.remove("active");
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     searchButton.addEventListener('click', function() {
         isSearchOpen = !isSearchOpen;
-        
+
         if (isSearchOpen) {
             searchInput.style.display = 'flex';
             menu.classList.add('hidden');
@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const burgerIcon = document.querySelector('.m-header__controls-burger svg:first-child');
     const burgerIconClose = document.querySelector('.m-header__controls-burger svg:nth-child(2)');
     const mobileNav = document.querySelector('.m-header__nav');
-    
+
     if (burgerIcon && mobileNav) {
         burgerIcon.addEventListener('click', function() {
             if (mobileNav.style.display === 'block') {
@@ -628,26 +628,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initDatepicker() {
-    const selectElement = document.querySelector('.events__select');
-
+    const inputElement = document.querySelector('[x-model="date"]');
 
     function setRange(dp, days) {
-        let selectedDates = dp.selectedDates;
-        let startDate;
-
-        if (selectedDates.length == 1) {
-            dp.clear();
-            dp.selectDate([]);
-            console.log(1)
-        }
-
-        startDate = new Date(); // Если нет выбранных дат, берем сегодня
-
+        let startDate = new Date();
         let endDate = new Date(startDate);
-        endDate.setDate(startDate.getDate() + days); // Устанавливаем конец диапазона через 7 дней
+        endDate.setDate(startDate.getDate() + days);
 
-        dp.selectDate([startDate, endDate]); // Устанавливаем новый диапазон
-        dp.setViewDate(startDate); // Устанавливаем отображаемую дату
+        dp.clear(); // Очищаем предыдущие даты
+        dp.selectDate([startDate, endDate]); // Устанавливаем диапазон
+        dp.setViewDate(startDate); // Обновляем отображаемую дату
+
+        triggerChangeEvent(inputElement);
+    }
+
+    function triggerChangeEvent(element) {
+        if (element) {
+            let event = new Event('change', { bubbles: true });
+            element.dispatchEvent(event);
+        }
     }
 
     let weekButton = {
@@ -656,7 +655,7 @@ function initDatepicker() {
         onClick: (dp) => {
             setRange(dp, 7);
         }
-    }
+    };
 
     let monthButton = {
         content: 'Месяц',
@@ -664,7 +663,7 @@ function initDatepicker() {
         onClick: (dp) => {
             setRange(dp, 30);
         }
-    }
+    };
 
     let threeMonthsButton = {
         content: '3 месяца',
@@ -672,26 +671,21 @@ function initDatepicker() {
         onClick: (dp) => {
             setRange(dp, 30 * 3);
         }
-    }
+    };
 
     let submitButton = {
         content: 'Показать мероприятия',
         className: 'button-submit',
         onClick: (dp) => {
-            let selectedDates = dp.selectedDates;
-            dp.hide();
-
-            let formattedDates = selectedDates.map(date => {
-                let d = new Date(date);
-                return d.toISOString().split('T')[0]; // Преобразуем в YYYY-MM-DD
+            let selectedDates = dp.selectedDates.map(date => {
+                return date.toISOString().split('T')[0]; // Формат YYYY-MM-DD
             });
-
-            console.log(formattedDates)
+            dp.hide();
+            triggerChangeEvent(inputElement);
         }
-    }
+    };
 
-
-    const datepicker = new AirDatepicker('[name="date"]', {
+    const datepicker = new AirDatepicker(inputElement, {
         range: true,
         position: 'bottom right',
         buttons: [weekButton, monthButton, threeMonthsButton, submitButton],
@@ -699,3 +693,4 @@ function initDatepicker() {
         dateFormat: 'dd MMM',
     });
 }
+

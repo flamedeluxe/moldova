@@ -24,4 +24,6 @@ Route::get('/login', [AccountController::class, 'login'])->name('login');
 Route::get('/restore-password', [AccountController::class, 'restorePassword'])->name('restore-password');
 Route::get('/register', [AccountController::class, 'register'])->name('register');
 
+Route::get('/api/news', [PublicationController::class, 'register'])->name('register');
+
 

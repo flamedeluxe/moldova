@@ -12,6 +12,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -41,35 +42,10 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Grid::make(2)
-                    ->schema([
-                        Group::make()
-                            ->schema([
-                                TextInput::make('title')
-                                    ->label('Заголовок')
-                                    ->required()
-                                    ->maxLength(255),
-                                DatePicker::make('published_at')
-                                    ->label('Дата публикации')
-                                    ->required()
-                                    ->maxDate(now()),
-                                TextInput::make('category')
-                                    ->label('Категория')
-                                    ->maxLength(255),
-                                Toggle::make('active')
-                                    ->columnSpan('full')
-                                    ->label('Активность'),
-                            ]),
-                        Group::make()
-                            ->schema([
-                                FileUpload::make('image')
-                                    ->label('Изображение'),
-                            ]),
-                    ]),
-                Textarea::make('introtext')
-                    ->label('Вводный текст')
-                    ->rows(5)
+                TextInput::make('title')
+                    ->label('Заголовок')
                     ->columnSpanFull()
+                    ->required()
                     ->maxLength(255),
                 Builder::make('blocks')
                     ->label('Блоки')
@@ -105,12 +81,9 @@ class PageResource extends Resource
                         Builder\Block::make('image')
                             ->label('Изображение')
                             ->schema([
-                                FileUpload::make('url')
-                                    ->label('Image')
+                                FileUpload::make('image')
+                                    ->label('Фото')
                                     ->image()
-                                    ->required(),
-                                TextInput::make('alt')
-                                    ->label('Alt text')
                                     ->required(),
 
                             ]),
@@ -143,10 +116,82 @@ class PageResource extends Resource
                                     ->rows(5)
                                     ->required(),
                                 TextInput::make('caption')
-                                    ->label('Подпись')
-                                    ->required(),
+                                    ->label('Подпись'),
                             ]),
-
+                        Builder\Block::make('image_left')
+                            ->label('Блок с фото слева')
+                            ->schema([
+                                Grid::make(2)
+                                    ->schema([
+                                        FileUpload::make('image')
+                                            ->label('Фото')
+                                            ->image()
+                                            ->required(),
+                                        RichEditor::make('content')
+                                            ->label('Текст')
+                                            ->required(),
+                                    ]),
+                            ]),
+                        Builder\Block::make('image_right')
+                            ->label('Блок с фото справа')
+                            ->schema([
+                                Grid::make(2)
+                                    ->schema([
+                                        RichEditor::make('content')
+                                            ->label('Текст')
+                                            ->required(),
+                                        FileUpload::make('image')
+                                            ->label('Фото')
+                                            ->image()
+                                            ->required(),
+                                    ]),
+                            ]),
+                        Builder\Block::make('cards')
+                            ->label('Карточки с подписями')
+                            ->schema([
+                                TextInput::make('title')
+                                    ->columnSpanFull()
+                                    ->label('Заголовок'),
+                                Grid::make(2)
+                                    ->schema([
+                                        Repeater::make('items')
+                                            ->label('Элементы')
+                                            ->columnSpanFull()
+                                            ->grid(3)
+                                            ->schema([
+                                                FileUpload::make('image')
+                                                    ->label('Фото')
+                                                    ->columnSpanFull()
+                                                    ->image(),
+                                                TextInput::make('title')
+                                                    ->columnSpanFull()
+                                                    ->label('Заголовок'),
+                                                TextInput::make('text')
+                                                    ->columnSpanFull()
+                                                    ->label('Текст'),
+                                            ]),
+                                    ]),
+                            ]),
+                        Builder\Block::make('logos')
+                            ->label('Карточки')
+                            ->schema([
+                                TextInput::make('title')
+                                    ->columnSpanFull()
+                                    ->label('Заголовок'),
+                                Grid::make(2)
+                                    ->schema([
+                                        Repeater::make('items')
+                                            ->label('Элементы')
+                                            ->columnSpanFull()
+                                            ->grid(4)
+                                            ->schema([
+                                                FileUpload::make('image')
+                                                    ->label('Фото')
+                                                    ->columnSpanFull()
+                                                    ->image(),
+                                            ]),
+                                    ]),
+                            ]),
                     ])
             ]);
     }
@@ -155,43 +200,20 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('Фото'),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->label('Заголовок'),
-                Tables\Columns\TextColumn::make('type_label')
-                    ->label('Тип'),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->label('Дата публикации'),
                 Tables\Columns\ToggleColumn::make('active')
                     ->label('Активность'),
             ])
             ->filters([
-                Filter::make('published_at')
-                    ->label('Дата публикации')
-                    ->form([
-                        DatePicker::make('published_at')
-                            ->label('Выберите дату'),
-                    ])
-                    ->query(fn ($query, $data) => $query->when(
-                        $data['published_at'],
-                        fn ($query, $date) => $query->whereDate('published_at', $date)
-                    )),
-                SelectFilter::make('type')
-                    ->label('Тип')
-                    ->options(Publication::getTypeOptions()),
-                Tables\Filters\Filter::make('active')
-                    ->label('Активность'),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(''),
-                Tables\Actions\DeleteAction::make()->label(''),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 
