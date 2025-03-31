@@ -12,24 +12,14 @@
                 </div>
             </div>
 
-            <a href="" class="d-block mb-4">
+            @foreach($projects as $item)
+            <a href="{{ route('projects.show', $item->slug) }}" class="d-block mb-4">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="img/pm1.jpg">
-                    <img src="img/ppp1.jpg" alt="">
+                    <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $item->image_m) }}">
+                    <img src="{{ asset('storage/' . $item->banner) }}" alt="">
                 </picture>
             </a>
-            <a href="" class="d-block mb-4">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/pm2.jpg">
-                    <img src="img/ppp2.jpg" alt="">
-                </picture>
-            </a>
-            <a href="" class="d-block mb-4">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="img/pm3.jpg">
-                    <img src="img/ppp3.jpg" alt="">
-                </picture>
-            </a>
+            @endforeach
 
             <div class="p-projects__bottom">
                 <div class="events__select">

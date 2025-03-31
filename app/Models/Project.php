@@ -8,7 +8,8 @@ class Project extends Model
 {
     protected $casts = [
         'blocks' => 'json',
-        'gallery' => 'array'
+        'gallery' => 'array',
+        'social' => 'array',
     ];
 
     public function scopeActive($query)

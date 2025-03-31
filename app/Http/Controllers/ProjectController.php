@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Publication;
 
 class ProjectController extends BaseController
 {
     public function index()
     {
-        $news = Publication::active()
-            ->where('type', 'news')
-            ->orderBy('published_at', 'DESC')
-            ->get();
+        $projects = Project::active()->get();
+        return view('pages.projects.index', compact('projects'));
+    }
 
-        $events = Publication::active()
-            ->where('type', 'event')
-            ->orderBy('published_at', 'DESC')
-            ->get();
-
-        return view('pages.projects.index', compact('news', 'events'));
+    public function show(string $slug)
+    {
+        $project = Project::active()->where('slug', $slug)->firstOrFail();
+        return view('pages.projects.show', compact('project'));
     }
 }
