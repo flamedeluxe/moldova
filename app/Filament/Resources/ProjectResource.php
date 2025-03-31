@@ -288,37 +288,19 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('sort')
+            ->defaultSort('sort')
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                Tables\Columns\ImageColumn::make('banner')
                     ->label('Фото'),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->label('Заголовок'),
-                Tables\Columns\TextColumn::make('type_label')
-                    ->label('Тип'),
-                Tables\Columns\TextColumn::make('city')
-                    ->label('Город'),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->label('Дата публикации'),
                 Tables\Columns\ToggleColumn::make('active')
                     ->label('Активность'),
             ])
             ->filters([
-                Filter::make('published_at')
-                    ->label('Дата публикации')
-                    ->form([
-                        DatePicker::make('published_at')
-                            ->label('Выберите дату'),
-                    ])
-                    ->query(fn ($query, $data) => $query->when(
-                        $data['published_at'],
-                        fn ($query, $date) => $query->whereDate('published_at', $date)
-                    )),
-                SelectFilter::make('type')
-                    ->label('Тип')
-                    ->options(Publication::getTypeOptions()),
-                Tables\Filters\Filter::make('active')
-                    ->label('Активность'),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label(''),

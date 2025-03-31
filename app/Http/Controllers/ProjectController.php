@@ -9,7 +9,7 @@ class ProjectController extends BaseController
 {
     public function index()
     {
-        $projects = Project::active()->get();
+        $projects = Project::activeSorted()->get();
         return view('pages.projects.index', compact('projects'));
     }
 

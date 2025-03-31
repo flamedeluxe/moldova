@@ -5,11 +5,13 @@
         <div class="container">
             <div class="p-projects__top">
                 <div class="p-projects__top-title">Наши проекты</div>
+                {{--
                 <div class="events__select">
                     <div>
                         <input type="text" name="date" placeholder="Выбрать даты" required>
                     </div>
                 </div>
+                --}}
             </div>
 
             @foreach($projects as $item)

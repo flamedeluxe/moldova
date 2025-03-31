@@ -16,4 +16,9 @@ class Project extends Model
     {
         return $query->where('active', 1);
     }
+
+    public function scopeActiveSorted($query)
+    {
+        return $query->where('active', 1)->orderBy('sort');
+    }
 }
