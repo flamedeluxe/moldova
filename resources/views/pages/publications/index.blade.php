@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="events" x-data="news()">
-        <div class="container">
+        <div class="container" :class="loading ? 'opacity-50' : ''">
             <div class="p-projects__top">
                 <div class="p-projects__top-title">Новости</div>
                 <div class="events__select">
@@ -39,7 +39,7 @@
     </div>
 
     <div class="events bg--gray" x-data="events()">
-        <div class="container">
+        <div class="container" :class="loading ? 'opacity-50' : ''">
             <div class="events__top">
                 <div class="row">
                     <div class="col-12 col-sm-6">
