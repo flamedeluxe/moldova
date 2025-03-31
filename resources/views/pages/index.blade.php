@@ -4,54 +4,31 @@
     <div class="hero">
         <div class="container">
             <div class="keen-slider">
+                @foreach($slides as $slide)
                 <div class="keen-slider__slide slide">
                     <div class="img">
-                        <img src="img/hero.jpg" alt="">
+                        <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
                     </div>
                     <div class="caption">
                         <div class="caption__left">
                             <div class="caption__info">
                                 <div class="caption__info-badge">
-                                    Традиции
+                                    {{ $slide['badge'] }}
                                 </div>
                                 <div class="caption__info-date">
-                                    27 января
+                                    {{ Carbon\Carbon::parse($slide['date'])->translatedFormat('d M Y') }}
                                 </div>
                             </div>
                             <div class="caption__title">
-                                Молдавские колядки
+                                {{ $slide['title'] }}
                             </div>
                         </div>
                         <div class="caption__right">
-                            Экопарк «Рождествено», <br>
-                            Московская область
+                            {{ $slide['text'] }}
                         </div>
                     </div>
                 </div>
-                <div class="keen-slider__slide slide">
-                    <div class="img">
-                        <img src="img/hero.jpg" alt="">
-                    </div>
-                    <div class="caption">
-                        <div class="caption__left">
-                            <div class="caption__info">
-                                <div class="caption__info-badge">
-                                    Традиции
-                                </div>
-                                <div class="caption__info-date">
-                                    27 января
-                                </div>
-                            </div>
-                            <div class="caption__title">
-                                Молдавские колядки
-                            </div>
-                        </div>
-                        <div class="caption__right">
-                            Экопарк «Рождествено», <br>
-                            Московская область
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <div class="keen-slider__controls">
@@ -218,92 +195,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function news() {
-            return {
-                items: @json($news),
-                loading: false,
-                total: @json($news_total),
-                date: '',
-                page: 1,
-                error: '',
-                filter() {
-                    this.date = document.querySelector('[x-model="date"]').value;
-                    this.get();
-                },
-                nextPage() {
-                    this.page++;
-                    this.get();
-                },
-                async get() {
-                    this.loading = true;
-                    this.error = '';
-                    const response = await fetch(`/publications?type=news&page=${this.page}&date=${this.date}`, {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                        .finally(() => {
-                            this.loading = false;
-                        });
-
-                    if(response.ok) {
-                        const r = await response.json();
-                        this.items = r.data;
-                        this.total = r.total;
-                    }
-                }
-            }
-        }
-        function events() {
-            return {
-                items: @json($events),
-                cities: @json($cities),
-                categories: @json($categories),
-                loading: false,
-                total: @json($events_total),
-                page: 1,
-                city: '{{ session()->get('city') ?? 'Москва' }}',
-                category: '',
-                error: '',
-                init() {
-                    this.category = 'Все';
-                },
-                filter() {
-                    this.category = ''; // Очистка категории при фильтрации
-                    this.get(); // Перезагрузка данных
-                },
-                nextPage() {
-                    this.page++; // Переход на следующую страницу
-                    this.get(); // Получение данных для следующей страницы
-                },
-                async get() {
-                    closeModals();
-                    this.loading = true;
-                    this.error = '';
-                    const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}&city=${this.city}`, {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                        .finally(() => {
-                            this.loading = false;
-                        });
-
-                    if (response.ok) {
-                        const r = await response.json();
-                        this.items = r.data;
-                        this.total = r.total;
-                    } else {
-                        this.error = 'Ошибка загрузки данных';
-                    }
-                }
-            }
-        }
-    </script>
 @endsection

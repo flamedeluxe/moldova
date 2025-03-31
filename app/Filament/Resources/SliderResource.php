@@ -47,9 +47,6 @@ class SliderResource extends Resource
                                         TextInput::make('text')
                                             ->label('Текст')
                                             ->required(),
-                                        TextInput::make('page')
-                                            ->label('Страница')
-                                            ->required(),
                                         DatePicker::make('date')
                                             ->label('Текст'),
                                         TextInput::make('badge')
@@ -74,8 +71,8 @@ class SliderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')
-                    ->label('Заголовок'),
+                TextColumn::make('id')
+                    ->label('id'),
             ])
             ->filters([
                 //

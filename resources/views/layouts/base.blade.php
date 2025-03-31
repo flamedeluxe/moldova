@@ -446,5 +446,107 @@
 @endif
 
 <script src="js/scripts.js"></script>
+
+<script>
+    function news() {
+        return {
+            items: @json($news),
+            loading: false,
+            total: @json($news_total),
+            date: '',
+            page: 1,
+            error: '',
+            filter() {
+                this.date = document.querySelector('[x-model="date"]').value;
+                this.get();
+            },
+            nextPage() {
+                this.page++;
+                this.get();
+            },
+            async get() {
+                this.loading = true;
+                this.error = '';
+                const params = new URLSearchParams({
+                    type: 'news',
+                    page: this.page,
+                    date: this.date,
+                });
+                const response = await fetch(`/publications?${params.toString()}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+
+                if(response.ok) {
+                    const r = await response.json();
+                    this.items = r.data;
+                    this.total = r.total;
+                }
+            }
+        }
+    }
+    function events() {
+        return {
+            items: @json($events),
+            cities: @json($cities),
+            categories: @json($categories),
+            loading: false,
+            total: @json($events_total),
+            page: 1,
+            city: '{{ session()->get('city') ?? 'Москва' }}',
+            date: '',
+            category: '',
+            error: '',
+            init() {
+                this.category = 'Все';
+            },
+            filter() {
+                this.category = ''; // Очистка категории при фильтрации
+                this.date = document.querySelector('[x-model="date"]').value;
+                this.get(); // Перезагрузка данных
+            },
+            nextPage() {
+                this.page++; // Переход на следующую страницу
+                this.get(); // Получение данных для следующей страницы
+            },
+            async get() {
+                closeModals();
+                this.loading = true;
+                this.error = '';
+                const params = new URLSearchParams({
+                    type: 'events',
+                    page: this.page,
+                    category: this.category,
+                    city: this.city,
+                    date: this.date
+                });
+                const response = await fetch(`/publications?${params.toString()}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+
+                if (response.ok) {
+                    const r = await response.json();
+                    this.items = r.data;
+                    this.total = r.total;
+                } else {
+                    this.error = 'Ошибка загрузки данных';
+                }
+            }
+        }
+    }
+</script>
 </body>
 </html>

@@ -59,6 +59,7 @@ class PublicationService
 
         if(request()->city) {
             session()->put('city', request()->city);
+            $query->where('city', request()->city);
         }
 
         if ($city) {

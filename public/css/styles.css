@@ -528,6 +528,7 @@ img {
     align-items: center;
     color: var(--accent);
     font-weight: 500;
+    cursor: pointer;
 }
 .events__top-more img {
     width: .7rem;
