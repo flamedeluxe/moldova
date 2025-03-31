@@ -21,9 +21,16 @@
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_API_КЛЮЧ&lang=ru_RU" type="text/javascript"></script>
 
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="@if(in_array(request()->route()->getName(), ['login', 'register'])) justify-content-sm-center @endif">
+
+<div class="modal__overlay"></div>
+
 <div class="m-search">
     <div class="m-search__input">
         <form action="{{ route('search') }}" method="get">

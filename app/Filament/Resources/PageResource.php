@@ -204,7 +204,7 @@ class PageResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->label(''),
+                Tables\Actions\EditAction::make()->iconButton(),
             ])
             ->bulkActions([
                 //

@@ -42,9 +42,6 @@ class PublicationService
 
     public function getPublications(string $type, $city = ''): array
     {
-        // Фильтр по городу
-        $cityFilter = request()->city ?? session()->get('city') ?? $city;
-
         // Основной запрос с фильтрацией
         $query = Publication::active()->where('type', $type);
 
@@ -60,8 +57,12 @@ class PublicationService
             $query->where('category', request()->category);
         }
 
-        if ($cityFilter) {
-            $query->where('city', $cityFilter);
+        if(request()->city) {
+            session()->put('city', request()->city);
+        }
+
+        if ($city) {
+            $query->where('city', $city);
         }
 
         // Общее количество записей (без пагинации)

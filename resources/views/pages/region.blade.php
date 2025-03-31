@@ -260,7 +260,9 @@
                     });
 
                 if(response.ok) {
-                    this.items = response.json()
+                    const r = await response.json();
+                    this.items = r.data;
+                    this.total = r.total;
                 }
             }
         }
@@ -302,7 +304,9 @@
                     });
 
                 if (response.ok) {
-                    this.items = await response.json(); // Обновление списка данных
+                    const r = await response.json();
+                    this.items = r.data;
+                    this.total = r.total;
                 } else {
                     this.error = 'Ошибка загрузки данных';
                 }

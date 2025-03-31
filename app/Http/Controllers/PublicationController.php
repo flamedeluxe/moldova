@@ -12,6 +12,17 @@ class PublicationController extends BaseController
         $news = (new PublicationService)->getPublications('news');
         $events = (new PublicationService)->getPublications('event');
 
+        if(request()->ajax()) {
+            $data = match (request()->get('type')) {
+                'events' => $events,
+                default => $news,
+            };
+            return response()->json([
+                'data' => $data['items'],
+                'total' => $data['total']
+            ]);
+        }
+
         return view('pages.publications.index', [
             'categories' => $events['categories'],
             'events' => $events['items'],

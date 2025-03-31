@@ -22,7 +22,7 @@ window.addEventListener("load", (event) => {
 
 function openModal(modalId, timeout = 0) {
     const modal = document.querySelector(modalId);
-    const overlay = document.querySelector(".modal-overlay");
+    const overlay = document.querySelector(".modal__overlay");
     const html = document.documentElement;
 
     modal.classList.add("active");
@@ -38,7 +38,7 @@ function openModal(modalId, timeout = 0) {
 
 function closeModals() {
     const html = document.documentElement;
-    const overlay = document.querySelector(".modal-overlay");
+    const overlay = document.querySelector(".modal__overlay");
 
     document.querySelectorAll(".modal").forEach(modal => {
         modal.classList.remove("active");
@@ -260,7 +260,7 @@ function modals() {
             event.preventDefault();
             const modalId = this.getAttribute("data-modal");
             const modal = document.querySelector(modalId);
-            const overlay = document.querySelector(".modal-overlay");
+            const overlay = document.querySelector(".modal__overlay");
             const formTitle = this.getAttribute("data-title");
             const formField = modal.querySelector("[name='form']");
 
@@ -268,15 +268,16 @@ function modals() {
                 modal.classList.add("active");
                 overlay.classList.add("active");
                 html.classList.add("overflow");
-                formField.value = formTitle;
+
+                if(document.querySelector(formField)) formField.value = formTitle;
             }
         });
     });
 
     // Закрытие модального окна
-    document.querySelectorAll(".modal-close, .modal-overlay").forEach(closeElement => {
+    document.querySelectorAll(".modal__close, .modal__overlay").forEach(closeElement => {
         closeElement.addEventListener("click", function () {
-            document.querySelectorAll(".modal, .modal-overlay").forEach(el => el.classList.remove("active"));
+            document.querySelectorAll(".modal, .modal__overlay").forEach(el => el.classList.remove("active"));
             html.classList.remove("overflow");
         });
     });
@@ -284,7 +285,7 @@ function modals() {
     // Закрытие по Escape
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
-            document.querySelectorAll(".modal, .modal-overlay").forEach(el => el.classList.remove("active"));
+            document.querySelectorAll(".modal, .modal__overlay").forEach(el => el.classList.remove("active"));
             html.classList.remove("overflow");
         }
     });

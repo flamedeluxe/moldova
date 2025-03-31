@@ -102,10 +102,8 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                EditAction::make()
-                    ->label(''),
-                DeleteAction::make()
-                    ->label('')
+                EditAction::make()->iconButton(),
+                DeleteAction::make()->iconButton()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

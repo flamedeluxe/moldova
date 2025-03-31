@@ -67,42 +67,35 @@
     </div>
 
     <div class="events" x-data="news()">
-        <div class="container">
+        <div class="container" :class="loading ? 'opacity-50' : ''">
             <div class="row gx-4">
-                @foreach($news as $idx => $item)
-                <div class="col-12 col-sm-4">
-                    <a href="{{ route('publications.show', $item->slug) }}" class="item">
-                        @if($idx == 1 || $idx == 5)
-                            <div class="item__caption">
-                                <div class="item__caption-title">
-                                    {{ $item->title }}
+                <template x-for="(item, idx) in items" :key="item.id">
+                    <div class="col-12 col-sm-4">
+                        <a :href="`publicaions/${item.slug}`" class="item">
+                            <div class="item__caption" x-show="idx == 1 || idx == 5">
+                                <div class="item__caption-title" x-text="item.title">
                                 </div>
-                                <div class="item__caption-date">
-                                    {{ $item->date }}
+                                <div class="item__caption-date" x-text="item.date">
                                 </div>
                             </div>
-                        @else
-                            <div class="item__img">
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
-                                <div class="item__img-badge">
-                                    {{ $item->category }}
+
+                            <div class="item__img" x-show="idx != 1 && idx != 5">
+                                <img :src="`storage/${item.image}`" alt="">
+                                <div class="item__img-badge" x-text="item.category">
                                 </div>
                             </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    {{ $item->date }}
+                            <div class="item__info" x-show="idx != 1 && idx != 5">
+                                <div class="item__info-date" x-text="item.date">
                                 </div>
-                                <div class="item__info-title">
-                                    {{ $item->title }}
+                                <div class="item__info-title" x-text="item.title">
                                 </div>
                             </div>
-                        @endif
-                    </a>
-                </div>
-                @endforeach
+                        </a>
+                    </div>
+                </template>
             </div>
-            <div class="events__more">
-                <button class="btn btn--default">
+            <div class="events__more" x-show="items.length > total">
+                <button class="btn btn--default" @click.prevent="nextPage">
                     Предыдущие новости
                 </button>
             </div>
@@ -145,12 +138,42 @@
                     <div class="col-12 col-sm-6">
                         <div class="events__top-title">
                             <span>Ближайшие мероприятия</span>
-                            <a href="">Москва</a>
+                            <a href="" data-modal="#modal_city" x-text="city"></a>
                         </div>
-                        <div class="events__top-more">
+                        <div class="events__top-more" data-modal="#modal_city">
                             <img src="img/loc.svg" alt="">
                             <span>Найти свой город</span>
                         </div>
+
+                        <div class="modal modal__city" id="modal_city">
+                            <div class="wrap">
+                                <div class="modal__close">
+                                    &times;
+                                </div>
+                                <div class="modal__content">
+                                    <div class="dropdown__cities">
+                                        <ul>
+                                            <li><a href="#" @click.prevent="city = 'Москва'; get()">Москва</a></li>
+                                            <li><a href="#" @click.prevent="city = 'Санкт-Петербург'; get()">Санкт-Петербург</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown__list">
+                                        <ul>
+                                            <template x-for="city in cities" :key="city.id">
+                                                <li>
+                                                    <a
+                                                        @click.prevent="city = city.title; get()"
+                                                        :href="`region/${city.slug}`"
+                                                        x-text="city.title">
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="events__tags justify-content-end">
@@ -168,9 +191,10 @@
             </div>
 
             <div class="row">
+                <div class="col-12" x-cloak x-show="items.length === 0">Событий не найдено</div>
                 <template  x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
-                        <a :href="`news/${item.slug}`" class="item">
+                        <a :href="`publications/${item.slug}`" class="item">
                             <div class="item__img">
                                 <img :src="`storage/${item.image}`" :alt="item.title">
                             </div>
@@ -196,13 +220,53 @@
     </div>
 
     <script>
+        function news() {
+            return {
+                items: @json($news),
+                loading: false,
+                total: @json($news_total),
+                date: '',
+                page: 1,
+                error: '',
+                filter() {
+                    this.date = document.querySelector('[x-model="date"]').value;
+                    this.get();
+                },
+                nextPage() {
+                    this.page++;
+                    this.get();
+                },
+                async get() {
+                    this.loading = true;
+                    this.error = '';
+                    const response = await fetch(`/publications?type=news&page=${this.page}&date=${this.date}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .finally(() => {
+                            this.loading = false;
+                        });
+
+                    if(response.ok) {
+                        const r = await response.json();
+                        this.items = r.data;
+                        this.total = r.total;
+                    }
+                }
+            }
+        }
         function events() {
             return {
                 items: @json($events),
+                cities: @json($cities),
                 categories: @json($categories),
                 loading: false,
                 total: @json($events_total),
                 page: 1,
+                city: '{{ session()->get('city') ?? 'Москва' }}',
                 category: '',
                 error: '',
                 init() {
@@ -217,9 +281,10 @@
                     this.get(); // Получение данных для следующей страницы
                 },
                 async get() {
+                    closeModals();
                     this.loading = true;
                     this.error = '';
-                    const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}`, {
+                    const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}&city=${this.city}`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
@@ -231,7 +296,9 @@
                         });
 
                     if (response.ok) {
-                        this.items = await response.json(); // Обновление списка данных
+                        const r = await response.json();
+                        this.items = r.data;
+                        this.total = r.total;
                     } else {
                         this.error = 'Ошибка загрузки данных';
                     }

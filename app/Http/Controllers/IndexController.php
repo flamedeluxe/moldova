@@ -10,7 +10,7 @@ class IndexController extends BaseController
     public function index()
     {
         $news = (new PublicationService)->getPublications('news');
-        $events = (new PublicationService)->getPublications('event', 'Москва');
+        $events = (new PublicationService)->getPublications('event', session('city'));
         $projects = Project::activeSorted()->get();
 
         return view('pages.index', [
