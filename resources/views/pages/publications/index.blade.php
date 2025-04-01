@@ -13,6 +13,7 @@
             </div>
 
             <div class="row gx-4">
+                <div x-show="!items.length">Новостей не найдено</div>
                 <template x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
                         <a :href="`publications/${item.slug}`" class="item">
@@ -45,12 +46,42 @@
                     <div class="col-12 col-sm-6">
                         <div class="events__top-title">
                             <span>Ближайшие мероприятия</span>
-                            <a href="">Москва</a>
+                            <a href="" data-modal="#modal_city" x-text="city"></a>
                         </div>
-                        <div class="events__top-more">
+                        <div class="events__top-more" data-modal="#modal_city">
                             <img src="img/loc.svg" alt="">
                             <span>Найти свой город</span>
                         </div>
+
+                        <div class="modal modal__city" id="modal_city">
+                            <div class="wrap">
+                                <div class="modal__close">
+                                    &times;
+                                </div>
+                                <div class="modal__content">
+                                    <div class="dropdown__cities">
+                                        <ul>
+                                            <li><a href="#" @click.prevent="city = 'Москва'; get()">Москва</a></li>
+                                            <li><a href="#" @click.prevent="city = 'Санкт-Петербург'; get()">Санкт-Петербург</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown__list">
+                                        <ul>
+                                            <template x-for="city in cities" :key="city.id">
+                                                <li>
+                                                    <a
+                                                        @click.prevent="city = city.title; get()"
+                                                        :href="`region/${city.slug}`"
+                                                        x-text="city.title">
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="events__tags justify-content-end">

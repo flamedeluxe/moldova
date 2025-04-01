@@ -447,6 +447,7 @@
 
 <script src="js/scripts.js"></script>
 
+@if(in_array(request()->route()->getName(), ['index', 'publications.index', 'region']))
 <script>
     function news() {
         return {
@@ -548,5 +549,6 @@
         }
     }
 </script>
+@endif
 </body>
 </html>

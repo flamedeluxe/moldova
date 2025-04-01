@@ -10,7 +10,7 @@ class PublicationController extends BaseController
     public function index()
     {
         $news = (new PublicationService)->getPublications('news');
-        $events = (new PublicationService)->getPublications('event');
+        $events = (new PublicationService)->getPublications('event', session('city'));
 
         if(request()->ajax()) {
             $data = match (request()->get('type')) {
