@@ -9,7 +9,6 @@ class SearchController extends BaseController
 {
     public function index()
     {
-
         $search = request('query');
         $results = \App\Models\Publication::query()
             ->when($search, function ($query, $search) {

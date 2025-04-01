@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\FaqController;
@@ -30,3 +31,6 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function () {
     Route::get('/account', [\App\Http\Controllers\Account\IndexController::class, 'index'])->name('index');
 });
+
+
+Route::fallback([ErrorController::class, 'show404']);

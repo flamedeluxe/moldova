@@ -26,8 +26,14 @@
     </style>
 
     <link rel="stylesheet" href="css/styles.css">
+
+    @php
+
+    $routeName = request()->route() ? request()->route()->getName() : '';
+
+    @endphp
 </head>
-<body class="@if(in_array(request()->route()->getName(), ['login', 'register'])) justify-content-sm-center @endif">
+<body class="@if(in_array($routeName, ['login', 'register'])) justify-content-sm-center @endif">
 
 <div class="modal__overlay"></div>
 
@@ -93,7 +99,7 @@
     </div>
 </div>
 
-<div class="header @if(in_array(request()->route()->getName(), ['login', 'register'])) d-none @endif">
+<div class="header @if(in_array($routeName, ['login', 'register'])) d-none @endif">
     <div class="container">
         <div class="row align-items-center">
             <div class="col header__logo">
@@ -104,13 +110,13 @@
             <div class="col header__menu">
                 <div class="">
                     <ul>
-                        <li class="{{ request()->route()->getName() == 'about' ? 'active' : '' }}">
+                        <li class="{{ $routeName == 'about' ? 'active' : '' }}">
                             <a href="{{ route('about') }}">О нас</a>
                         </li>
-                        <li class="{{ request()->route()->getName() == 'projects.index' ? 'active' : '' }}">
+                        <li class="{{ $routeName == 'projects.index' ? 'active' : '' }}">
                             <a href="{{ route('projects.index') }}">Наши проекты</a>
                         </li>
-                        <li class="{{ request()->route()->getName() == 'publications.index' ? 'active' : '' }}">
+                        <li class="{{ $routeName == 'publications.index' ? 'active' : '' }}">
                             <a href="{{ route('publications.index') }}">Новости</a>
                         </li>
                         <li>
@@ -158,7 +164,7 @@
 
 @yield('content')
 
-@if(!in_array(request()->route()->getName(), ['login', 'register']))
+@if(!in_array($routeName, ['login', 'register']))
 
 <div class="map bg--gray">
     <div class="container">
@@ -447,7 +453,7 @@
 
 <script src="js/scripts.js"></script>
 
-@if(in_array(request()->route()->getName(), ['index', 'publications.index', 'region']))
+@if(in_array($routeName, ['index', 'publications.index', 'region', '']))
 <script>
     function news() {
         return {
