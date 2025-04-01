@@ -11,9 +11,12 @@ class SearchController extends BaseController
     {
 
         $search = request('query');
-        $results = DB::table('publications')
-            ->whereRaw("MATCH(title, content) AGAINST(? IN NATURAL LANGUAGE MODE)", [$search])
-            ->paginate(10); // 10 записей на страницу
+        $results = \App\Models\Publication::query()
+            ->when($search, function ($query, $search) {
+                $query->whereRaw("MATCH(title, content) AGAINST(? IN BOOLEAN MODE)", [$search . '*']);
+            })
+            ->paginate(10)
+            ->appends(['query' => $search]);
 
         return view('pages.search', compact('results', 'search'));
     }

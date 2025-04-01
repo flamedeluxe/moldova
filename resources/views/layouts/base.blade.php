@@ -70,20 +70,20 @@
             <li><a href="{{ route('faq') }}">Вопросы и ответы</a></li>
         </ul>
 
-        <button class="btn btn--transperant">
+        <a href="{{ route('account.index') }}" class="btn btn--transperant">
             <img src="img/acc.svg" alt="">
             <span>Личный кабинет</span>
-        </button>
+        </a>
     </div>
     <div class="m-header__nav-footer">
         <div class="m-header__nav-footer_email">
-            <a href="mailto:info@moldovacenter.ru">info@moldovacenter.ru</a>
+            <a href="mailto:{{ config('site.email') }}">{{ config('site.email') }}</a>
         </div>
         <div class="m-header__nav-footer_social">
             <ul>
-                <li><a href="#"><img src="img/vk.svg" alt=""></a></li>
-                <li><a href="#"><img src="img/te.svg" alt=""></a></li>
-                <li><a href="#"><img src="img/ok.svg" alt=""></a></li>
+                <li><a href="{{ config('site.vk') }}"><img src="img/vk.svg" alt=""></a></li>
+                <li><a href="{{ config('site.te') }}"><img src="img/te.svg" alt=""></a></li>
+                <li><a href="{{ config('site.ok') }}"><img src="img/ok.svg" alt=""></a></li>
             </ul>
         </div>
         <div class="m-header__nav-footer_text">
@@ -313,9 +313,9 @@
             <div class="col-12 col-sm-8">
                 <div class="row">
                     <div class="col-12 col-sm-9">
-                        <div class="footer__search">
-                            <input type="text" placeholder="Поиск по сайту…">
-                        </div>
+                        <form action="{{ route('search') }}" class="footer__search">
+                            <input type="text" name="query" value="{{ request('query') }}" placeholder="Поиск по сайту…">
+                        </form>
                     </div>
                     <div class="col-12 col-sm-3">
                         <div class="footer__acc">
