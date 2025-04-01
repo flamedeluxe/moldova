@@ -47,44 +47,22 @@
                     <div class="p-page__aside">
                         <div class="p-page__aside-title">
                             <div>Новости</div>
-                            <a href="">
+                            <a href="{{ route('publications.index') }}">
                                 <span>Все</span>
-                                <img src="img/v.svg" alt="">
+                                <img src="img/v.svg" alt="Все новости">
                             </a>
                         </div>
                         <div class="p-page__aside-content">
-                            <a href="" class="item">
+                            @foreach($publications as $item)
+                            <a href="{{ route('publications.show', $item->slug) }}" class="item">
                                 <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
+                                    {{ $item->title }}
                                 </div>
                                 <div class="item__date">
-                                    19 марта 2025, 14:00
+                                    {{ $item->date }}
                                 </div>
                             </a>
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
+                            @endforeach
                         </div>
 
                         <div class="p-page__aside-title">

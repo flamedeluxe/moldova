@@ -36,6 +36,11 @@ class PublicationController extends BaseController
     public function show($slug)
     {
         $publication = Publication::query()->where('slug', $slug)->firstOrFail();
-        return view('pages.publications.show', compact('publication'));
+        $publications = Publication::query()
+            ->where('type', 'news')
+            ->where('id', '!=', $publication->id)
+            ->limit(6)
+            ->get();
+        return view('pages.publications.show', compact('publication', 'publications'));
     }
 }

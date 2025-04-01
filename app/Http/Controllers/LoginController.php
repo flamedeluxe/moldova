@@ -100,12 +100,6 @@ class LoginController extends Controller
             'verification_code' => $code
         ]);
 
-        $buyer = Buyer::query()->create([
-            'title' => $user->name,
-            'user_id' => $user->id,
-            'alias' => \Str::random(16),
-        ]);
-
         Mail::to($user->email)->send(new RegisterMail([
             'link' => env('APP_URL') . '/register/confirm/' . $code,
         ]));

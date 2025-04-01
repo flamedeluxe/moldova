@@ -56,7 +56,6 @@ function checkboxes() {
 
             const checkbox = checkboxContainer.querySelector("input[type='checkbox']");
             checkbox.checked = !checkbox.checked;
-            event.preventDefault(); // Предотвращаем неожиданные действия
         });
     });
 }
@@ -694,4 +693,5 @@ function initDatepicker() {
         dateFormat: 'dd MMM',
     });
 }
+
 
