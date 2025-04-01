@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\IndexController;
@@ -43,4 +44,6 @@ Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function
 Route::fallback([ErrorController::class, 'show404']);
 
 
-Route::post('/form/feedback', [FormController::class, 'feedback']);
+Route::post('/api/register', [LoginController::class, 'register']);
+Route::post('/api/login', [LoginController::class, 'login']);
+Route::post('/api/feedback', [LoginController::class, 'feedback']);

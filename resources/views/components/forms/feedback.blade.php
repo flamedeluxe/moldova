@@ -28,8 +28,8 @@
                 <span></span>
             </label>
             <span>
-                                Соглашаюсь с политикой <a href="" target="_blank">конфиденциальности в отношении персональных данных</a>
-                            </span>
+                Соглашаюсь с политикой <a href="" target="_blank">конфиденциальности в отношении персональных данных</a>
+            </span>
         </div>
         <span class="error" x-text="errors.agree ? errors.agree[0] : ''"></span>
     </div>
@@ -57,7 +57,7 @@
             },
             async send() {
                 try {
-                    const response = await fetch('form/feedback', {
+                    const response = await fetch('api/feedback', {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

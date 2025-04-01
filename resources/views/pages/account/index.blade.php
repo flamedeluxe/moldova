@@ -14,7 +14,7 @@
                                 Регион
                             </div>
                             <div class="item__text">
-                                Москва
+                                {{ Auth::user()->cities ?? '' }}
                             </div>
                         </div>
                         <div class="item">
@@ -22,7 +22,7 @@
                                 E-mail
                             </div>
                             <div class="item__text">
-                                valentin1909@moldovacenter.ru
+                                {{ Auth::user()->email }}
                             </div>
                         </div>
                         <div class="item">
@@ -30,23 +30,35 @@
                                 Номер телефона
                             </div>
                             <div class="item__text">
-                                <a href="">указать</a>
+                                @if(Auth::user()->phone)
+                                    {{ Auth::user()->phone }}
+                                @else
+                                    <a href="" data-modal="#profile">указать</a>
+                                @endif
                             </div>
                         </div>
                     </div>
                     <div class="p-account__social">
-                        <a href="">
-                            <img src="img/vk.svg" alt="">
-                            <span>Вконтакте</span>
-                        </a>
-                        <a href="">
-                            <img src="img/te.svg" alt="">
-                            <span>Телеграм</span>
-                        </a>
-                        <a href="">
-                            <img src="img/ok.svg" alt="">
-                            <span>Одноклассники</span>
-                        </a>
+                        @if(Auth::user()->vk)
+                            <a href="{{ Auth::user()->vk }}">
+                                <img src="img/vk.svg" alt="">
+                                <span>Вконтакте</span>
+                            </a>
+                        @endif
+
+                        @if(Auth::user()->te)
+                            <a href="{{ Auth::user()->te }}">
+                                <img src="img/te.svg" alt="">
+                                <span>Телеграм</span>
+                            </a>
+                        @endif
+
+                        @if(Auth::user()->ok)
+                            <a href="{{ Auth::user()->ok }}">
+                                <img src="img/ok.svg" alt="">
+                                <span>Одноклассники</span>
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <div class="col-12 col-sm-4">
@@ -58,7 +70,7 @@
                             350 баллов в подарок</strong>
                     </div>
                     <div class="p-account__btn">
-                        <button class="btn btn--default">
+                        <button class="btn btn--default" data-modal="#profile">
                             Заполнить профиль
                         </button>
                     </div>
@@ -73,7 +85,7 @@
                 <div class="p-projects__top-title">Посещайте мероприятия</div>
                 <div class="events__select">
                     <div>
-                        <input type="text" name="date" placeholder="Выбрать даты" required>
+                        <input type="text" x-model="date" placeholder="Выбрать даты" required>
                     </div>
                     <div class="keen-slider__controls">
                         <button class="keen-slider-arrow keen-slider-arrow--left">

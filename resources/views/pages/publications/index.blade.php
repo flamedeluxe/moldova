@@ -102,7 +102,7 @@
                 <div class="col-12" x-show="!items.length">Событий не найдено</div>
                 <template  x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
-                        <a :href="`news/${item.slug}`" class="item">
+                        <a :href="`publications/${item.slug}`" class="item">
                             <div class="item__img">
                                 <img :src="`storage/${item.image}`" :alt="item.title">
                             </div>

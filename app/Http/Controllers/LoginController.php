@@ -3,27 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewPasswordMail;
-use App\Mail\RegisterMail;
 use App\Mail\RestoreMail;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use SmsService;
+use stdClass;
 
 class LoginController extends Controller
 {
-    public function form()
-    {
-        return view('admin.login');
-    }
-
-    public function auth(Request $request)
+    public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->headers->set('Accept', 'application/json');
 
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'phone' => ['required'],
             'password' => ['required'],
         ]);
 
@@ -39,14 +38,14 @@ class LoginController extends Controller
         return response()->json([
             'success' => false,
             'errors' => [
-                'email' => 'Не верный пароль или e-mail'
+                'phone' => 'Не верный пароль'
             ]
         ]);
     }
 
-    public function register_confirm($code): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|RedirectResponse
+    public function register_confirm($code): RedirectResponse
     {
-        if(!$user = User::where('verification_code', $code)->first()) abort(404);
+        if(!$user = User::query()->where('verification_code', $code)->first()) abort(404);
         $user->active = true;
         $user->verification_code = null;
         $user->save();
@@ -56,13 +55,13 @@ class LoginController extends Controller
         return redirect('/account');
     }
 
-    public function restore_confirm($code): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|RedirectResponse
+    public function restore_confirm($code): RedirectResponse
     {
-        if(!$user = User::where('verification_code', $code)->first()) abort(404);
+        if(!$user = User::query()->where('verification_code', $code)->first()) abort(404);
         $user->active = true;
         $user->verification_code = null;
-        $pass = \Str::random(8);
-        $password = \Hash::make($pass);
+        $pass = Str::random(8);
+        $password = Hash::make($pass);
         $user->password = $password;
         $user->save();
 
@@ -73,40 +72,34 @@ class LoginController extends Controller
         return redirect('/account');
     }
 
-    public function register(Request $request): \Illuminate\Http\JsonResponse
+    public function register(Request $request): JsonResponse
     {
         $request->headers->set('Accept', 'application/json');
 
         $credentials = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email:rfc,dns'],
+            'phone' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'agree' => ['required', 'accepted'],
         ]);
 
-        if (User::query()->where('email', $credentials['email'])->first()){
+        if (User::query()->where('phone', $credentials['phone'])->first()){
             return response()->json([
                 'success' => false,
-                'errors' => ['email' => 'Пользователь с таким e-mail уже зарегистрирован']
+                'errors' => ['phone' => 'Пользователь с таким телефоном уже зарегистрирован']
             ]);
         }
 
-        $code = \Str::random(20);
+        $code = Str::random(20);
 
         $user = User::query()->create([
             'name' => $credentials['name'],
-            'email' => $credentials['email'],
-            'password' => \Hash::make($credentials['password']),
+            'phone' => $credentials['phone'],
+            'password' => Hash::make($credentials['password']),
             'verification_code' => $code
         ]);
 
-        Mail::to($user->email)->send(new RegisterMail([
-            'link' => env('APP_URL') . '/register/confirm/' . $code,
-        ]));
-
-        $message  = "Новый пользователь: \n";
-        $message .= "Имя: " . $credentials['name'] . "\n";
-        $message .= "Email: " . $credentials['email'];
+        self::sendSms($credentials['phone'], 'Ваш проверочный код: ' . $code);
 
         return response()->json([
             'success' => true,
@@ -114,7 +107,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function restore(Request $request): \Illuminate\Http\JsonResponse
+    public function restore(Request $request): JsonResponse
     {
         $response = [
             'success' => true,
@@ -139,28 +132,7 @@ class LoginController extends Controller
         return response()->json($response);
     }
 
-    /**
-     * Handle an authentication attempt.
-     */
-    public function authenticate(Request $request): RedirectResponse
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('admin');
-        }
-
-        return back()->withErrors([
-            'email' => 'Не верный пароль или e-mail'
-        ])->onlyInput('email');
-    }
-
-    public function logout(Request $request): \Illuminate\Foundation\Application|\Illuminate\Routing\Redirector|RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -169,11 +141,24 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    public function signin()
+    private static function sendSms($to, $text): bool
     {
-        $resource = (object)[
-            'title' => 'Личный кабинет',
-        ];
-        return view('site.login', compact('resource'));
+        $smsru = new SmsService('54C1C05D-77F9-5A84-0A60-F35526FD4206');
+        $data = new stdClass();
+        $data->to = $to;
+        $data->text = $text;
+        $sms = $smsru->send_one($data);
+
+        if ($sms->status == "OK") {
+            echo "Сообщение отправлено успешно. ";
+            echo "ID сообщения: $sms->sms_id. ";
+            echo "Ваш новый баланс: $sms->balance";
+        } else {
+            echo "Сообщение не отправлено. ";
+            echo "Код ошибки: $sms->status_code. ";
+            echo "Текст ошибки: $sms->status_text.";
+        }
+
+        return $sms->status === "OK";
     }
 }

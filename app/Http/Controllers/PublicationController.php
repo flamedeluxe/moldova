@@ -35,8 +35,9 @@ class PublicationController extends BaseController
 
     public function show($slug)
     {
-        $publication = Publication::query()->where('slug', $slug)->firstOrFail();
-        $publications = Publication::query()
+        $publication = Publication::active()->where('slug', $slug)->firstOrFail();
+        $publications = Publication::active()
+            ->orderBy('published_at', 'desc')
             ->where('type', 'news')
             ->where('id', '!=', $publication->id)
             ->limit(6)

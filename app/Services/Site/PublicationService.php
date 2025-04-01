@@ -100,4 +100,5 @@ class PublicationService
             'total' => $total,
         ];
     }
+
 }
