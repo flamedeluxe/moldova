@@ -9,10 +9,14 @@ use App\Models\Company;
 use App\Models\Publication;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -44,26 +48,54 @@ class CompanyResource extends Resource
                                 TextInput::make('title')
                                     ->label('Заголовок')
                                     ->live(onBlur: true)
+                                    ->required()
                                     ->afterStateUpdated(fn ($state, callable $set) =>
-                                    $set('slug', Str::slug($state))
+                                        $set('slug', Str::slug($state))
                                     ),
                                 TextInput::make('slug')
                                     ->label('Алиас')
+                                    ->required()
                                     ->unique(ignoreRecord: true),
-                                Select::make('city')
-                                    ->label('Город')
-                                    ->options(City::all()->pluck('title', 'title'))
-                                    ->columnSpanFull(),
-                                TextInput::make('category')
-                                    ->label('Категория')
-                                    ->maxLength(255),
+                                Toggle::make('active')
+                                    ->columnSpanFull()
+                                    ->label('Активность'),
                             ]),
-
                         Group::make()
                             ->schema([
-                                Forms\Components\FileUpload::make('image')
+                                FileUpload::make('image')
                                     ->label('Изображение'),
                             ]),
+                    ]),
+                TextInput::make('address')
+                    ->label('Адрес')
+                    ->columnSpanFull()
+                    ->required(),
+                Textarea::make('introtext')
+                    ->rows(3)
+                    ->columnSpanFull()
+                    ->label('Краткое описание'),
+                Grid::make(2)
+                    ->schema([
+                        Select::make('city')
+                            ->label('Город')
+                            ->required()
+                            ->options(City::all()->pluck('title', 'title')),
+                        TextInput::make('way')
+                            ->required()
+                            ->label('Отрасль'),
+                    ]),
+                RichEditor::make('content')
+                    ->columnSpanFull()
+                    ->label('Контент'),
+                Grid::make(3)
+                    ->schema([
+                        TextInput::make('phone')
+                            ->label('Телефон')
+                            ->mask('+7(999)999-99-99'),
+                        TextInput::make('email')
+                            ->label('E-mail'),
+                        TextInput::make('site')
+                            ->label('Сайт'),
                     ]),
             ]);
 
@@ -74,13 +106,22 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Фото'),
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->label('Заголовок'),
+                Tables\Columns\ToggleColumn::make('active')
+                    ->label('Активность'),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('active')
+                    ->label('Активность'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->iconButton(),
+                Tables\Actions\ReplicateAction::make()->iconButton(),
+                Tables\Actions\DeleteAction::make()->iconButton()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

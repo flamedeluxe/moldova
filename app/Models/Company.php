@@ -10,4 +10,9 @@ class Company extends Model
         'contacts' => 'array',
         'gallery' => 'array',
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }
