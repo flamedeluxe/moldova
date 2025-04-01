@@ -13,7 +13,7 @@
             </div>
 
             <div class="row gx-4">
-                <div x-show="!items.length">Новостей не найдено</div>
+                <div class="col-12" x-show="!items.length">Новостей не найдено</div>
                 <template x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
                         <a :href="`publications/${item.slug}`" class="item">
@@ -99,6 +99,7 @@
             </div>
 
             <div class="row">
+                <div class="col-12" x-show="!items.length">Событий не найдено</div>
                 <template  x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
                         <a :href="`news/${item.slug}`" class="item">
