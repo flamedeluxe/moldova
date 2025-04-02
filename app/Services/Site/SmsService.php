@@ -1,298 +1,147 @@
 <?php
 
-/**
- * Класс для работы с API сайта sms.ru для PHP 5.3 и выше
- * Разработчик WebProgrammer (kl.dm.vl@yandex.ru), легкие корректировки - Роман Гудев <rgudev@bk.ru>
- */
-class SmsService {
+namespace App\Services\Site;
+/*
+* SigmaSMS REST API
+* https://online.sigmasms.ru/#/documentation/api/HTTP-REST
+*/
 
-    private $ApiKey;
-    private $protocol = 'https';
-    private $domain = 'sms.ru';
-    private $count_repeat = 5; //количество попыток достучаться до сервера если он не доступен
+class SmsService
+{
+    private $api_url = 'https://online.sigmasms.ru/api/';
+    private $token;
 
-    function __construct($ApiKey) {
-        $this->ApiKey = $ApiKey;
+    public function __construct($token)
+    {
+        $this->token = $token;
     }
 
-    /**
-     * Совершает отправку СМС сообщения одному или нескольким получателям.
-     * @param $post
-     *   $post->to = string - Номер телефона получателя (либо несколько номеров, через запятую — до 100 штук за один запрос). Если вы указываете несколько номеров и один из них указан неверно, то на остальные номера сообщения также не отправляются, и возвращается код ошибки.
-     *   $post->msg = string - Текст сообщения в кодировке UTF-8
-     *   $post->multi = array('номер получателя' => 'текст сообщения') - Если вы хотите в одном запросе отправить разные сообщения на несколько номеров, то воспользуйтесь этим параметром (до 100 сообщений за 1 запрос). В этом случае, параметры to и text использовать не нужно
-     *   $post->from = string - Имя отправителя (должно быть согласовано с администрацией). Если не заполнено, в качестве отправителя будет указан ваш номер.
-     *   $post->time = Если вам нужна отложенная отправка, то укажите время отправки. Указывается в формате UNIX TIME (пример: 1280307978). Должно быть не больше 7 дней с момента подачи запроса. Если время меньше текущего времени, сообщение отправляется моментально.
-     *   $post->translit = 1 - Переводит все русские символы в латинские. (по умолчанию 0)
-     *   $post->test = 1 - Имитирует отправку сообщения для тестирования ваших программ на правильность обработки ответов сервера. При этом само сообщение не отправляется и баланс не расходуется. (по умолчанию 0)
-     *   $post->partner_id = int - Если вы участвуете в партнерской программе, укажите этот параметр в запросе и получайте проценты от стоимости отправленных сообщений.
-     *   $post->ip = string - IP адрес пользователя, в случае если вы отправляете код авторизации ему на номер в ответ на его запрос (к примеру, при регистрации). В случае аттаки на ваш сайт, наша система сможет помочь с защитой.
-     * @return array|mixed|\stdClass
-     */
-    public function send_one($post) {
-        $url = $this->protocol . '://' . $this->domain . '/sms/send';
-        $request = $this->Request($url, $post);
-        $resp = $this->CheckReplyError($request, 'send');
-
-        if ($resp->status == "OK") {
-            $temp = (array) $resp->sms;
-            unset($resp->sms);
-
-            $temp = array_pop($temp);
-
-            if ($temp) {
-                return $temp;
-            } else {
-                return $resp;
-            }
-        } else {
-            return $resp;
-        }
-
-    }
-
-    public function send($post) {
-        $url = $this->protocol . '://' . $this->domain . '/sms/send';
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'send');
-    }
-
-    /**
-     * Отправка СМС сообщений по электронной почте
-     * @param $post
-     *   $post->from = string - Ваш электронный адрес
-     *   $post->charset = string - кодировка переданных данных
-     *   $post->send_charset = string - кодировка переданных письма
-     *   $post->subject = string - тема письма
-     *   $post->body = string - текст письма
-     * @return bool
-     */
-    public function sendSmtp($post) {
-        $post->to = $this->ApiKey . '@' . $this->domain;
-        $post->subject = $this->sms_mime_header_encode($post->subject, $post->charset, $post->send_charset);
-        if ($post->charset != $post->send_charset) {
-            $post->body = iconv($post->charset, $post->send_charset, $post->body);
-        }
-        $headers = "From: $post->\r\n";
-        $headers .= "Content-type: text/plain; charset=$post->send_charset\r\n";
-        return mail($post->to, $post->subject, $post->body, $headers);
-    }
-
-    public function getStatus($id) {
-        $url = $this->protocol . '://' . $this->domain . '/sms/status';
-
-        $post = new stdClass();
-        $post->sms_id = $id;
-
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'getStatus');
-    }
-
-    /**
-     * Возвращает стоимость сообщения на указанный номер и количество сообщений, необходимых для его отправки.
-     * @param $post
-     *   $post->to = string - Номер телефона получателя (либо несколько номеров, через запятую — до 100 штук за один запрос) Если вы указываете несколько номеров и один из них указан неверно, то возвращается код ошибки.
-     *   $post->text = string - Текст сообщения в кодировке UTF-8. Если текст не введен, то возвращается стоимость 1 сообщения. Если текст введен, то возвращается стоимость, рассчитанная по длине сообщения.
-     *   $post->translit = int - Переводит все русские символы в латинские
-     * @return mixed|\stdClass
-     */
-    public function getCost($post) {
-        $url = $this->protocol . '://' . $this->domain . '/sms/cost';
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'getCost');
-    }
-
-    /**
-     * Получение состояния баланса
-     */
-    public function getBalance() {
-        $url = $this->protocol . '://' . $this->domain . '/my/balance';
-        $request = $this->Request($url);
-        return $this->CheckReplyError($request, 'getBalance');
-    }
-
-    /**
-     * Получение текущего состояния вашего дневного лимита.
-     */
-    public function getLimit() {
-        $url = $this->protocol . '://' . $this->domain . '/my/limit';
-        $request = $this->Request($url);
-        return $this->CheckReplyError($request, 'getLimit');
-    }
-
-    /**
-     * Получение списка отправителей
-     */
-    public function getSenders() {
-        $url = $this->protocol . '://' . $this->domain . '/my/senders';
-        $request = $this->Request($url);
-        return $this->CheckReplyError($request, 'getSenders');
-    }
-
-    /**
-     * Проверка номера телефона и пароля на действительность.
-     * @param $post
-     *   $post->login = string - номер телефона
-     *   $post->password = string - пароль
-     * @return mixed|\stdClass
-     */
-    public function authCheck($post) {
-        $url = $this->protocol . '://' . $this->domain . '/auth/check';
-        $post->api_id = 'none';
-        return $this->CheckReplyError($request, 'AuthCheck');
-    }
-
-    /**
-     * На номера, добавленные в стоплист, не доставляются сообщения (и за них не списываются деньги)
-     * @param string $phone Номер телефона.
-     * @param string $text Примечание (доступно только вам).
-     * @return mixed|\stdClass
-     */
-    public function addStopList($phone, $text = "") {
-        $url = $this->protocol . '://' . $this->domain . '/stoplist/add';
-
-        $post = new stdClass();
-        $post->stoplist_phone = $phone;
-        $post->stoplist_text = $text;
-
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'addStopList');
-    }
-
-    /**
-     * Удаляет один номер из стоплиста
-     * @param string $phone Номер телефона.
-     * @return mixed|\stdClass
-     */
-    public function delStopList($phone) {
-        $url = $this->protocol . '://' . $this->domain . '/stoplist/del';
-
-        $post = new stdClass();
-        $post->stoplist_phone = $phone;
-
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'delStopList');
-    }
-
-    /**
-     * Получить номера занесённые в стоплист
-     */
-    public function getStopList() {
-        $url = $this->protocol . '://' . $this->domain . '/stoplist/get';
-        $request = $this->Request($url);
-        return $this->CheckReplyError($request, 'getStopList');
-    }
-
-    /**
-     * Позволяет отправлять СМС сообщения, переданные через XML компании UCS, которая создала ПО R-Keeper CRM (RKeeper). Вам достаточно указать адрес ниже в качестве адреса шлюза и сообщения будут доставляться автоматически.
-     */
-    public function ucsSms() {
-        $url = $this->protocol . '://' . $this->domain . '/ucs/sms';
-        $request = $this->Request($url);
-        $output->status = "OK";
-        $output->status_code = '100';
-        return $output;
-    }
-
-    /**
-     * Добавить URL Callback системы на вашей стороне, на которую будут возвращаться статусы отправленных вами сообщений
-     * @param $post
-     *    $post->url = string - Адрес обработчика (должен начинаться на http://)
-     * @return mixed|\stdClass
-     */
-    public function addCallback($post) {
-        $url = $this->protocol . '://' . $this->domain . '/callback/add';
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'addCallback');
-    }
-
-    /**
-     * Удалить обработчик, внесенный вами ранее
-     * @param $post
-     *   $post->url = string - Адрес обработчика (должен начинаться на http://)
-     * @return mixed|\stdClass
-     */
-    public function delCallback($post) {
-        $url = $this->protocol . '://' . $this->domain . '/callback/del';
-        $request = $this->Request($url, $post);
-        return $this->CheckReplyError($request, 'delCallback');
-    }
-
-    /**
-     * Все имеющиеся у вас обработчики
-     */
-    public function getCallback() {
-        $url = $this->protocol . '://' . $this->domain . '/callback/get';
-        $request = $this->Request($url);
-        return $this->CheckReplyError($request, 'getCallback');
-    }
-
-    private function Request($url, $post = FALSE) {
-        if ($post) {
-            $r_post = $post;
-        }
-        $ch = curl_init($url . "?json=1");
+    // Отправка сообщения
+    public function send_msg($data)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->api_url . "sendings");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json;charset=UTF-8",
+            "Accept: application/json",
+            "Authorization: " . $this->token
+        ));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
-
-        if (!$post) {
-            $post = new stdClass();
-        }
-
-        if (!empty($post->api_id) && $post->api_id == 'none') {
-        } else {
-            $post->api_id = $this->ApiKey;
-        }
-
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query((array) $post));
-
-        $body = curl_exec($ch);
-        if ($body === FALSE) {
-            $error = curl_error($ch);
-        } else {
-            $error = FALSE;
-        }
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $response = curl_exec($ch);
         curl_close($ch);
-        if ($error && $this->count_repeat > 0) {
-            $this->count_repeat--;
-            return $this->Request($url, $r_post);
-        }
-        return $body;
-    }
-
-    private function CheckReplyError($res, $action) {
-
-        if (!$res) {
-            $temp = new stdClass();
-            $temp->status = "ERROR";
-            $temp->status_code = "000";
-            $temp->status_text = "Невозможно установить связь с сервером SMS.RU. Проверьте - правильно ли указаны DNS сервера в настройках вашего сервера (nslookup sms.ru), и есть ли связь с интернетом (ping sms.ru).";
-            return $temp;
-        }
-
-        $result = json_decode($res);
-
-        if (!$result || !$result->status) {
-            $temp = new stdClass();
-            $temp->status = "ERROR";
-            $temp->status_code = "000";
-            $temp->status_text = "Невозможно установить связь с сервером SMS.RU. Проверьте - правильно ли указаны DNS сервера в настройках вашего сервера (nslookup sms.ru), и есть ли связь с интернетом (ping sms.ru)";
-            return $temp;
-        }
-
+        $result = json_decode($response);
         return $result;
     }
 
-    private function sms_mime_header_encode($str, $post_charset, $send_charset) {
-        if ($post_charset != $send_charset) {
-            $str = iconv($post_charset, $send_charset, $str);
+    public function get_user_data_by_phone(string $phone): array
+    {
+        $url = $this->api_url . "users" . "?" . '$search=' . $phone;
+        $response = $this->get_data_by_url($url);
+        return $response;
+    }
+
+    public function get_data_by_url(string $url): array
+    {
+        $ch = curl_init($url);
+        $headers = array("Content-Type:application/json", "Authorization:" . $this->token);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+        return $response;
+    }
+
+    // Регистрация
+    public function sign_up($login, $firstName, $lastname, $email, $phone, $password, $x_fordered_for, $amo_confirmed)
+    {
+        $data = ['username' => $login, 'password' => $password, 'data' => ['phone' => $phone, 'email' => $email, 'firstName' => $firstName, 'lastName' => $lastname], '$amo_confirmed' => $amo_confirmed];
+        $test = $data;
+        file_put_contents("test_register.txt", "<pre>" . json_encode($data) . "</pre>");
+        $curl = curl_init($this->api_url . 'registration');
+        if ($x_fordered_for) {
+            $headers = array("x-forwarded-for:" . $x_fordered_for, "Content-Type: application/json;charset=UTF-8", "Accept: application/json",);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         }
-        return "=?" . $send_charset . "?B?" . base64_encode($str) . "?=";
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $curl_jason = json_decode($response, true);
+        return $curl_jason;
+    }
+
+    public function get_profile_data(): array
+    {
+        $params = http_build_query(['$scope[0]' => "full"]);
+        $url = $this->api_url . "users/" . $data['id'] . "?" . $params;
+        $user_data = $this->get_data_by_url($url);
+        return $user_data;
+    }
+
+    public function get_user_data_by_id($id, $params)
+    {
+        $params = http_build_query($params);
+        $url = $this->api_url . "users/" . $id;
+        $ch = curl_init($url . "?" . $params);
+        $headers = array("Content-Type:application/json", "Authorization:" . $this->token);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+        return $ch;
+    }
+
+    public function check_answer($url_path): array
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->api_url . $url_path);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json;charset=UTF-8", "Accept: application/json", "Authorization: " . $this->token));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $response = json_decode($response, true);
+        return $response;
+    }
+
+    public function check_status($id): array
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->api_url . 'sendings/' . $id);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json;charset=UTF-8", "Accept: application/json", "Authorization: " . $this->token));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($response, true);
+        return $result;
+    }
+
+    // Загрузка файла
+    public function send_file($file_path): array
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->api_url . "storage");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . mime_content_type($file_path), "Content-length: " . filesize($file_path), "Authorization: " . $this->token));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, file_get_contents($file_path));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($response, true);
+        return $result;
+    }
+
+    function clear_phone(string $phone): string
+    {
+        $phone_number = preg_replace('/[+() -]+/', '', $phone);
+        return $phone_number;
     }
 }

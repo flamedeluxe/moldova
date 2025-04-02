@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use SmsService;
+use App\Services\Site\SmsService;
 use stdClass;
 
 class LoginController extends Controller
@@ -79,31 +79,37 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
             'agree' => ['required', 'accepted'],
         ]);
+
+        $credentials['phone'] = str_replace([' ', ')', '(', '-'], '', $credentials['phone']);
 
         if (User::query()->where('phone', $credentials['phone'])->first()){
             return response()->json([
                 'success' => false,
-                'errors' => ['phone' => 'Пользователь с таким телефоном уже зарегистрирован']
-            ]);
+                'errors' => [
+                    'phone' => ['Пользователь с таким телефоном уже зарегистрирован']
+                ]
+            ], 422);
         }
 
         $code = Str::random(20);
+
+        self::sendSms($credentials['phone'], 'Ваш проверочный код: ' . $code);
 
         $user = User::query()->create([
             'name' => $credentials['name'],
             'phone' => $credentials['phone'],
             'password' => Hash::make($credentials['password']),
-            'verification_code' => $code
+            'verification_code' => $code,
+            'active' => false,
+            'role' => 'user'
         ]);
-
-        self::sendSms($credentials['phone'], 'Ваш проверочный код: ' . $code);
 
         return response()->json([
             'success' => true,
-            'message' => 'Вы были успешно зарегистрированы, на Вашу почту было отправлено письмо с подтверждением регистрации',
+            'message' => 'Вы были успешно зарегистрированы',
         ]);
     }
 
@@ -117,8 +123,10 @@ class LoginController extends Controller
         if(!$user = User::query()->where('email', $request->get('email'))->first()) {
             return response()->json([
                 'success' => false,
-                'errors' => ['email' => 'Пользователь с таким e-mail не зарегистрирован']
-            ]);
+                'errors' => [
+                    'phone' => ['Пользователь с таким телефоном не зарегистрирован']
+                ]
+            ], 422);
         }
 
         $code = \Str::random(20);
@@ -141,24 +149,19 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    private static function sendSms($to, $text): bool
+    private static function sendSms($to, $text)
     {
-        $smsru = new SmsService('54C1C05D-77F9-5A84-0A60-F35526FD4206');
-        $data = new stdClass();
-        $data->to = $to;
-        $data->text = $text;
-        $sms = $smsru->send_one($data);
+        $sigma = new SmsService(env('SIGMA_API_TOKEN'));
 
-        if ($sms->status == "OK") {
-            echo "Сообщение отправлено успешно. ";
-            echo "ID сообщения: $sms->sms_id. ";
-            echo "Ваш новый баланс: $sms->balance";
-        } else {
-            echo "Сообщение не отправлено. ";
-            echo "Код ошибки: $sms->status_code. ";
-            echo "Текст ошибки: $sms->status_text.";
-        }
+        $params = array(
+            "type"       => "sms",
+            "recipient"  => $to,
+            "payload"    => array(
+                "sender" => "B-Media",
+                "text"   => $text
+            )
+        );
 
-        return $sms->status === "OK";
+        return $sigma->send_msg($params);
     }
 }
