@@ -238,10 +238,8 @@ img {
 
 .alert {
     background: #0080003b;
-    border: 1px solid green;
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1rem;
     color: green;
 }
 .alert-danger {

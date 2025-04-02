@@ -2,6 +2,9 @@
     <div class="modal__profile-title">
         Профиль
     </div>
+    <div class="alert alert--success" x-show="alertSuccess" x-cloak>
+        Данные успешно сохранены
+    </div>
     <div class="modal__group">
         <div class="form-group">
             <label for="">Фамилия</label>
@@ -41,13 +44,10 @@
         <template x-for="(social, index) in form.socials" :key="index">
             <div class="input-wrap">
                 <input type="text" x-model="form.socials[index]" placeholder="Ссылка на профиль">
-                <span class="remove" @click="removeSocial(index)">Удалить</span>
+                <span class="remove" @click="removeSocial(index)" x-show="form.socials.length - 1 !== index">Удалить</span>
+                <span class="add" @click="addSocial()" x-show="form.socials.length - 1 === index">Добавить</span>
             </div>
         </template>
-        <div class="input-wrap">
-            <input type="text" x-model="form.socials[index]" placeholder="Ссылка на профиль">
-            <span class="add" @click="addSocial()">Добавить</span>
-        </div>
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn--default">
@@ -66,21 +66,25 @@
                 birthday: '',
                 phone: '',
                 email: '',
-                socials: []
+                socials: ['']
             },
+            alertSuccess: false,
             token: '',
             errors: {},
 
             init() {
                 this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                this.form = @json($profile);
+                if (!Array.isArray(this.form.socials) || this.form.socials.length === 0) {
+                    this.form.socials = [''];
+                }
             },
             addSocial() {
-                if(this.form.socials === undefined || this.form.socials === '') this.form.socials = [];
-                this.form.socials.push('');
+                this.form.socials.unshift('');
             },
             removeSocial(index) {
-                this.form.socials.splice(index, 1);
+                if (this.form.socials.length > 1) {
+                    this.form.socials.splice(index, 1);
+                }
             },
             async save() {
                 try {
@@ -105,7 +109,8 @@
                         return;
                     }
 
-                    alert("Профиль сохранён!");
+                    this.alertSuccess = true;
+                    setTimeout(() => this.alertSuccess = false, 4000);
                     this.errors = {};
                 } catch (error) {
                     console.log("Ошибка отправки данных:", error);
