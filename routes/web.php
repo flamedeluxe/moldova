@@ -38,11 +38,10 @@ Route::get('/{slug}', [TextController::class, 'show'])->name('text.show');
 
 Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function () {
     Route::get('/account', [\App\Http\Controllers\Account\IndexController::class, 'index'])->name('index');
+    Route::post('/account', [\App\Http\Controllers\Account\IndexController::class, 'save'])->name('save');
 });
 
-
 Route::fallback([ErrorController::class, 'show404']);
-
 
 Route::post('/api/register', [LoginController::class, 'register']);
 Route::post('/api/login', [LoginController::class, 'login']);

@@ -101,6 +101,7 @@ form.disabled {
 }
 .form-group label {
     font-size: .8rem;
+    margin-bottom: .5rem;
 }
 .form-checkbox {
     cursor: pointer;
@@ -161,6 +162,7 @@ input[type="text"],
 input[type="tel"],
 input[type="password"],
 input[type="email"],
+input[type="date"],
 select,
 textarea {
     height: 3.2rem;
@@ -2335,14 +2337,9 @@ h5 {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 999999999;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    z-index: -100;
     display: flex;
-    pointer-events: none;
     opacity: 0;
-    -webkit-transition: all .3s ease;
-    -o-transition: all .3s ease;
     transition: all .3s ease;
     overflow-y: auto;
 }
@@ -2352,8 +2349,6 @@ h5 {
     max-width: 100%;
     padding: 2rem;
     margin: auto;
-    -webkit-transition: all .3s ease;
-    -o-transition: all .3s ease;
     transition: all .3s ease;
     position: relative;
     border-radius: .75rem;
@@ -2362,11 +2357,9 @@ h5 {
 
 .modal.active {
     opacity: 1;
+    z-index: 2000;
 }
 
-.modal.active .wrap {
-    pointer-events: all;
-}
 
 .modal__overlay {
     background: rgba(0,0,0,.7);
@@ -2376,7 +2369,7 @@ h5 {
     width: 100%;
     height: 100%;
     display: none;
-    z-index: 99999999;
+    z-index: 1000;
 }
 
 .modal__overlay.active {
@@ -2466,8 +2459,54 @@ h5 {
     padding: 0;
     margin: 0;
 }
-
-
+.modal__profile .wrap {
+    background: var(--background);
+}
+.modal__profile-title {
+    color: var(--accent2);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+.modal__profile .form-group label {
+    font-size: 1rem;
+    font-weight: 600;
+}
+.modal__profile .modal__group {
+    margin-bottom: 2rem;
+}
+.modal__profile .modal__group:last-child {
+    margin-bottom: 0;
+}
+.modal__profile .modal__group-title {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+.modal__profile .modal__group .input-wrap {
+    position: relative;
+    margin-bottom: .5rem;
+}
+.modal__profile .modal__group .input-wrap .add {
+    color: var(--accent);
+}
+.modal__profile .modal__group .input-wrap .remove {
+    color: var(--accent2);
+}
+.modal__profile .modal__group .input-wrap .add,
+.modal__profile .modal__group .input-wrap .remove {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
 
 
 
