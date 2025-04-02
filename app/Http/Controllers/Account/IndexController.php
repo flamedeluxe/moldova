@@ -28,7 +28,7 @@ class IndexController extends Controller
             'socials' => 'array|nullable|max:5',
         ]);
 
-        foreach($validated['socials'] as $idx => $item) {
+        if(is_array($validated['socials'])) foreach($validated['socials'] as $idx => $item) {
             if($item == '') unset($validated['socials'][$idx]);
         }
 

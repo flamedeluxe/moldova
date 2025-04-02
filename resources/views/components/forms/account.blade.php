@@ -74,6 +74,7 @@
 
             init() {
                 this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                this.form = @json($profile);
                 if (!Array.isArray(this.form.socials) || this.form.socials.length === 0) {
                     this.form.socials = [''];
                 }

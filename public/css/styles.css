@@ -2505,7 +2505,9 @@ h5 {
     align-items: center;
     cursor: pointer;
 }
-
+.modal__profile button {
+    width: 100%;
+}
 
 
 
