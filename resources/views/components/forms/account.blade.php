@@ -1,4 +1,4 @@
-<form @submit.prevent="save()" x-data="profile">
+<form @submit.prevent="save()">
     <div class="modal__profile-title">
         Профиль
     </div>
@@ -65,74 +65,3 @@
         </button>
     </div>
 </form>
-
-<script>
-    function profile() {
-        return {
-            cities: @json($cities),
-            form: {
-                surname: '',
-                name: '',
-                patronymic: '',
-                birthday: '',
-                phone: '',
-                email: '',
-                region: '',
-                socials: ['']
-            },
-            alertSuccess: false,
-            token: '',
-            errors: {},
-
-            init() {
-                this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                this.form = @json($profile);
-                if (!Array.isArray(this.form.socials) || this.form.socials.length === 0) {
-                    this.form.socials = [''];
-                }
-            },
-            addSocial() {
-                this.form.socials.unshift('');
-            },
-            removeSocial(index) {
-                if (this.form.socials.length > 1) {
-                    this.form.socials.splice(index, 1);
-                }
-            },
-            async save() {
-                try {
-                    const response = await fetch('/account', {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            "X-CSRF-TOKEN": this.token
-                        },
-                        body: JSON.stringify(this.form)
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        if (response.status === 422) {
-                            this.errors = data.errors;
-                        } else {
-                            console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
-                        }
-                        return;
-                    }
-
-                    this.alertSuccess = true;
-                    this.errors = {};
-                    setTimeout(() => {
-                        this.alertSuccess = false
-                        location.reload();
-                    }, 4000);
-
-                } catch (error) {
-                    console.log("Ошибка отправки данных:", error);
-                }
-            },
-        }
-    }
-</script>

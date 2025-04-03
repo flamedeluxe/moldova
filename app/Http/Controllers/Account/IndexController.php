@@ -9,10 +9,28 @@ use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
+
+    public array $rules = [
+        'surname' => 'required|string|max:100',
+        'name' => 'required|string|max:100',
+        'patronymic' => 'required|string|max:100',
+        'birthday' => 'required|date|before:today',
+        'phone' => 'required|string|max:100',
+        'email' => 'required|email|max:100',
+        'region' => 'required|exists:cities,title',
+        'socials' => 'array|nullable|max:5',
+    ];
+
     public function index()
     {
         $profile = Auth::user();
         $cities = City::active()->get();
+
+        $count = 0;
+        foreach($this->rules as $field => $rule) {
+            if($profile->$field !== '') $count++;
+        }
+        $profile->count = $count;
 
         if(request()->ajax()) {
             return response()->json($profile);
@@ -25,18 +43,7 @@ class IndexController extends Controller
     {
         $profile = Auth::user();
 
-        $rules = [
-            'surname' => 'required|string|max:100',
-            'name' => 'required|string|max:100',
-            'patronymic' => 'required|string|max:100',
-            'birthday' => 'required|date|before:today',
-            'phone' => 'required|string|max:100',
-            'email' => 'required|email|max:100',
-            'region' => 'required|exists:cities,title',
-            'socials' => 'array|nullable|max:5',
-        ];
-
-        $validated = $request->validate($rules);
+        $validated = $request->validate($this->rules);
 
         if(is_array($validated['socials'])) foreach($validated['socials'] as $idx => $item) {
             if($item == '') unset($validated['socials'][$idx]);
@@ -45,7 +52,7 @@ class IndexController extends Controller
         $profile->update($validated);
 
         $count = 0;
-        foreach($rules as $field => $rule) {
+        foreach($this->rules as $field => $rule) {
             if($profile->$field !== '') $count++;
         }
 

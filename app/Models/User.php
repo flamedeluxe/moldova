@@ -90,4 +90,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return preg_replace("/(\d{4})(\d{4})\d{5}/", "$1 $2 *****", $this->card);
     }
+
+    public function getFullnameAttribute(): string
+    {
+        return $this->surname . ' ' . $this->name . ' ' . $this->patronymic;
+    }
 }
