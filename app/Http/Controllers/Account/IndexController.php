@@ -61,6 +61,8 @@ class IndexController extends Controller
             $profile->save();
         }
 
+        $profile->count = $count;
+
         return response()->json([
             'success' => true,
             'profile' => $profile

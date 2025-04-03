@@ -78,7 +78,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-4" x-show="profile.bill >= 8" x-cloak>
+                    <div class="col-12 col-sm-4" x-show="profile.count >= 8" x-cloak>
                         <div class="p-account__edit">
                             <a href="" data-modal="#modal_profile">Редактировать</a>
                         </div>
@@ -365,6 +365,7 @@
                 },
                 async save() {
                     try {
+                        this.loading = true;
                         const response = await fetch('/account', {
                             method: "POST",
                             headers: {
@@ -388,6 +389,7 @@
 
                         this.alertSuccess = true;
                         this.profile = data.profile;
+                        this.loading = false;
                         this.errors = {};
                         closeModals();
                         setTimeout(() => {

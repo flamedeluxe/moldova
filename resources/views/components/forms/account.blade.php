@@ -26,7 +26,7 @@
             <select x-model="form.region" placeholder="" :class="{ 'has-error': errors.region }">
                 <option value="">Выберите</option>
                 <template x-for="city in cities" :key="city.id">
-                    <option :value="city.title" x-text="city.title"></option>
+                    <option :selected="city.title == form.region" :value="city.title" x-text="city.title"></option>
                 </template>
             </select>
             <span class="error" x-text="errors.city ? errors.city[0] : ''"></span>
@@ -61,7 +61,8 @@
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn--default">
-            Сохранить профиль
+            <span x-show="!loading">Сохранить профиль</span>
+            <span x-show="loading">Подождите...</span>
         </button>
     </div>
 </form>
