@@ -22,6 +22,16 @@
             <span class="error" x-text="errors.patronymic ? errors.patronymic[0] : ''"></span>
         </div>
         <div class="form-group">
+            <label for="">Регион</label>
+            <select x-model="form.region" placeholder="" :class="{ 'has-error': errors.region }">
+                <option value="">Выберите</option>
+                <template x-for="city in cities" :key="city.id">
+                    <option :value="city.title" x-text="city.title"></option>
+                </template>
+            </select>
+            <span class="error" x-text="errors.city ? errors.city[0] : ''"></span>
+        </div>
+        <div class="form-group">
             <label for="">Дата рождения</label>
             <input type="date" x-model="form.birthday" placeholder="ДД / ММ / ГГГГ" :class="{ 'has-error': errors.birthday }">
             <span class="error" x-text="errors.birthday ? errors.birthday[0] : ''"></span>
@@ -59,6 +69,7 @@
 <script>
     function profile() {
         return {
+            cities: @json($cities),
             form: {
                 surname: '',
                 name: '',
@@ -66,6 +77,7 @@
                 birthday: '',
                 phone: '',
                 email: '',
+                region: '',
                 socials: ['']
             },
             alertSuccess: false,

@@ -32,6 +32,7 @@ class IndexController extends Controller
             'birthday' => 'required|date|before:today',
             'phone' => 'required|string|max:100',
             'email' => 'required|email|max:100',
+            'region' => 'required|exists:cities,title',
             'socials' => 'array|nullable|max:5',
         ];
 

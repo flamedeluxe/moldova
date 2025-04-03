@@ -18,6 +18,7 @@ class User extends Authenticatable implements FilamentUser
 
     protected $casts = [
         'city' => 'array',
+        'socials' => 'array',
     ];
 
     protected $appends = [
@@ -34,14 +35,8 @@ class User extends Authenticatable implements FilamentUser
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role',
-        'blocked',
-        'city',
+    protected $guarded = [
+       'id'
     ];
 
     /**
@@ -84,6 +79,11 @@ class User extends Authenticatable implements FilamentUser
     protected function roleLabel(): Attribute
     {
         return Attribute::get(fn () => self::getRoleOptions()[$this->role] ?? 'Неизвестно');
+    }
+
+    public function citizen(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Citizen::class, 'user_id');
     }
 
     public function getCardNumberAttribute(): string

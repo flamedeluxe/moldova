@@ -14,7 +14,7 @@
                                 Регион
                             </div>
                             <div class="item__text">
-                                {{ $profile->cities ?? '-' }}
+                                {{ $profile->region ?? '-' }}
                             </div>
                         </div>
                         <div class="item">

@@ -70,6 +70,12 @@ class UserResource extends Resource
                     ->dehydrated(fn ($state) => filled($state))
                     ->minLength(6)
                     ->password(),
+                Select::make('user_id')
+                    ->label('Пользователь')
+                    ->relationship('citizen', 'id') // связь с citizens
+                    ->searchable()
+                    ->preload()
+                    ->nullable(),
                 FileUpload::make('avatar')
                     ->label('Аватар'),
             ]);

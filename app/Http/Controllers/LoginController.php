@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewPasswordMail;
 use App\Mail\RestoreMail;
+use App\Models\Citizen;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -111,6 +112,45 @@ class LoginController extends Controller
             'success' => true,
             'message' => 'Вы были успешно зарегистрированы',
         ]);
+    }
+
+    function checkCode(Request $request): JsonResponse
+    {
+        $code = $request->code;
+        $user = User::query()->where('verification_code', $code)->first();
+
+        if($user) {
+            $user->active = true;
+            $user->verification_code = null;
+            $user->save();
+
+            $phone = preg_replace('/\D/', '', $user->phone);
+
+            if($citizen = Citizen::query()->where('phone', $phone)->first()) {
+                $user->update([
+                    'card' => $citizen->card,
+                    'surname' => $citizen->surname,
+                    'name' => $citizen->name,
+                    'patronymic' => $citizen->patronymic,
+                    'email' => $citizen->email,
+                    'number' => $citizen->id_number,
+                    'ext_id' => $citizen->ext_id
+                ]);
+                $citizen->delete();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Вы были успешно авторизированны'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'errors' => [
+                'code' => ['Не верный проверочный код']
+            ]
+        ], 422);
     }
 
     public function restore(Request $request): JsonResponse
