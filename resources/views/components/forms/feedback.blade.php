@@ -1,4 +1,4 @@
-<form @submit.prevent="send()" class="faq__form">
+<form @submit.prevent="send()" class="faq__form" id="faq">
     <div class="faq__form-title">
         <strong>Помощь</strong> юриста
     </div>

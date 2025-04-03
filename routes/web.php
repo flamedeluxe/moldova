@@ -45,4 +45,4 @@ Route::fallback([ErrorController::class, 'show404']);
 
 Route::post('/api/register', [LoginController::class, 'register']);
 Route::post('/api/login', [LoginController::class, 'login']);
-Route::post('/api/feedback', [LoginController::class, 'feedback']);
+Route::post('/api/feedback', [FormController::class, 'feedback']);

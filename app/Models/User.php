@@ -20,6 +20,10 @@ class User extends Authenticatable implements FilamentUser
         'city' => 'array',
     ];
 
+    protected $appends = [
+        'card_number'
+    ];
+
     public function canAccessPanel(Panel $panel): bool
     {
         return in_array($this->role, ['admin', 'manager']) && $this->active;
@@ -80,5 +84,10 @@ class User extends Authenticatable implements FilamentUser
     protected function roleLabel(): Attribute
     {
         return Attribute::get(fn () => self::getRoleOptions()[$this->role] ?? 'Неизвестно');
+    }
+
+    public function getCardNumberAttribute(): string
+    {
+        return preg_replace("/(\d{4})(\d{4})\d{5}/", "$1 $2 *****", $this->card);
     }
 }

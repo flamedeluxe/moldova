@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <label for="">Дата рождения</label>
-            <input type="date" x-model="form.birthday" placeholder="" :class="{ 'has-error': errors.birthday }">
+            <input type="date" x-model="form.birthday" placeholder="ДД / ММ / ГГГГ" :class="{ 'has-error': errors.birthday }">
             <span class="error" x-text="errors.birthday ? errors.birthday[0] : ''"></span>
         </div>
         <div class="form-group">
@@ -111,8 +111,12 @@
                     }
 
                     this.alertSuccess = true;
-                    setTimeout(() => this.alertSuccess = false, 4000);
                     this.errors = {};
+                    setTimeout(() => {
+                        this.alertSuccess = false
+                        location.reload();
+                    }, 4000);
+
                 } catch (error) {
                     console.log("Ошибка отправки данных:", error);
                 }

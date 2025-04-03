@@ -2142,6 +2142,11 @@ h5 {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
+.p-account__edit a {
+    color: var(--accent);
+    font-weight: 600;
+    border-bottom: 0;
+}
 .p-account__title {
     font-size: 2.2rem;
     color: #fff;
@@ -2229,9 +2234,6 @@ h5 {
     width: 1.5rem !important;
     height: 1.5rem !important;
 }
-.p-acccount__top .events__select input {
-    border: 1px solid var(--accent);
-}
 .p-card {
     padding: 5rem 0 2rem;
 }
@@ -2240,16 +2242,47 @@ h5 {
     background-size: cover;
     padding: 2rem;
     position: relative;
+    height: 100%;
 }
-.p-card__info img {
+.p-card__info-img {
     position: absolute;
     top: -3rem;
     right: 0;
     max-width: 22rem;
 }
+.p-card__info-bill {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
 .p-card__info-caption {
     position: relative;
     width: 50%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.p-card__info-subtext {
+    margin-bottom: 1rem;
+    font-size: .8rem;
+}
+.p-card__info-button a {
+    width: auto;
+    display: inline-flex;
+    font-weight: 700;
+}
+.p-card__info-code {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.p-card__info-refresh {
+    color: var(--accent);
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    gap: 0 .5rem;
+    font-size: .8rem;
 }
 .p-card__info-title {
     font-size: 1.4rem;
@@ -2391,15 +2424,15 @@ h5 {
     font-size: 4.25rem;
     cursor: pointer;
     line-height: .4;
-    height: .625rem;
     z-index: 99999;
     opacity: .3;
     height: 2rem;
 }
 
+.modal__close img,
 .modal__close svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 2rem;
+    height: 2rem;
 }
 
 .modal__close:hover {

@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-12 col-sm-8">
                     <div class="p-account__title">
-                        Валентин Войцеховский
+                        {{ $profile->name }}
                     </div>
                     <div class="p-account__info">
                         <div class="item">
@@ -14,7 +14,7 @@
                                 Регион
                             </div>
                             <div class="item__text">
-                                {{ Auth::user()->cities ?? '' }}
+                                {{ $profile->cities ?? '-' }}
                             </div>
                         </div>
                         <div class="item">
@@ -22,7 +22,7 @@
                                 E-mail
                             </div>
                             <div class="item__text">
-                                {{ Auth::user()->email }}
+                                {{ $profile->email ?? '-' }}
                             </div>
                         </div>
                         <div class="item">
@@ -30,8 +30,8 @@
                                 Номер телефона
                             </div>
                             <div class="item__text">
-                                @if(Auth::user()->phone)
-                                    {{ Auth::user()->phone }}
+                                @if($profile->phone)
+                                    {{ $profile->phone }}
                                 @else
                                     <a href="" data-modal="#modal_profile">указать</a>
                                 @endif
@@ -39,22 +39,22 @@
                         </div>
                     </div>
                     <div class="p-account__social">
-                        @if(Auth::user()->vk)
-                            <a href="{{ Auth::user()->vk }}">
+                        @if($profile->vk)
+                            <a href="{{ $profile->vk }}">
                                 <img src="img/vk.svg" alt="">
                                 <span>Вконтакте</span>
                             </a>
                         @endif
 
-                        @if(Auth::user()->te)
-                            <a href="{{ Auth::user()->te }}">
+                        @if($profile->te)
+                            <a href="{{ $profile->te }}">
                                 <img src="img/te.svg" alt="">
                                 <span>Телеграм</span>
                             </a>
                         @endif
 
-                        @if(Auth::user()->ok)
-                            <a href="{{ Auth::user()->ok }}">
+                        @if($profile->ok)
+                            <a href="{{ $profile->ok }}">
                                 <img src="img/ok.svg" alt="">
                                 <span>Одноклассники</span>
                             </a>
@@ -62,30 +62,60 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-4">
-                    <div class="p-account__bar">
-                        <div class="p-account__bar-line"></div>
-                    </div>
-                    <div class="p-account__text">
-                        Чтобы начать полноценно пользоваться сервисом, <strong>заполните профиль и получите
-                            350 баллов в подарок</strong>
-                    </div>
-                    <div class="p-account__btn">
-                        <button class="btn btn--default" data-modal="#modal_profile">
-                            Заполнить профиль
-                        </button>
-                    </div>
+                    @if($profile->bill < 350)
+                        <div class="p-account__bar">
+                            <div class="p-account__bar-line"></div>
+                        </div>
+                        <div class="p-account__text">
+                            Чтобы начать полноценно пользоваться сервисом, <strong>заполните профиль и получите
+                                350 баллов в подарок</strong>
+                        </div>
+                        <div class="p-account__btn">
+                            <button class="btn btn--default" data-modal="#modal_profile">
+                                Заполнить профиль
+                            </button>
+                        </div>
+                    @else
+                        <div class="p-account__edit">
+                            <a href="" data-modal="#modal_profile">Редактировать</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="p-card">
+    <div class="p-card" x-data="card()">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-8">
                     <div class="p-card__info">
-                        <img src="img/card2.png" alt="">
+                        <img class="p-card__info-img" src="img/card2.png" alt="">
                         <div class="p-card__info-caption">
+                            @if($profile->card)
+                            <div class="wrap">
+                                <div class="p-card__info-code">
+                                    Карта № <span x-text="profile.card_number"></span>
+                                </div>
+                                <div class="p-card__info-refresh" @click="refresh">
+                                    <img src="img/refresh.svg" :class="loading ? 'loading' : ''" alt="">
+                                    <span>Обновить данные</span>
+                                </div>
+                            </div>
+                            <div class="wrap">
+                                <div class="p-card__info-bill">
+                                    <span x-text="profile.bill"></span> баллов
+                                </div>
+                                <div class="p-card__info-subtext">
+                                    за активность в мероприятиях
+                                </div>
+                                <div class="p-card__info-button">
+                                    <a href="" class="btn btn--default">
+                                        Выбрать поощрение
+                                    </a>
+                                </div>
+                            </div>
+                            @else
                             <div class="p-card__info-title">
                                 Получите карту гражданина Молдовы в РФ
                             </div>
@@ -93,10 +123,11 @@
                                 Участвуйте в мероприятиях культурно-образовательного центра Молдовы, зарабатывайте баллы и получайте поощрения
                             </div>
                             <div class="p-card__info-btn">
-                                <a href="" class="btn btn--default">
+                                <a href="//mdcard.ru/" class="btn btn--default">
                                     Оформить карту
                                 </a>
                             </div>
+                           @endif
                         </div>
                     </div>
                 </div>
@@ -128,14 +159,46 @@
                             </a>
                         </div>
                         <div class="p-card__links">
-                            <a href="">Вопросы и ответы</a>
-                            <a href="">Юридическая помощь</a>
+                            <a href="{{ route('faq') }}">Вопросы и ответы</a>
+                            <a href="#faq">Юридическая помощь</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function card() {
+            return {
+                profile: @json($profile),
+                loading: false,
+                async refresh() {
+                    try {
+                        this.loading = true
+                        const response = await fetch('account', {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                'X-Requested-With': 'XMLHttpRequest',
+                                "X-CSRF-TOKEN": this.token
+                            }
+                        })
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            this.profile.bill = data.bill;
+                        }
+
+                        this.loading = false;
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                }
+            }
+        }
+    </script>
 
     <div class="events">
         <div class="container">

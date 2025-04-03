@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,13 @@ class IndexController extends Controller
     public function index()
     {
         $profile = Auth::user();
-        return view('pages.account.index', compact('profile'));
+        $cities = City::active()->get();
+
+        if(request()->ajax()) {
+            return response()->json($profile);
+        }
+
+        return view('pages.account.index', compact('profile', 'cities'));
     }
 
     public function save(Request $request)
@@ -41,7 +48,7 @@ class IndexController extends Controller
             if($profile->$field !== '') $count++;
         }
 
-        if($count >= 6) {
+        if($count >= 6 && $profile->bill < 350) {
             $profile->bill += 350;
             $profile->save();
         }

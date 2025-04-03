@@ -14,6 +14,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -41,6 +42,8 @@ class PageResource extends Resource
                     ->columnSpanFull()
                     ->required()
                     ->maxLength(255),
+                Toggle::make('active')
+                    ->label('Активность'),
                 Builder::make('blocks')
                     ->label('Блоки')
                     ->collapsible()
