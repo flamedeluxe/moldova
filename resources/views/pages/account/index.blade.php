@@ -6,8 +6,14 @@
             <div class="row">
                 <div class="col-12 col-sm-8">
                     <div class="p-account__title">
-                        {{ $profile->name }}
+                        {{ $profile->surname }} {{ $profile->name }} {{ $profile->patronymic }}
                     </div>
+                    @if($profile->card)
+                        <div class="p-account__verified">
+                            <img src="img/verified.svg" alt="">
+                            <span>Гражданин Молдовы</span>
+                        </div>
+                    @endif
                     <div class="p-account__info">
                         <div class="item">
                             <div class="item__title">
@@ -39,26 +45,24 @@
                         </div>
                     </div>
                     <div class="p-account__social">
-                        @if($profile->vk)
-                            <a href="{{ $profile->vk }}">
-                                <img src="img/vk.svg" alt="">
-                                <span>Вконтакте</span>
-                            </a>
-                        @endif
-
-                        @if($profile->te)
-                            <a href="{{ $profile->te }}">
-                                <img src="img/te.svg" alt="">
-                                <span>Телеграм</span>
-                            </a>
-                        @endif
-
-                        @if($profile->ok)
-                            <a href="{{ $profile->ok }}">
-                                <img src="img/ok.svg" alt="">
-                                <span>Одноклассники</span>
-                            </a>
-                        @endif
+                        @foreach($profile->socials as $item)
+                            @if(str_contains($item, 'vk.com') !== false)
+                                <a href="{{ $item }}">
+                                    <img src="img/vk.svg" alt="">
+                                    <span>Вконтакте</span>
+                                </a>
+                            @elseif(str_contains($item, 't.me') !== false)
+                                <a href="{{ $item }}">
+                                    <img src="img/te.svg" alt="">
+                                    <span>Telegram</span>
+                                </a>
+                            @elseif(str_contains($item, 'ok.ru') !== false)
+                                <a href="{{ $item }}">
+                                    <img src="img/ok.svg" alt="">
+                                    <span>Одноклассники</span>
+                                </a>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-12 col-sm-4">

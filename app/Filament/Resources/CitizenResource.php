@@ -56,12 +56,6 @@ class CitizenResource extends Resource
                 TextInput::make('id_number')
                     ->label('Идентификатор')
                     ->columnSpan('full'),
-                Select::make('user_id')
-                    ->label('Пользователь')
-                    ->relationship('user', 'name') // связь с users
-                    ->searchable()
-                    ->preload()
-                    ->nullable(),
             ]);
     }
 

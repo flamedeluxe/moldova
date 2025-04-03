@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 class AccountController extends BaseController
 {
     public function index()
@@ -11,11 +13,13 @@ class AccountController extends BaseController
 
     public function register()
     {
+        if(Auth::check()) return redirect()->route('account.index');
         return view('pages.register');
     }
 
     public function login()
     {
+        if(Auth::check()) return redirect()->route('account.index');
         return view('pages.login');
     }
 
