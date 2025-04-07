@@ -184,6 +184,7 @@
                         }
 
                         this.errors = {};
+                        location.href = '/account';
                     }
                     catch (e) {
                         console.log(e)
