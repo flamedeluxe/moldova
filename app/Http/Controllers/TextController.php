@@ -9,7 +9,16 @@ class TextController extends Controller
 {
     public function show($alias)
     {
-        $page = Page::where('alias', $alias)->firstOrFail();
-        return view('text', compact('page'));
+
+        switch ($alias) {
+            case 'policy':
+                $id = 2;
+                break;
+            default:
+                abort(404);
+        }
+
+        $page = Page::findOrFail($id);
+        return view('pages.text', compact('page'));
     }
 }

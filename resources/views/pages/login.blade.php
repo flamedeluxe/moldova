@@ -61,17 +61,26 @@
                                        :class="{ 'has-error': errors.phone }">
                                 <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
                             </div>
-                            <div class="form-group">
-                                <input type="password"
-                                       x-model="form.password"
-                                       placeholder="Введите пароль"
-                                       :class="{ 'has-error': errors.password }">
-                                <span class="error" x-text="errors.password ? errors.password[0] : ''"></span>
+                            <div x-show="step == 1">
+                                <div class="form-group">
+                                    <button type="button" @click.prevent="getCode()" class="btn btn--default" style="width: 100%;">
+                                        Получить код
+                                    </button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn--default" style="width: 100%;">
-                                    Войти
-                                </button>
+                            <div x-show="step == 2">
+                                <div class="form-group">
+                                    <input type="text"
+                                           x-model="form.code"
+                                           placeholder="Введите код"
+                                           :class="{ 'has-error': errors.code }">
+                                    <span class="error" x-text="errors.code ? errors.code[0] : ''"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn--default" style="width: 100%;">
+                                        Войти
+                                    </button>
+                                </div>
                             </div>
                             <div class="login__form-text">
                                 <strong>или зарегистрируйтесь,</strong> чтобы начать <br>
@@ -95,12 +104,43 @@
             return {
                 form: {
                     phone: '',
-                    password: '',
+                    code: '',
                 },
                 token: '',
+                step: 1,
                 errors: {},
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                },
+                async getCode() {
+                    try {
+                        const response = await fetch('api/getCode', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                'X-Requested-With': 'XMLHttpRequest',
+                                "X-CSRF-TOKEN": this.token
+                            },
+                            body: JSON.stringify(this.form)
+                        })
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                this.errors = data.errors;
+                            } else {
+                                console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
+                            }
+                            return;
+                        }
+
+                        this.errors = {};
+                        this.step = 2;
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
                 },
                 async send() {
                     try {

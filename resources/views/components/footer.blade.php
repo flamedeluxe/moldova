@@ -85,7 +85,7 @@
                 </div>
                 <div class="col-12 col-sm-3 order-2 order-sm-3">
                     <div class="footer__policy">
-                        <a href="">Политика конфиденциальности в отношении персональных данных</a>
+                        <a href="policy">Политика конфиденциальности в отношении персональных данных</a>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,8 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\City;
 use App\Models\Publication;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use App\Models\User;
@@ -41,14 +43,34 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Имя')
-                    ->columnSpanFull()
-                    ->required(),
+                Grid::make(3)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Имя')
+                            ->required(),
+                        TextInput::make('surname')
+                            ->label('Фамилия'),
+                        TextInput::make('patronymic')
+                            ->label('Отчество'),
+                ]),
+                Grid::make(2)
+                    ->schema([
+                        TextInput::make('card')
+                            ->placeholder('9769478248994')
+                            ->mask('9999999999999')
+                            ->label('Карта'),
+                        TextInput::make('number')
+                            ->label('Идентификатор'),
+                    ]),
                 TextInput::make('fullname')
                     ->label('Полное имя')
                     ->columnSpanFull()
                     ->required(),
+                TextInput::make('phone')
+                    ->label('Телефон')
+                    ->mask('79999999999')
+                    ->placeholder('79998887766')
+                    ->columnSpanFull(),
                 TextInput::make('email')
                     ->label('Email')
                     ->columnSpanFull()
