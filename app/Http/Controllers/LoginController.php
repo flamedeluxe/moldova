@@ -25,7 +25,7 @@ class LoginController extends Controller
             'phone' => ['required'],
         ]);
 
-        $validated['phone'] = str_replace([' ', ')', '(', '-'], '', $validated['phone']);
+        $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
 
         $citizen = Citizen::query()->where('phone', $validated['phone'])->first();
         $user = User::query()->where('phone', $validated['phone'])->first();
@@ -131,7 +131,7 @@ class LoginController extends Controller
             'agree' => ['required', 'accepted'],
         ]);
 
-        $credentials['phone'] = str_replace([' ', ')', '(', '-'], '', $credentials['phone']);
+        $credentials['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $credentials['phone']);
 
         if (User::query()->where('phone', $credentials['phone'])->first()){
             return response()->json([

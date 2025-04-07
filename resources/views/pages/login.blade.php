@@ -75,6 +75,13 @@
                                            placeholder="Введите код"
                                            :class="{ 'has-error': errors.code }">
                                     <span class="error" x-text="errors.code ? errors.code[0] : ''"></span>
+
+                                    <div class="mt-1" x-show="timeout > 0">
+                                        Новый код через <span x-text="timeout"></span> сек
+                                    </div>
+                                    <div class="mt-1" x-show="timeout === 0" @click="getCode()">
+                                        Выслать новый код
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn--default" style="width: 100%;">
@@ -106,11 +113,13 @@
                     phone: '',
                     code: '',
                 },
+                timeout: 0,
                 token: '',
                 step: 1,
                 errors: {},
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    this.timeout = localStorage.getItem('code_timeout') ?? 0;
                 },
                 async getCode() {
                     try {
@@ -137,6 +146,15 @@
 
                         this.errors = {};
                         this.step = 2;
+                        this.timeout = 45;
+                        const interval = setInterval(() => {
+                            this.timeout--;
+                            localStorage.setItem('code_timeout', this.timeout);
+
+                            if (this.timeout === 0) {
+                                clearInterval(interval);
+                            }
+                        }, 1000);
                     }
                     catch (e) {
                         console.log(e)
