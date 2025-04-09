@@ -132,11 +132,6 @@
                     <div class="col-12 col-sm-6">
                         <div class="events__top-title">
                             <span>Афиша</span>
-                            <a href="">Москва</a>
-                        </div>
-                        <div class="events__top-more">
-                            <img src="img/loc.svg" alt="">
-                            <span>Найти свой город</span>
                         </div>
                         <div class="events__tags">
                             <template x-for="(item, idx) in categories" :key="idx">
@@ -277,6 +272,7 @@
             page: 1,
             category: '',
             error: '',
+            city: @json($city->title),
             init() {
                 this.category = 'Все';
             },
@@ -292,7 +288,7 @@
             async get() {
                 this.loading = true;
                 this.error = '';
-                const response = await fetch(`/publications?type=events&page=${this.page}&category=${this.category}&date=${this.date}`, {
+                const response = await fetch(`/publications?city=${this.city}type=events&page=${this.page}&category=${this.category}&date=${this.date}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
