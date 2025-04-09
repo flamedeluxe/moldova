@@ -22,7 +22,7 @@ class Publication extends Model
         return [
             'news' => 'Новость',
             'article' => 'Статья',
-            'event' => 'Мероприятие',
+            'event' => 'Афиша',
         ];
     }
 
