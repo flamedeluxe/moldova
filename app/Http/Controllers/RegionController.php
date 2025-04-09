@@ -13,6 +13,8 @@ class RegionController extends BaseController
         $city = City::query()->where('slug', $slug)->firstOrFail();
         $user = User::query()->whereJsonContains('city', $city->title)->first();
 
+        session()->put('city', $city->title);
+
         $news = (new PublicationService)->getPublications('news', $city->title);
         $events = (new PublicationService)->getPublications('event', $city->title);
 
