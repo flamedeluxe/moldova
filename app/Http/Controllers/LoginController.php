@@ -31,7 +31,7 @@ class LoginController extends Controller
         $user = User::query()->where('phone', $validated['phone'])->first();
 
         $code = Str::random(4);
-        self::sendSms($validated['phone'], 'Ваш проверочный код: ' . $code);
+        self::sendSms('+' . $validated['phone'], 'Ваш проверочный код: ' . $code);
 
         if($citizen && !$user) {
             $user = User::query()->create([
@@ -142,9 +142,9 @@ class LoginController extends Controller
             ], 422);
         }
 
-        $code = Str::random(4);
+        $code = rand(1111, 9999);
 
-        self::sendSms($credentials['phone'], 'Ваш проверочный код: ' . $code);
+        self::sendSms('+' . $credentials['phone'], 'Ваш проверочный код: ' . $code);
 
         $user = User::query()->create([
             'name' => $credentials['name'],
@@ -204,7 +204,7 @@ class LoginController extends Controller
             ], 422);
         }
 
-        $code = \Str::random(20);
+        $code = rand(1111, 9999);
         $user->verification_code = $code;
         $user->save();
 
