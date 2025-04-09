@@ -272,7 +272,7 @@
             page: 1,
             category: '',
             error: '',
-            city: @json($city->title),
+            city: @json(session('city')),
             init() {
                 this.category = 'Все';
             },
