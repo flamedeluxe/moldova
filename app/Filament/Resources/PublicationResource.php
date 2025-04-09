@@ -170,7 +170,10 @@ class PublicationResource extends Resource
      */
     protected static function getUserPublicationQuery($user): \Illuminate\Database\Eloquent\Builder
     {
-        $cities = is_array($user->city) && $user->role != 'admin'
+
+        if($user->role == 'admin') return \App\Models\Publication::query();
+
+        $cities = is_array($user->city)
             ? $user->city
             : array_map('trim', explode(',', (string) $user->city));
 
