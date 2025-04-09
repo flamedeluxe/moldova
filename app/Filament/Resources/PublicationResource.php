@@ -187,7 +187,7 @@ class PublicationResource extends Resource
         $user = Auth::user();
 
         // Если у пользователя нет ограничения по городам, он может редактировать все
-        if (empty($user->city)) {
+        if (empty($user->city) || $user->role == 'admin') {
             return true;
         }
 
