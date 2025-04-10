@@ -28,7 +28,10 @@ class LoginController extends Controller
         $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
 
         $citizen = Citizen::query()->where('phone', $validated['phone'])->first();
-        $user = User::query()->where('phone', $validated['phone'])->first();
+        $user = User::query()
+            ->where(['phone' => $validated['phone']])
+            ->where('verification_code', '!=', null)
+            ->first();
 
         $code = Str::random(4);
         self::sendSms('+' . $validated['phone'], 'Ваш проверочный код: ' . $code);

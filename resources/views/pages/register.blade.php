@@ -11,43 +11,66 @@
                                 <strong>Регистрация</strong> <br>
                                 по номеру телефона
                             </div>
-                            <div class="form-group">
-                                <input type="tel"
-                                       x-model="form.phone"
-                                       placeholder="Номер телефона"
-                                       :class="{ 'has-error': errors.phone }">
-                                <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="text"
-                                       x-model="form.name"
-                                       placeholder="Фамилия Имя Отчество"
-                                       :class="{ 'has-error': errors.name }">
-                                <span class="error" x-text="errors.name ? errors.name[0] : ''"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="password"
-                                       x-model="form.password"
-                                       placeholder="Введите пароль"
-                                       :class="{ 'has-error': errors.password }">
-                                <span class="error" x-text="errors.password ? errors.password[0] : ''"></span>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-checkbox d-flex">
-                                    <label class="checkbox">
-                                        <input type="checkbox" x-model="form.agree">
-                                        <span></span>
-                                    </label>
-                                    <span>
+                            <div x-show="step == 1">
+                                <div class="form-group">
+                                    <input type="tel"
+                                           x-model="form.phone"
+                                           placeholder="Номер телефона"
+                                           :class="{ 'has-error': errors.phone }">
+                                    <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text"
+                                           x-model="form.name"
+                                           placeholder="Фамилия Имя Отчество"
+                                           :class="{ 'has-error': errors.name }">
+                                    <span class="error" x-text="errors.name ? errors.name[0] : ''"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password"
+                                           x-model="form.password"
+                                           placeholder="Введите пароль"
+                                           :class="{ 'has-error': errors.password }">
+                                    <span class="error" x-text="errors.password ? errors.password[0] : ''"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-checkbox d-flex">
+                                        <label class="checkbox">
+                                            <input type="checkbox" x-model="form.agree">
+                                            <span></span>
+                                        </label>
+                                        <span>
                                         Соглашаюсь с политикой <a href="" target="_blank">конфиденциальности в отношении персональных дынных</a>
                                     </span>
+                                    </div>
+                                    <span class="error" x-text="errors.agree ? errors.agree[0] : ''"></span>
                                 </div>
-                                <span class="error" x-text="errors.agree ? errors.agree[0] : ''"></span>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn--default" style="width: 100%;">
+                                        Зарегистрироваться
+                                    </button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn--default" style="width: 100%;">
-                                    Зарегистрироваться
-                                </button>
+                            <div x-show="step == 2">
+                                <div class="form-group">
+                                    <input type="text"
+                                           x-model="form.code"
+                                           placeholder="Введите код"
+                                           :class="{ 'has-error': errors.code }">
+                                    <span class="error" x-text="errors.code ? errors.code[0] : ''"></span>
+
+                                    <div class="mt-1" x-show="timeout > 0">
+                                        Новый код через <span x-text="timeout"></span> сек
+                                    </div>
+                                    <div class="mt-1" x-show="timeout === 0" @click="getCode()">
+                                        Выслать новый код
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn--default" style="width: 100%;">
+                                        Войти
+                                    </button>
+                                </div>
                             </div>
                             <div class="login__form-text">
                                 <strong>или войдите в личный кабинет</strong>, используя <br>
@@ -115,11 +138,43 @@
                     name: '',
                     phone: '',
                     password: '',
+                    code: ''
                 },
+                step: 1,
                 token: '',
+                timeout: 0,
                 errors: {},
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                },
+                async getCode() {
+                    try {
+                        const response = await fetch('api/getCode', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                'X-Requested-With': 'XMLHttpRequest',
+                                "X-CSRF-TOKEN": this.token
+                            },
+                            body: JSON.stringify(this.form)
+                        })
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                this.errors = data.errors;
+                            } else {
+                                console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
+                            }
+                            return;
+                        }
+
+                        this.errors = {};
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
                 },
                 async send() {
                     try {
@@ -144,7 +199,17 @@
                             return;
                         }
 
+                        this.step = 2;
                         this.errors = {};
+                        this.timeout = 45;
+                        const interval = setInterval(() => {
+                            this.timeout--;
+                            localStorage.setItem('code_timeout', this.timeout);
+
+                            if (this.timeout === 0) {
+                                clearInterval(interval);
+                            }
+                        }, 1000);
                     }
                     catch (e) {
                         console.log(e)
