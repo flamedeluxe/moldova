@@ -15,7 +15,7 @@
             </div>
 
             @foreach($projects as $item)
-            <a href="{{ route('projects.show', $item->slug) }}" class="d-block mb-4">
+            <a href="{{ $item->link ?? route('projects.show', $item->slug) }}" class="d-block mb-4">
                 <picture>
                     <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $item->image_m) }}">
                     <img src="{{ asset('storage/' . $item->banner) }}" alt="">

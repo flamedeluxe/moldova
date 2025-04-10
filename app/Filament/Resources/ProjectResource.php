@@ -47,6 +47,9 @@ class ProjectResource extends Resource
                 TextInput::make('slug')
                     ->label('Алиас')
                     ->unique(ignoreRecord: true),
+                TextInput::make('link')
+                    ->label('Ссылка')
+                    ->unique(),
                 TextInput::make('page_class')
                     ->label('CSS класс страницы'),
                 Toggle::make('active')
