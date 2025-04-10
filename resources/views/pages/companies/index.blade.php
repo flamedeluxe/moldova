@@ -32,6 +32,9 @@
 
             <div class="p-products__items">
                 <div class="row gx-4">
+                    <div x-show="total === 0" class="mb-5 pb-5">
+                        Результатов не найдено
+                    </div>
                     <template x-for="item in items" :key="item.id">
                         <div class="col-12 col-sm-4">
                             <div class="item">
@@ -123,6 +126,7 @@
 
                 if (response.ok) {
                     const r = await response.json();
+                    this.total = r.total;
                     if(this.page === 1) {
                         this.items = r.data;
                     }
