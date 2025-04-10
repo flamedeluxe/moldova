@@ -9,7 +9,6 @@ class TextController extends Controller
 {
     public function show($alias)
     {
-
         switch ($alias) {
             case 'policy':
                 $id = 2;

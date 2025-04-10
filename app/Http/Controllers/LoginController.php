@@ -107,16 +107,16 @@ class LoginController extends Controller
 
     public function register(Request $request): JsonResponse
     {
-        $credentials = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255', 'regex:/^(\S+\s+){2,}\S+$/u'],
             'phone' => ['required'],
             'password' => ['required', 'string', 'min:8'],
             'agree' => ['required', 'accepted'],
         ]);
 
-        $credentials['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $credentials['phone']);
+        $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
 
-        if (User::query()->where('phone', $credentials['phone'])->first()){
+        if (User::query()->where('phone', $validated['phone'])->first()){
             return response()->json([
                 'success' => false,
                 'errors' => [
@@ -125,15 +125,18 @@ class LoginController extends Controller
             ], 422);
         }
 
+        $fio = explode(' ', $validated['name']);
         User::query()->create([
-            'name' => $credentials['name'],
-            'phone' => $credentials['phone'],
-            'password' => Hash::make($credentials['password']),
+            'name' => $fio[0],
+            'surname' => $fio[1],
+            'patronymic' => $fio[2],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
             'active' => false,
             'role' => 'user'
         ]);
 
-        $result = $this->sendCode($credentials['phone']);
+        $result = $this->sendCode($validated['phone']);
 
         return response()->json([
             'success' => true,

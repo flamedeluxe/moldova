@@ -118,7 +118,7 @@
                                 </ul>
                             </div>
                             <div class="login__nav-footer_text">
-                                <a href="">Политика конфиденциальности
+                                <a href="policy">Политика конфиденциальности
                                     в отношении персональных данных</a>
                             </div>
                             <div class="login__nav-footer_text">
