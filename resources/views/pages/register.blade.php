@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn--default" style="width: 100%;">
-                                        Зарегистрироваться
+                                        Получить код
                                     </button>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn--default" style="width: 100%;">
-                                        Войти
+                                        Зарегистрироваться
                                     </button>
                                 </div>
                             </div>
@@ -144,78 +144,81 @@
                 token: '',
                 timeout: 0,
                 errors: {},
+                headers: {},
+                interval: null,
+
                 init() {
-                    this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    this.token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                    this.timeout = parseInt(localStorage.getItem('code_timeout')) || 0;
+
+                    this.headers = {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-TOKEN": this.token
+                    };
                 },
+
+                async request(url) {
+                    try {
+                        const response = await fetch(url, {
+                            method: "POST",
+                            headers: this.headers,
+                            body: JSON.stringify(this.form)
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                this.errors = data.errors || {};
+                            } else {
+                                console.error("Ошибка сервера:", data.message || "Неизвестная ошибка");
+                            }
+                            return null;
+                        }
+
+                        this.errors = {};
+                        return data;
+                    } catch (e) {
+                        console.error("Ошибка запроса:", e);
+                        return null;
+                    }
+                },
+
                 async getCode() {
-                    try {
-                        const response = await fetch('api/getCode', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                'X-Requested-With': 'XMLHttpRequest',
-                                "X-CSRF-TOKEN": this.token
-                            },
-                            body: JSON.stringify(this.form)
-                        })
+                    await this.request('api/getCode');
+                },
 
-                        const data = await response.json();
-
-                        if (!response.ok) {
-                            if (response.status === 422) {
-                                this.errors = data.errors;
-                            } else {
-                                console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
-                            }
-                            return;
-                        }
-
-                        this.errors = {};
-                    }
-                    catch (e) {
-                        console.log(e)
+                async checkCode() {
+                    if(await this.request('api/checkCode')) {
+                        location.href = '/account';
                     }
                 },
+
                 async send() {
-                    try {
-                        const response = await fetch('api/register', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                'X-Requested-With': 'XMLHttpRequest',
-                                "X-CSRF-TOKEN": this.token
-                            },
-                            body: JSON.stringify(this.form)
-                        })
+                    const result = await this.request('api/register');
 
-                        const data = await response.json();
-
-                        if (!response.ok) {
-                            if (response.status === 422) {
-                                this.errors = data.errors;
-                            } else {
-                                console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
-                            }
-                            return;
-                        }
-
+                    if (result) {
                         this.step = 2;
-                        this.errors = {};
-                        this.timeout = 45;
-                        const interval = setInterval(() => {
-                            this.timeout--;
-                            localStorage.setItem('code_timeout', this.timeout);
+                        this.startTimer(45);
+                    }
+                },
 
-                            if (this.timeout === 0) {
-                                clearInterval(interval);
-                            }
-                        }, 1000);
-                    }
-                    catch (e) {
-                        console.log(e)
-                    }
+                startTimer(seconds) {
+                    this.timeout = seconds;
+                    localStorage.setItem('code_timeout', this.timeout);
+
+                    clearInterval(this.interval);
+                    this.interval = setInterval(() => {
+                        this.timeout--;
+                        localStorage.setItem('code_timeout', this.timeout);
+
+                        if (this.timeout <= 0) {
+                            clearInterval(this.interval);
+                        }
+                    }, 1000);
                 }
-            }
+            };
         }
     </script>
 @endsection

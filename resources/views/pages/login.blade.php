@@ -117,80 +117,81 @@
                 token: '',
                 step: 1,
                 errors: {},
+                headers: {},
+                interval: null,
+
                 init() {
-                    this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    this.timeout = localStorage.getItem('code_timeout') ?? 0;
+                    this.token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                    this.timeout = parseInt(localStorage.getItem('code_timeout')) || 0;
+
+                    this.headers = {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-TOKEN": this.token
+                    };
                 },
+
+                async request(url) {
+                    try {
+                        const response = await fetch(url, {
+                            method: "POST",
+                            headers: this.headers,
+                            body: JSON.stringify(this.form)
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            if (response.status === 422) {
+                                this.errors = data.errors || {};
+                            } else {
+                                console.error("Ошибка сервера:", data.message || "Неизвестная ошибка");
+                            }
+                            return null;
+                        }
+
+                        this.errors = {};
+                        return data;
+                    } catch (e) {
+                        console.error("Ошибка запроса:", e);
+                        return null;
+                    }
+                },
+
                 async getCode() {
-                    try {
-                        const response = await fetch('api/getCode', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                'X-Requested-With': 'XMLHttpRequest',
-                                "X-CSRF-TOKEN": this.token
-                            },
-                            body: JSON.stringify(this.form)
-                        })
-
-                        const data = await response.json();
-
-                        if (!response.ok) {
-                            if (response.status === 422) {
-                                this.errors = data.errors;
-                            } else {
-                                console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
-                            }
-                            return;
-                        }
-
-                        this.errors = {};
-                        this.step = 2;
-                        this.timeout = 45;
-                        const interval = setInterval(() => {
-                            this.timeout--;
-                            localStorage.setItem('code_timeout', this.timeout);
-
-                            if (this.timeout === 0) {
-                                clearInterval(interval);
-                            }
-                        }, 1000);
-                    }
-                    catch (e) {
-                        console.log(e)
-                    }
+                    await this.request('api/getCode');
                 },
-                async send() {
-                    try {
-                        const response = await fetch('api/login', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                'X-Requested-With': 'XMLHttpRequest',
-                                "X-CSRF-TOKEN": this.token
-                            },
-                            body: JSON.stringify(this.form)
-                        })
 
-                        const data = await response.json();
-
-                        if (!response.ok) {
-                            if (response.status === 422) {
-                                this.errors = data.errors;
-                            } else {
-                                console.log("Ошибка сервера:", data.message || "Неизвестная ошибка");
-                            }
-                            return;
-                        }
-
-                        this.errors = {};
+                async checkCode() {
+                    if(await this.request('api/checkCode')) {
                         location.href = '/account';
                     }
-                    catch (e) {
-                        console.log(e)
+                },
+
+                async send() {
+                    const result = await this.request('api/login');
+
+                    if (result) {
+                        this.step = 2;
+                        this.startTimer(45);
                     }
+                },
+
+                startTimer(seconds) {
+                    this.timeout = seconds;
+                    localStorage.setItem('code_timeout', this.timeout);
+
+                    clearInterval(this.interval);
+                    this.interval = setInterval(() => {
+                        this.timeout--;
+                        localStorage.setItem('code_timeout', this.timeout);
+
+                        if (this.timeout <= 0) {
+                            clearInterval(this.interval);
+                        }
+                    }, 1000);
                 }
-            }
+            };
         }
     </script>
 @endsection

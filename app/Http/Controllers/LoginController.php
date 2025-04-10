@@ -19,7 +19,49 @@ use stdClass;
 class LoginController extends Controller
 {
 
-    public function getCode(Request $request): JsonResponse
+    public function getCode(Request $request)
+    {
+        $validated = $request->validate([
+            'phone' => 'required',
+        ]);
+
+        if($this->sendCode($validated['phone'])) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Код выслан на ваш номер телефона',
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Пользователь не найден',
+        ], 422);
+    }
+
+    public function sendCode(string $phone): bool
+    {
+        if(!$user = User::query()->firstOrCreate(['phone' => $phone])) {
+            return false;
+        }
+        $code = rand(1111, 9999);
+        $user->update(['verification_code' => $code]);
+        self::sendSms('+' . $phone, 'Ваш проверочный код: ' . $code);
+
+        return true;
+    }
+
+    public function checkCode(string $code): bool
+    {
+        if($user = User::query()->where(['verification_code' => $code])->first()) {
+            Auth::login($user);
+            $user->update(['verification_code' => null]);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'phone' => ['required'],
@@ -28,20 +70,15 @@ class LoginController extends Controller
         $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
 
         $citizen = Citizen::query()->where('phone', $validated['phone'])->first();
-        $user = User::query()
-            ->where(['phone' => $validated['phone']])
-            ->where('verification_code', '!=', null)
-            ->first();
+        $user = User::query()->where(['phone' => $validated['phone']])->first();
 
-        $code = Str::random(4);
-        self::sendSms('+' . $validated['phone'], 'Ваш проверочный код: ' . $code);
+        $result = $this->sendCode($validated['phone']);
 
         if($citizen && !$user) {
-            $user = User::query()->create([
+            User::query()->create([
                 'name' => $citizen->name,
                 'phone' => $validated['phone'],
                 'password' => Hash::make(Str::random(20)),
-                'verification_code' => $code,
                 'active' => false,
                 'role' => 'user',
                 'card' => $citizen->card,
@@ -54,7 +91,7 @@ class LoginController extends Controller
             $citizen->delete();
         }
 
-        if($user) {
+        if($result) {
             return response()->json([
                 'success' => true,
                 'message' => 'Код выслан на ваш телефон',
@@ -68,65 +105,8 @@ class LoginController extends Controller
         ], 422);
     }
 
-    public function login(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $request->headers->set('Accept', 'application/json');
-
-        $credentials = $request->validate([
-            'phone' => ['required'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Login success!',
-            ]);
-        }
-
-        return response()->json([
-            'success' => false,
-            'errors' => [
-                'phone' => ['Не верный пароль']
-            ]
-        ]);
-    }
-
-    public function register_confirm($code): RedirectResponse
-    {
-        if(!$user = User::query()->where('verification_code', $code)->first()) abort(404);
-        $user->active = true;
-        $user->verification_code = null;
-        $user->save();
-
-        Auth::login($user);
-
-        return redirect('/account');
-    }
-
-    public function restore_confirm($code): RedirectResponse
-    {
-        if(!$user = User::query()->where('verification_code', $code)->first()) abort(404);
-        $user->active = true;
-        $user->verification_code = null;
-        $pass = Str::random(8);
-        $password = Hash::make($pass);
-        $user->password = $password;
-        $user->save();
-
-        Mail::to($user->email)->send(new NewPasswordMail([
-            'password' => $pass
-        ]));
-
-        return redirect('/account');
-    }
-
     public function register(Request $request): JsonResponse
     {
-        $request->headers->set('Accept', 'application/json');
-
         $credentials = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required'],
@@ -145,50 +125,20 @@ class LoginController extends Controller
             ], 422);
         }
 
-        $code = rand(1111, 9999);
-
-        self::sendSms('+' . $credentials['phone'], 'Ваш проверочный код: ' . $code);
-
-        $user = User::query()->create([
+        User::query()->create([
             'name' => $credentials['name'],
             'phone' => $credentials['phone'],
             'password' => Hash::make($credentials['password']),
-            'verification_code' => $code,
             'active' => false,
             'role' => 'user'
         ]);
+
+        $result = $this->sendCode($credentials['phone']);
 
         return response()->json([
             'success' => true,
             'message' => 'Вы были успешно зарегистрированы',
         ]);
-    }
-
-    function checkCode(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'code' => ['required'],
-        ]);
-
-        $user = User::query()->where('verification_code', $validated['code'])->first();
-
-        if($user) {
-            $user->active = true;
-            $user->verification_code = null;
-            $user->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Вы были успешно авторизированны'
-            ]);
-        }
-
-        return response()->json([
-            'success' => false,
-            'errors' => [
-                'code' => ['Не верный проверочный код']
-            ]
-        ], 422);
     }
 
     public function restore(Request $request): JsonResponse
@@ -227,7 +177,7 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    private static function sendSms($to, $text)
+    private static function sendSms($to, $text): void
     {
         $sigma = new SmsService(env('SIGMA_API_TOKEN'));
 
@@ -240,6 +190,6 @@ class LoginController extends Controller
             )
         );
 
-        return $sigma->send_msg($params);
+        $sigma->send_msg($params);
     }
 }
