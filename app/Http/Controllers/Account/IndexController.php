@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Services\Site\PublicationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,7 @@ class IndexController extends Controller
     {
         $profile = Auth::user();
         $cities = City::active()->get();
+        $events = (new PublicationService)->getPublications('event', $profile->city);
 
         $count = 0;
         foreach($this->rules as $field => $rule) {
@@ -33,10 +35,19 @@ class IndexController extends Controller
         $profile->count = $count;
 
         if(request()->ajax()) {
-            return response()->json($profile);
+            return response()->json([
+                'profile' => $profile,
+                'events' => $events['items'],
+                'events_total' => $events['total'],
+            ]);
         }
 
-        return view('pages.account.index', compact('profile', 'cities'));
+        return view('pages.account.index', [
+            'profile' => $profile,
+            'events' => $events['items'],
+            'events_total' => $events['total'],
+            'cities' => $cities,
+        ]);
     }
 
     public function save(Request $request)

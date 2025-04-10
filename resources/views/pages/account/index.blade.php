@@ -170,7 +170,7 @@
             </div>
         </div>
 
-        <div class="events">
+        <div class="events" x-data="events()">
             <div class="container">
                 <div class="p-projects__top p-acccount__top">
                     <div class="p-projects__top-title">Посещайте мероприятия</div>
@@ -190,114 +190,22 @@
                 </div>
 
                 <div class="p-acccount__events keen-slider">
-                    <div class="keen-slider__slide">
-                        <a href="" class="item">
-                            <div class="item__img">
-                                <img src="img/news1.png" alt="">
-                                <div class="item__img-badge">
-                                    Новости
+                    <template x-for="item in items" x-key="item.id">
+                        <div class="keen-slider__slide">
+                            <a :href="`publications/${item.slug}`" class="item">
+                                <div class="item__img">
+                                    <img :src="`storage/${item.image}`" :alt="item.title">
+                                    <div class="item__img-badge" x-html="item.category" x-show="item.category"></div>
                                 </div>
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    27 января
+                                <div class="item__info">
+                                    <div class="item__info-date" x-html="item.date">
+                                    </div>
+                                    <div class="item__info-title" x-html="item.title">
+                                    </div>
                                 </div>
-                                <div class="item__info-title">
-                                    Концерт «Кто помнит, тот не знает поражения»
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="keen-slider__slide">
-                        <a href="" class="item">
-                            <div class="item__img">
-                                <img src="img/news1.png" alt="">
-                                <div class="item__img-badge">
-                                    Новости
-                                </div>
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    27 января
-                                </div>
-                                <div class="item__info-title">
-                                    Концерт «Кто помнит, тот не знает поражения»
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="keen-slider__slide">
-                        <a href="" class="item">
-                            <div class="item__img">
-                                <img src="img/news1.png" alt="">
-                                <div class="item__img-badge">
-                                    Новости
-                                </div>
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    27 января
-                                </div>
-                                <div class="item__info-title">
-                                    Концерт «Кто помнит, тот не знает поражения»
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="keen-slider__slide">
-                        <a href="" class="item">
-                            <div class="item__img">
-                                <img src="img/news1.png" alt="">
-                                <div class="item__img-badge">
-                                    Новости
-                                </div>
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    27 января
-                                </div>
-                                <div class="item__info-title">
-                                    Концерт «Кто помнит, тот не знает поражения»
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="keen-slider__slide">
-                        <a href="" class="item">
-                            <div class="item__img">
-                                <img src="img/news1.png" alt="">
-                                <div class="item__img-badge">
-                                    Новости
-                                </div>
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    27 января
-                                </div>
-                                <div class="item__info-title">
-                                    Концерт «Кто помнит, тот не знает поражения»
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="keen-slider__slide">
-                        <a href="" class="item">
-                            <div class="item__img">
-                                <img src="img/news1.png" alt="">
-                                <div class="item__img-badge">
-                                    Новости
-                                </div>
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date">
-                                    27 января
-                                </div>
-                                <div class="item__info-title">
-                                    Концерт «Кто помнит, тот не знает поражения»
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -327,6 +235,55 @@
     </main>
 
     <script>
+        function events() {
+            return {
+                items: @json($events),
+                loading: false,
+                total: @json($events_total),
+                page: 1,
+                city: @json($profile->city),
+                date: '',
+                category: '',
+                error: '',
+                filter() {
+                    this.category = '';
+                    this.date = document.querySelector('[x-model="date"]').value;
+                    this.get();
+                },
+                nextPage() {
+                    this.page++;
+                    this.get();
+                },
+                async get() {
+                    closeModals();
+                    this.loading = true;
+                    this.error = '';
+                    const params = new URLSearchParams({
+                        type: 'events',
+                        page: this.page,
+                        date: this.date
+                    });
+                    const response = await fetch(`/publications?${params.toString()}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .finally(() => {
+                            this.loading = false;
+                        });
+
+                    if (response.ok) {
+                        const r = await response.json();
+                        this.items = r.data;
+                        this.total = r.total;
+                    } else {
+                        this.error = 'Ошибка загрузки данных';
+                    }
+                }
+            }
+        }
         function account() {
             return {
                 profile: @json($profile),
