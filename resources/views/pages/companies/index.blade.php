@@ -123,7 +123,12 @@
 
                 if (response.ok) {
                     const r = await response.json();
-                    this.items.push(...r.data);
+                    if(this.page === 1) {
+                        this.items = r.data;
+                    }
+                    else {
+                        this.items.push(...r.data);
+                    }
                 } else {
                     this.error = 'Ошибка загрузки данных';
                 }

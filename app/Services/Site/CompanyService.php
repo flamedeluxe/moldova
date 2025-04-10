@@ -29,7 +29,7 @@ class CompanyService
 
         // Применяем пагинацию
         $resources = $query
-            ->offset(request()->get('page') * 6)
+            ->offset((request()->get('page') - 1) * 6)
             ->limit(6)
             ->get();
 
