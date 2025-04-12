@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Question;
 use App\Models\Slider;
 use App\Services\Site\PublicationService;
 
@@ -14,6 +15,7 @@ class IndexController extends BaseController
         $events = (new PublicationService)->getPublications('event', session('city'));
         $projects = Project::activeSorted()->get();
         $slides = Slider::find(1);
+        $faq = Question::all();
 
         return view('pages.index', [
             'categories' => $events['categories'],
@@ -22,7 +24,8 @@ class IndexController extends BaseController
             'events' => $events['items'],
             'events_total' => $events['total'],
             'projects' => $projects,
-            'slides' => $slides->slides
+            'slides' => $slides->slides,
+            'faq' => $faq,
         ]);
     }
 }
