@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-12 col-sm-8">
                 <div class="faq__list">
-                    @foreach($resources as $item)
+                    @foreach($faq as $item)
                         <div class="item accordion-item">
                             <div class="item__title accordion-header">
                                 {!! $item->title !!}
