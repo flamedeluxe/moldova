@@ -38,7 +38,8 @@ Route::get('/{slug}', [TextController::class, 'show'])->name('text.show');
 
 Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function () {
     Route::get('/account', [\App\Http\Controllers\Account\IndexController::class, 'index'])->name('index');
-    Route::post('/account', [\App\Http\Controllers\Account\IndexController::class, 'save'])->name('save');
+    Route::post('/account/save', [\App\Http\Controllers\Account\IndexController::class, 'save'])->name('save');
+    Route::get('/account/events', [\App\Http\Controllers\Account\IndexController::class, 'events'])->name('events');
 });
 
 Route::fallback([ErrorController::class, 'show404']);

@@ -263,7 +263,7 @@
                         page: this.page,
                         date: this.date
                     });
-                    const response = await fetch(`/publications?${params.toString()}`, {
+                    const response = await fetch(`/account/events?${params.toString()}`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
@@ -323,7 +323,7 @@
                 async save() {
                     try {
                         this.loading = true;
-                        const response = await fetch('/account', {
+                        const response = await fetch('/account/save', {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",

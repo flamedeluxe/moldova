@@ -169,6 +169,8 @@
                         const data = await response.json();
 
                         if (!response.ok) {
+                            if (response.status === 419) location.reload();
+
                             if (response.status === 422) {
                                 this.errors = data.errors || {};
                             } else {

@@ -22,6 +22,17 @@ class IndexController extends Controller
         'socials' => 'array|nullable|max:5',
     ];
 
+    public function events()
+    {
+        $profile = Auth::user();
+        $events = (new PublicationService)->getPublications('event', $profile->city);
+
+        return response()->json([
+            'events' => $events['items'],
+            'events_total' => $events['total'],
+        ]);
+    }
+
     public function index()
     {
         $profile = Auth::user();
@@ -33,14 +44,6 @@ class IndexController extends Controller
             if($profile->$field !== '') $count++;
         }
         $profile->count = $count;
-
-        if(request()->ajax()) {
-            return response()->json([
-                'profile' => $profile,
-                'events' => $events['items'],
-                'events_total' => $events['total'],
-            ]);
-        }
 
         return view('pages.account.index', [
             'profile' => $profile,
