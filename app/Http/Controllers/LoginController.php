@@ -110,6 +110,7 @@ class LoginController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255', 'regex:/^(\S+\s+){2,}\S+$/u'],
             'phone' => ['required'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'agree' => ['required', 'accepted'],
         ]);
@@ -130,6 +131,7 @@ class LoginController extends Controller
             'name' => $fio[0],
             'surname' => $fio[1],
             'patronymic' => $fio[2],
+            'email' => $validated['email'],
             'phone' => $validated['phone'],
             'password' => Hash::make($validated['password']),
             'active' => false,

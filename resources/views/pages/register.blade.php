@@ -27,6 +27,13 @@
                                     <span class="error" x-text="errors.name ? errors.name[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
+                                    <input type="text"
+                                           x-model="form.email"
+                                           placeholder="E-mail"
+                                           :class="{ 'has-error': errors.email }">
+                                    <span class="error" x-text="errors.email ? errors.email[0] : ''"></span>
+                                </div>
+                                <div class="form-group">
                                     <input type="password"
                                            x-model="form.password"
                                            placeholder="Введите пароль"
@@ -137,8 +144,9 @@
                 form: {
                     name: '',
                     phone: '',
+                    email: '',
                     password: '',
-                    code: ''
+                    code: '',
                 },
                 step: 1,
                 token: '',
