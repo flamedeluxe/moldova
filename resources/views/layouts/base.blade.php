@@ -225,63 +225,6 @@
             }
         }
     }
-    function events() {
-        return {
-            items: @json($events),
-            cities: @json($cities),
-            categories: @json($categories),
-            loading: false,
-            total: @json($events_total),
-            dates: @json($dates ?? []),
-            page: 1,
-            city: '{{ session()->get('city') ?? 'Москва' }}',
-            date: '',
-            category: '',
-            error: '',
-            init() {
-                this.category = 'Все';
-            },
-            filter() {
-                this.category = ''; // Очистка категории при фильтрации
-                this.date = document.querySelector('[x-model="date"]').value;
-                this.get(); // Перезагрузка данных
-            },
-            nextPage() {
-                this.page++; // Переход на следующую страницу
-                this.get(); // Получение данных для следующей страницы
-            },
-            async get() {
-                closeModals();
-                this.loading = true;
-                this.error = '';
-                const params = new URLSearchParams({
-                    type: 'events',
-                    page: this.page,
-                    category: this.category,
-                    city: this.city,
-                    date: this.date
-                });
-                const response = await fetch(`/publications?${params.toString()}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .finally(() => {
-                        this.loading = false;
-                    });
-
-                if (response.ok) {
-                    const r = await response.json();
-                    this.items = r.data;
-                    this.total = r.total;
-                } else {
-                    this.error = 'Ошибка загрузки данных';
-                }
-            }
-        }
-    }
 </script>
 @endif
 </body>

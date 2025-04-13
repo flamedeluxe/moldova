@@ -23,13 +23,22 @@ class PublicationController extends BaseController
             ]);
         }
 
+        $dates = [];
+        foreach($events['dates'] as $date) {
+            $dates[] = [
+                'day' => $date->day,
+                'month' => mb_substr($date->locale('ru')->monthName, 0, 3),
+                'date' => $date->locale('ru')->format('%Y-%m-%d')
+            ];
+        }
+
         return view('pages.publications.index', [
             'categories' => $events['categories'],
             'events' => $events['items'],
             'news' => $news['items'],
             'news_total' => $news['total'],
             'events_total' => $events['total'],
-            'eventDates' => $events['dates']
+            'dates' => $dates
         ]);
     }
 

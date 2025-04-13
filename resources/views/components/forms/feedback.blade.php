@@ -28,7 +28,7 @@
                 <span></span>
             </label>
             <span>
-                Соглашаюсь с политикой <a href="" target="_blank">конфиденциальности в отношении персональных данных</a>
+                Соглашаюсь с политикой <a href="policy" target="_blank">конфиденциальности в отношении персональных данных</a>
             </span>
         </div>
         <span class="error" x-text="errors.agree ? errors.agree[0] : ''"></span>

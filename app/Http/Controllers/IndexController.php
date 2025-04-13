@@ -17,6 +17,15 @@ class IndexController extends BaseController
         $slides = Slider::find(1);
         $faq = Question::all();
 
+        $dates = [];
+        foreach($events['dates'] as $date) {
+            $dates[] = [
+                'day' => $date->day,
+                'month' => mb_substr($date->locale('ru')->monthName, 0, 3),
+                'date' => $date->locale('ru')->format('%Y-%m-%d')
+            ];
+        }
+
         return view('pages.index', [
             'categories' => $events['categories'],
             'news' => $news['items'],
@@ -26,6 +35,7 @@ class IndexController extends BaseController
             'projects' => $projects,
             'slides' => $slides->slides,
             'faq' => $faq,
+            'dates' => $dates,
         ]);
     }
 }

@@ -127,6 +127,8 @@ class PageResource extends Resource
                                         RichEditor::make('content')
                                             ->label('Текст')
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Ссылка на фото'),
                                     ]),
                             ]),
                         Builder\Block::make('image_right')
@@ -141,6 +143,8 @@ class PageResource extends Resource
                                             ->label('Фото')
                                             ->image()
                                             ->required(),
+                                        TextInput::make('link')
+                                            ->label('Ссылка на фото'),
                                     ]),
                             ]),
                         Builder\Block::make('cards')

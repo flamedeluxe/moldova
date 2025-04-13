@@ -125,72 +125,7 @@
         </div>
     </div>
 
-    <div class="events bg--gray" x-data="events()">
-        <div class="container" :class="loading ? 'opacity-50' : ''">
-            <div class="events__top">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <div class="events__top-title">
-                            <span>Афиша</span>
-                        </div>
-                        <div class="events__tags">
-                            <template x-for="(item, idx) in categories" :key="idx">
-                                <div
-                                    class="tag"
-                                    :class="category === item ? 'active' : ''"
-                                    @click="category = item; get()"
-                                    x-text="item">
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="events__dates">
-                            <template x-for="(item, idx) in dates" :key="idx">
-                                <div class="date" @click="selectDate(item.date)">
-                                    <div class="day" x-text="item.day">
-                                    </div>
-                                    <div class="month" x-text="item.month">
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                        <div class="events__select">
-                            <div>
-                                <input type="text" x-model="date" name="date" @change="filter" placeholder="Выбрать даты" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <template  x-for="item in items" x-key="item.id">
-                    <div class="col-12 col-sm-4">
-                        <a :href="`publications/${item.slug}`" class="item">
-                            <div class="item__img">
-                                <img :src="`storage/${item.image}`" :alt="item.title">
-                            </div>
-                            <div class="item__info">
-                                <div class="item__info-date" x-html="item.date">
-                                </div>
-                                <div class="item__info-title" x-html="item.title">
-                                </div>
-                                <div class="item__info-text" x-html="item.introtext">
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </template>
-            </div>
-
-            <div class="events__more" x-show="items.length > total">
-                <button class="btn btn--default" @click.prevent="nextPage">
-                    Предыдущие новости
-                </button>
-            </div>
-        </div>
-    </div>
+    @include('components.events', ['disableCity' => 1, 'title' => 'Ближайшие мероприятия'])
 
     <div class="projects">
         <div class="title">

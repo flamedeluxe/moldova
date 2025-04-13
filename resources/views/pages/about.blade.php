@@ -41,14 +41,26 @@
                             <div class="left">
                                 {!! $block['data']['content'] !!}
                             </div>
-                            <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
+                            @if($block['data']['link'])
+                                <a href="{{ $block['data']['link'] }}">
+                                    <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
+                                </a>
+                            @else
+                                <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
+                            @endif
                         </div>
                     </div>
                     @break
                 @case('image_left')
                     <div class="p-about__block --with-image-left">
                         <div class="wrapper">
-                            <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
+                            @if($block['data']['link'])
+                                <a href="{{ $block['data']['link'] }}">
+                                    <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
+                                </a>
+                            @else
+                                <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
+                            @endif
                             <div class="right">
                                 {!! $block['data']['content'] !!}
                             </div>
