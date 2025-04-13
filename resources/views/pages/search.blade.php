@@ -12,44 +12,36 @@
                     Поиск не дал результатов
                 </div>
             @else
-            <div class="row">
-                <div class="col-12 col-sm-9">
-                    <div class="p-search__results">
-                        @foreach ($results as $result)
-                            <div class="item">
-                                <div class="item__title">
-                                    <a href="{{ route('publications.show', $result->slug) }}">
-                                        <span>{!! highlightSearch($result->title, $search) !!}</span>
-                                    </a>
+
+                <div class="p-search__results">
+                    @foreach ($results as $result)
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-12 col-md-8">
+                                    <div class="item__title">
+                                        <a href="{{ route('publications.show', $result->slug) }}">
+                                            <span>{!! highlightSearch($result->title, $search) !!}</span>
+                                        </a>
+                                    </div>
+                                    <div class="item__text">
+                                        {!! highlightSearch($result->content, $search) !!}
+                                    </div>
+                                    <div class="item__link">
+                                        <a href="{{ route('publications.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
+                                    </div>
                                 </div>
-                                <div class="item__text">
-                                    {!! highlightSearch($result->content, $search) !!}
-                                </div>
-                                <div class="item__link">
-                                    <a href="{{ route('publications.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
+                                <div class="col-12 col-md-4">
+                                    <img src="{{ asset('storage/' . $result->image) }}" alt="">
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
+                </div>
 
-                    <div class="pagination">
-                        {{ $results->appends(['query' => request('query')])->links('pagination.custom') }}
-                    </div>
+                <div class="pagination">
+                    {{ $results->appends(['query' => request('query')])->links('pagination.custom') }}
                 </div>
-                <div class="col-12 col-sm-3 d-none d-sm-block">
-                    <div class="p-search__aside">
-                        <a href="">
-                            <img src="img/card1.png" alt="">
-                        </a>
-                        <a href="">
-                            <img src="img/card1.png" alt="">
-                        </a>
-                        <a href="">
-                            <img src="img/card1.png" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
+
             @endif
         </div>
     </div>

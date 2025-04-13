@@ -13,6 +13,8 @@ if (!function_exists('highlightSearch')) {
         // Создаём регулярку для поиска частей слов (не только полные слова!)
         $pattern = '/' . implode('|', array_map('preg_quote', $words)) . '/ui';
 
+        $text = \Illuminate\Support\Str::limit(strip_tags($text), 300);
+
         // Оборачиваем найденные фрагменты в <i class="highlight">
         return preg_replace($pattern, '<i class="highlight">$0</i>', $text);
     }
