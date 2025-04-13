@@ -501,20 +501,24 @@ function accordion() {
         header.addEventListener("click", function () {
             const isOpen = item.classList.contains("active");
 
-            // Закрываем все аккордеоны
             accordions.forEach(acc => {
                 acc.classList.remove("active");
                 acc.querySelector(".accordion-content").style.maxHeight = 0;
             });
 
-            // Если текущий аккордеон не был открыт, открываем его
             if (!isOpen) {
                 item.classList.add("active");
                 content.style.maxHeight = content.scrollHeight + "px";
             }
         });
     });
+
+    const firstHeader = document.querySelector(".accordion-item .accordion-header");
+    if (firstHeader) {
+        firstHeader.click();
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.querySelector('.header__controls-search button');

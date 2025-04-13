@@ -8,11 +8,11 @@
             <div class="col-12 col-sm-8">
                 <div class="faq__list">
                     @foreach($faq as $idx => $item)
-                        <div class="item accordion-item {{ $idx == 0 ? 'active': '' }}">
+                        <div class="item accordion-item">
                             <div class="item__title accordion-header">
                                 {!! $item->title !!}
                             </div>
-                            <div class="item__content accordion-content" style="{{ $idx == 0 ? 'min-height:30px': '' }}">
+                            <div class="item__content accordion-content">
                                 {!! $item->content !!}
                             </div>
                         </div>
