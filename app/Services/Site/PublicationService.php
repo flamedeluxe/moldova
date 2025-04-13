@@ -79,14 +79,18 @@ class PublicationService
         $categories = Publication::whereNotNull('category')
             ->where('category', '!=', '')
             ->where('type', $type)
+            ->where('city', session()->get('city'))
             ->distinct()
             ->pluck('category')
             ->prepend('Все')
             ->toArray();
 
+        if(count($categories) === 1) unset($categories[0]);
+
         // Последние 7 уникальных дат мероприятий
         $eventDates = Publication::active()
             ->where('type', 'event')
+            ->where('city', session()->get('city'))
             ->orderBy('published_at', 'DESC')
             ->pluck('published_at')
             ->unique()

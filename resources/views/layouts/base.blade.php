@@ -232,6 +232,7 @@
             categories: @json($categories),
             loading: false,
             total: @json($events_total),
+            dates: @json($dates ?? []),
             page: 1,
             city: '{{ session()->get('city') ?? 'Москва' }}',
             date: '',

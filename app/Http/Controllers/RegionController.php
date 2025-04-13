@@ -18,6 +18,15 @@ class RegionController extends BaseController
         $news = (new PublicationService)->getPublications('news', $city->title);
         $events = (new PublicationService)->getPublications('event', $city->title);
 
+        $dates = [];
+        foreach($events['dates'] as $date) {
+            $dates[] = [
+                'day' => $date->day,
+                'month' => mb_substr($date->locale('ru')->monthName, 0, 3),
+                'date' => $date->locale('ru')->format('%Y-%m-%d')
+            ];
+        }
+
         return view('pages.region', [
             'city' => $city,
             'user' => $user,
@@ -26,7 +35,7 @@ class RegionController extends BaseController
             'events' => $events['items'],
             'news_total' => $news['total'],
             'events_total' => $events['total'],
-            'eventDates' => $events['dates'],
+            'dates' => $dates,
         ]);
     }
 }

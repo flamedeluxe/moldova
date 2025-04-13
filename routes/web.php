@@ -40,6 +40,7 @@ Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function
     Route::get('/account', [\App\Http\Controllers\Account\IndexController::class, 'index'])->name('index');
     Route::post('/account/save', [\App\Http\Controllers\Account\IndexController::class, 'save'])->name('save');
     Route::get('/account/events', [\App\Http\Controllers\Account\IndexController::class, 'events'])->name('events');
+    Route::get('/account/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::post('/api/register', [LoginController::class, 'register']);

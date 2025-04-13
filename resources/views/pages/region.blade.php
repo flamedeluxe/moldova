@@ -146,16 +146,14 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="events__dates">
-                            @foreach($eventDates as $date)
-                                <div class="date">
-                                    <div class="day">
-                                        {{ $date->day }}
+                            <template x-for="(item, idx) in dates" :key="idx">
+                                <div class="date" @click="selectDate(item.date)">
+                                    <div class="day" x-text="item.day">
                                     </div>
-                                    <div class="month">
-                                        {{ $date->locale('ru')->monthName|substr(0, 3) }}
+                                    <div class="month" x-text="item.month">
                                     </div>
                                 </div>
-                            @endforeach
+                            </template>
                         </div>
                         <div class="events__select">
                             <div>
@@ -222,92 +220,4 @@
             </div>
         </div>
     </div>
-
-<script>
-    function news() {
-        return {
-            items: @json($news),
-            loading: false,
-            total: @json($news_total),
-            date: '',
-            page: 1,
-            error: '',
-            filter() {
-                this.date = document.querySelector('[x-model="date"]').value;
-                this.get();
-            },
-            nextPage() {
-                this.page++;
-                this.get();
-            },
-            async get() {
-                this.loading = true;
-                this.error = '';
-                const response = await fetch(`/publications?type=news&page=${this.page}&date=${this.date}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .finally(() => {
-                        this.loading = false;
-                    });
-
-                if(response.ok) {
-                    const r = await response.json();
-                    this.items = r.data;
-                    this.total = r.total;
-                }
-            }
-        }
-    }
-    function events() {
-        return {
-            items: @json($events),
-            categories: @json($categories),
-            loading: false,
-            total: @json($events_total),
-            date: '',
-            page: 1,
-            category: '',
-            error: '',
-            city: @json(session('city')),
-            init() {
-                this.category = 'Все';
-            },
-            filter() {
-                this.date = document.querySelector('[x-model="date"]').value;
-                this.category = ''; // Очистка категории при фильтрации
-                this.get(); // Перезагрузка данных
-            },
-            nextPage() {
-                this.page++; // Переход на следующую страницу
-                this.get(); // Получение данных для следующей страницы
-            },
-            async get() {
-                this.loading = true;
-                this.error = '';
-                const response = await fetch(`/publications?city=${this.city}type=events&page=${this.page}&category=${this.category}&date=${this.date}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .finally(() => {
-                        this.loading = false;
-                    });
-
-                if (response.ok) {
-                    const r = await response.json();
-                    this.items = r.data;
-                    this.total = r.total;
-                } else {
-                    this.error = 'Ошибка загрузки данных';
-                }
-            }
-        }
-    }
-</script>
 @endsection
