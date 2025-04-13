@@ -35,9 +35,10 @@ class AppServiceProvider extends ServiceProvider
                 View::composer('*', function ($view) {
                     $projects = Project::activeSorted()->get();
                     $cities = City::active()->whereNotIn('title', ['Москва', 'Санкт-Петербург'])->get();
+                    $citiesAll = City::active()->get();
                     $regions = City::active()->get();
                     $faq = Question::active()->get();
-                    $view->with(compact('projects', 'cities', 'regions', 'faq'));
+                    $view->with(compact('projects', 'cities', 'regions', 'faq', 'citiesAll'));
                 });
 
                 foreach ($configs as $config) {

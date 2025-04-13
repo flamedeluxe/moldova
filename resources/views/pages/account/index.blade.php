@@ -170,7 +170,7 @@
             </div>
         </div>
 
-        <div class="events" x-data="events()">
+        <div class="events">
             <div class="container">
                 <div class="p-projects__top p-acccount__top">
                     <div class="p-projects__top-title">Посещайте мероприятия</div>
@@ -235,60 +235,17 @@
     </main>
 
     <script>
-        function events() {
+        function account() {
             return {
                 items: @json($events),
-                loading: false,
                 total: @json($events_total),
                 page: 1,
                 city: @json($profile->city),
-                date: '',
                 category: '',
                 error: '',
-                filter() {
-                    this.category = '';
-                    this.date = document.querySelector('[x-model="date"]').value;
-                    this.get();
-                },
-                nextPage() {
-                    this.page++;
-                    this.get();
-                },
-                async get() {
-                    closeModals();
-                    this.loading = true;
-                    this.error = '';
-                    const params = new URLSearchParams({
-                        type: 'events',
-                        page: this.page,
-                        date: this.date
-                    });
-                    const response = await fetch(`/account/events?${params.toString()}`, {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                        .finally(() => {
-                            this.loading = false;
-                        });
-
-                    if (response.ok) {
-                        const r = await response.json();
-                        this.items = r.data;
-                        this.total = r.total;
-                    } else {
-                        this.error = 'Ошибка загрузки данных';
-                    }
-                }
-            }
-        }
-        function account() {
-            return {
                 profile: @json($profile),
                 loading: false,
-                cities: @json($cities),
+                cities: @json($citiesAll),
                 form: {
                     surname: '',
                     name: '',
@@ -304,6 +261,7 @@
                 errors: {},
 
                 date: '',
+                headers: {},
 
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -311,6 +269,20 @@
                     if (!Array.isArray(this.form.socials) || this.form.socials.length === 0) {
                         this.form.socials = [''];
                     }
+                    this.headers = {
+                        "Content-Type": "application/json",
+                        'X-Requested-With': 'XMLHttpRequest',
+                        "X-CSRF-TOKEN": this.token
+                    }
+                },
+                filter() {
+                    this.category = '';
+                    this.date = document.querySelector('[x-model="date"]').value;
+                    this.getEvents();
+                },
+                nextPage() {
+                    this.page++;
+                    this.getEvents();
                 },
                 addSocial() {
                     this.form.socials.unshift('');
@@ -320,16 +292,37 @@
                         this.form.socials.splice(index, 1);
                     }
                 },
+                async getEvents() {
+                    closeModals();
+                    this.loading = true;
+                    this.error = '';
+                    const params = new URLSearchParams({
+                        type: 'events',
+                        page: this.page,
+                        date: this.date,
+                    });
+                    const response = await fetch(`/account/events?${params.toString()}`, {
+                        method: "GET",
+                        headers: this.headers
+                    })
+                        .finally(() => {
+                            this.loading = false;
+                        });
+
+                    if (response.ok) {
+                        const r = await response.json();
+                        this.items = r.data;
+                        this.total = r.total;
+                    } else {
+                        this.error = 'Ошибка загрузки данных';
+                    }
+                },
                 async save() {
                     try {
                         this.loading = true;
                         const response = await fetch('/account/save', {
                             method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-Requested-With": "XMLHttpRequest",
-                                "X-CSRF-TOKEN": this.token
-                            },
+                            headers: this.headers,
                             body: JSON.stringify(this.form)
                         });
 
@@ -348,9 +341,9 @@
                         this.profile = data.profile;
                         this.loading = false;
                         this.errors = {};
-                        closeModals();
                         setTimeout(() => {
-                            this.alertSuccess = false
+                            this.alertSuccess = false;
+                            location.reload()
                         }, 4000);
 
                     } catch (error) {
@@ -362,11 +355,7 @@
                         this.loading = true
                         const response = await fetch('account', {
                             method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                'X-Requested-With': 'XMLHttpRequest',
-                                "X-CSRF-TOKEN": this.token
-                            }
+                            headers: this.headers
                         })
 
                         const data = await response.json();

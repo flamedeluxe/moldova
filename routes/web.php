@@ -42,8 +42,6 @@ Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function
     Route::get('/account/events', [\App\Http\Controllers\Account\IndexController::class, 'events'])->name('events');
 });
 
-Route::fallback([ErrorController::class, 'show404']);
-
 Route::post('/api/register', [LoginController::class, 'register']);
 Route::post('/api/login', [LoginController::class, 'login']);
 Route::post('/api/checkCode', [LoginController::class, 'checkCode']);

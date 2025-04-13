@@ -25,7 +25,7 @@ class IndexController extends Controller
     public function events()
     {
         $profile = Auth::user();
-        $events = (new PublicationService)->getPublications('event', $profile->city);
+        $events = (new PublicationService)->getPublications('event', $profile->region);
 
         return response()->json([
             'events' => $events['items'],
@@ -37,7 +37,7 @@ class IndexController extends Controller
     {
         $profile = Auth::user();
         $cities = City::active()->get();
-        $events = (new PublicationService)->getPublications('event', $profile->city);
+        $events = (new PublicationService)->getPublications('event', $profile->region);
 
         $count = 0;
         foreach($this->rules as $field => $rule) {
