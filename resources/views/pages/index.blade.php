@@ -136,12 +136,12 @@
                                     </div>
                                     <div class="dropdown__list">
                                         <ul>
-                                            <template x-for="city in cities" :key="city.id">
+                                            <template x-for="item in cities" :key="item.id">
                                                 <li>
                                                     <a
-                                                        @click.prevent="city = city.title; get()"
-                                                        :href="`region/${city.slug}`"
-                                                        x-text="city.title">
+                                                        @click.prevent="city = item.title; get()"
+                                                        :href="`region/${item.slug}`"
+                                                        x-text="item.title">
                                                     </a>
                                                 </li>
                                             </template>
