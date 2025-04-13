@@ -10,14 +10,12 @@ class FormController extends BaseController
 {
     public function feedback(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|max:255',
             'phone' => 'required|min:11|max:20',
             'text' => 'required|max:500',
             'agree' => 'accepted',
         ]);
-
-        $validated = $request->validated();
 
         Mail::to(env('MAIL_TO'))->send(new FeedbackMail($validated));
 
