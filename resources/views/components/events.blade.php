@@ -6,14 +6,14 @@
                     <div class="events__top-title">
                         <span>{{ $title ?? 'Афиша' }}</span>
                         @if(!isset($disableCity))
-                        <a href="" data-modal="#modal_city" x-text="city"></a>
+                            <a href="" data-modal="#modal_city" x-text="city"></a>
                         @endisset
                     </div>
                     @if(!isset($disableCity))
-                    <div class="events__top-more" data-modal="#modal_city">
-                        <img src="img/loc.svg" alt="">
-                        <span>Найти свой город</span>
-                    </div>
+                        <div class="events__top-more" data-modal="#modal_city">
+                            <img src="img/loc.svg" alt="">
+                            <span>Найти свой город</span>
+                        </div>
                     @endisset
                     <div class="events__tags">
                         <template x-for="(item, idx) in categories" :key="idx">
@@ -29,7 +29,7 @@
                 <div class="col-12 col-sm-6">
                     <div class="events__dates">
                         <template x-for="(item, idx) in dates" :key="idx">
-                            <div class="date" @click="selectDate(item.date)">
+                            <div class="date" @click="selectDate(item)">
                                 <div class="day" x-text="item.day">
                                 </div>
                                 <div class="month" x-text="item.month">
@@ -97,6 +97,10 @@
             },
             nextPage() {
                 this.page++;
+                this.get();
+            },
+            selectDate(date) {
+                this.date = `${date.day} ${date.month}-${date.day} ${date.month}`
                 this.get();
             },
             async get() {
