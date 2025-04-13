@@ -40,7 +40,14 @@ class LoginController extends Controller
 
     public function sendCode(string $phone): bool
     {
-        if(!$user = User::query()->firstOrCreate(['phone' => $phone])) {
+        if(!$user = User::query()->firstOrCreate(
+            ['phone' => $phone],
+            [
+                'phone' => $phone,
+                'name' => 'unknown',
+                'email' => 'unknown',
+            ]
+        )) {
             return false;
         }
         $code = rand(1111, 9999);
