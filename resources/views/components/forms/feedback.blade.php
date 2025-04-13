@@ -1,5 +1,8 @@
 <div x-data="feedback()">
-    <form @submit.prevent="send()" class="faq__form" id="faq">
+    <div x-show="success" class="alert alert--success">
+        Ваше обращение успешно отправлено
+    </div>
+    <form @submit.prevent="send()" class="faq__form" id="faq" x-show="!success">
         <div class="faq__form-title">
             <strong>Помощь</strong> юриста
         </div>
@@ -52,6 +55,7 @@
                 text: '',
                 agree: false
             },
+            success: false,
             token: '',
             errors: {},
             init() {
@@ -81,6 +85,7 @@
                     }
 
                     this.errors = {};
+                    this.success = true;
                 }
                 catch (e) {
                     console.log(e)
