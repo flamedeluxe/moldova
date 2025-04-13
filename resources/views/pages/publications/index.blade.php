@@ -35,4 +35,6 @@
     </div>
 
     @include('components.events', ['title' => 'Ближайшие мероприятия'])
+
+    @include('components.projects')
 @endsection
