@@ -25,7 +25,15 @@ class LoginController extends Controller
             'phone' => 'required',
         ]);
 
-        if($this->sendCode($validated['phone'])) {
+        $phone = $this->cleanPhone($validated['phone']);
+
+        $user = User::query()->where(['phone' => $phone])->first();
+
+        if($user) {
+            $code = env('SMS_TEST') ? 9999 : rand(1111, 9999);
+            $user->update(['verification_code' => $code]);
+            $this->sendSms($phone, 'Ваш проверочный код: ' . $code);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Код выслан на ваш номер телефона',
@@ -33,35 +41,14 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'success' => true,
+            'success' => false,
             'message' => 'Пользователь не найден',
         ], 422);
-    }
-
-    public function sendCode(string $phone): bool
-    {
-        $phone = preg_replace('/[\s\-\(\)]+/', '', $phone);
-
-        if(!$user = User::query()->firstOrCreate(
-            ['phone' => $phone],
-            [
-                'phone' => $phone,
-                'name' => 'аноним',
-            ]
-        )) {
-            return false;
-        }
-        $code = env('SMS_TEST') ? 9999 : rand(1111, 9999);
-        $user->update(['verification_code' => $code]);
-        self::sendSms($phone, 'Ваш проверочный код: ' . $code);
-
-        return true;
     }
 
     public function checkCode(string $code): bool
     {
         if($user = User::query()->where(['verification_code' => $code])->first()) {
-            Auth::login($user);
             $user->update(['verification_code' => null]);
             return true;
         }
@@ -76,19 +63,17 @@ class LoginController extends Controller
             'code' => ['required'],
         ]);
 
-        $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
-
-        $citizen = Citizen::query()->where('phone', $validated['phone'])->first();
-        $user = User::query()->where(['phone' => $validated['phone']])->first();
-
-        $result = $this->checkCode($validated['code']);
-
-        if(!$result) {
+        if(!$this->checkCode($validated['code'])) {
             return response()->json([
                 'success' => true,
                 'message' => 'Не верно введен код',
             ], 422);
         }
+
+        $validated['phone'] = $this->cleanPhone($validated['phone']);
+        $citizen = Citizen::query()->where('phone', str_replace('+', '', $validated['phone']))->first();
+        $user = User::query()->where(['phone' => $validated['phone']])->first();
+
         if($citizen && !$user) {
             User::query()->create([
                 'name' => $citizen->name,
@@ -105,6 +90,8 @@ class LoginController extends Controller
             ]);
             $citizen->delete();
         }
+
+        Auth::login($user);
 
         return response()->json([
             'success' => true,
@@ -186,7 +173,7 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    private static function sendSms($to, $text): void
+    private function sendSms($to, $text): void
     {
         $sigma = new SmsService(env('SIGMA_API_TOKEN'));
 
@@ -202,5 +189,10 @@ class LoginController extends Controller
         $result = $sigma->send_msg($params);
 
         Log::info(json_encode($result));
+    }
+
+    public function cleanPhone(string $phone): string
+    {
+        return preg_replace('/[\s\-\(\)]+/', '', $phone);
     }
 }
