@@ -65,7 +65,7 @@
                             <div x-show="step == 1">
                                 <div class="form-group">
                                     <button type="button" @click.prevent="getCode()" class="btn btn--default" style="width: 100%;">
-                                        Получить код
+                                        <span x-text="!loading ? 'Получить код' : 'Подождите...'"></span>
                                     </button>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn--default" style="width: 100%;">
-                                        Войти
+                                        <span x-text="!loading ? 'Войти' : 'Подождите...'"></span>
                                     </button>
                                 </div>
                             </div>
@@ -120,6 +120,7 @@
                 errors: {},
                 headers: {},
                 interval: null,
+                loading: false,
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
                     this.timeout = parseInt(localStorage.getItem('code_timeout')) || 0;
@@ -132,6 +133,7 @@
                 },
                 async request(url) {
                     try {
+                        this.loading = true;
                         const response = await fetch(url, {
                             method: "POST",
                             headers: this.headers,
@@ -156,6 +158,8 @@
                     } catch (e) {
                         console.error("Ошибка запроса:", e);
                         return null;
+                    } finally {
+                        this.loading = false;
                     }
                 },
                 async getCode() {
