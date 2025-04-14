@@ -61,8 +61,13 @@ class LoginController extends Controller
 
     public function confirm_register(Request $request)
     {
-        $phone = $this->cleanPhone($request['phone']);
-        if($user = User::query()->where(['verification_code' => $request->code, 'phone' => $phone])->first()) {
+        $validated = $request->validate([
+            'phone' => 'required',
+            'code' => 'required',
+        ]);
+
+        $phone = $this->cleanPhone($validated['phone']);
+        if($user = User::query()->where(['verification_code' => $validated['code'], 'phone' => $validated['phone']])->first()) {
             $user->update(['verification_code' => null, 'active' => 1]);
             Auth::login($user);
             return response()->json([
