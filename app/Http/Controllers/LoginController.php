@@ -66,7 +66,7 @@ class LoginController extends Controller
             'code' => 'required',
         ]);
 
-        $phone = $this->cleanPhone($validated['phone']);
+        $validated['phone'] = $this->cleanPhone($validated['phone']);
         if($user = User::query()->where(['verification_code' => $validated['code'], 'phone' => $validated['phone']])->first()) {
             $user->update(['verification_code' => null, 'active' => 1]);
             Auth::login($user);
