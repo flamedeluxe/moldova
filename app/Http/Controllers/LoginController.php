@@ -51,7 +51,7 @@ class LoginController extends Controller
         )) {
             return false;
         }
-        $code = rand(1111, 9999);
+        $code = env('SMS_TEST') ? 9999 : rand(1111, 9999);
         $user->update(['verification_code' => $code]);
         self::sendSms($phone, 'Ваш проверочный код: ' . $code);
 
@@ -170,7 +170,7 @@ class LoginController extends Controller
             ], 422);
         }
 
-        $code = rand(1111, 9999);
+        $code = env('SMS_TEST') ? 9999 : rand(1111, 9999);
         $user->verification_code = $code;
         $user->save();
 

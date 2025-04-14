@@ -18,9 +18,10 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap-reboot.rtl.min.css">
-    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-reboot.rtl.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css" />
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_API_КЛЮЧ&lang=ru_RU" type="text/javascript"></script>
 
     <style>
@@ -178,6 +179,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 <script src="js/scripts.js"></script>
 
 @if(in_array($routeName, ['index', 'publications.index', 'region', '']))
