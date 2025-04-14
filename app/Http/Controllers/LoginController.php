@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\NewPasswordMail;
 use App\Mail\RestoreMail;
 use App\Models\Citizen;
 use App\Models\User;
@@ -11,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Services\Site\SmsService;
@@ -40,19 +40,20 @@ class LoginController extends Controller
 
     public function sendCode(string $phone): bool
     {
+        $phone = preg_replace('/[\s\-\(\)]+/', '', $phone);
+
         if(!$user = User::query()->firstOrCreate(
             ['phone' => $phone],
             [
                 'phone' => $phone,
                 'name' => 'unknown',
-                'email' => 'unknown',
             ]
         )) {
             return false;
         }
         $code = rand(1111, 9999);
         $user->update(['verification_code' => $code]);
-        self::sendSms('+' . $phone, 'Ваш проверочный код: ' . $code);
+        self::sendSms($phone, 'Ваш проверочный код: ' . $code);
 
         return true;
     }
@@ -199,6 +200,8 @@ class LoginController extends Controller
             )
         );
 
-        $sigma->send_msg($params);
+        $result = $sigma->send_msg($params);
+
+        Log::info(json_encode($result));
     }
 }

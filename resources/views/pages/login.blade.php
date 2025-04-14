@@ -58,6 +58,7 @@
                                 <input type="tel"
                                        x-model="form.phone"
                                        placeholder="Введите номер телефона"
+                                       :disabled="step == 2"
                                        :class="{ 'has-error': errors.phone }">
                                 <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
                             </div>
@@ -161,7 +162,12 @@
                 },
 
                 async getCode() {
-                    await this.request('api/getCode');
+                    const result = await this.request('api/getCode');
+
+                    if(result) {
+                        this.step = 2;
+                        this.startTimer(45);
+                    }
                 },
 
                 async checkCode() {
