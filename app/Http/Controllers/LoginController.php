@@ -52,7 +52,7 @@ class LoginController extends Controller
     public function checkCode(string $code): bool
     {
         if($user = User::query()->where(['verification_code' => $code])->first()) {
-            $user->update(['verification_code' => null]);
+            $user->update(['verification_code' => null, 'active' => 1]);
             return true;
         }
 
@@ -62,7 +62,7 @@ class LoginController extends Controller
     public function confirm_register(Request $request): bool
     {
         if($user = User::query()->where(['verification_code' => $request->code])->first()) {
-            $user->update(['verification_code' => null]);
+            $user->update(['verification_code' => null, 'active' => 1]);
             Auth::login($user);
             return true;
         }
