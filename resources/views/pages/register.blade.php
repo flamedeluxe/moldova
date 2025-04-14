@@ -200,7 +200,9 @@
                 },
 
                 async confirm_register() {
-                    if(await this.request('api/confirm_register')) {
+                    const result = await this.request('api/confirm_register')
+
+                    if(result.success) {
                         location.href = '/account';
                     }
                 },
@@ -208,7 +210,7 @@
                 async register() {
                     const result = await this.request('api/register');
 
-                    if (result) {
+                    if (result.success) {
                         this.step = 2;
                         this.startTimer(45);
                     }
