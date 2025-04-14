@@ -43,6 +43,9 @@ class LoginController extends Controller
         return response()->json([
             'success' => false,
             'message' => 'Пользователь не найден',
+            'errors' => [
+                'phone' => ['Пользователь не найден']
+            ]
         ], 422);
     }
 
@@ -66,7 +69,10 @@ class LoginController extends Controller
         if(!$this->checkCode($validated['code'])) {
             return response()->json([
                 'success' => true,
-                'message' => 'Не верно введен код',
+                'message' => ['Не верно введен код'],
+                'errors' => [
+                    'code' => ['Не верно введен код']
+                ]
             ], 422);
         }
 
