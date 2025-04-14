@@ -8,6 +8,7 @@ window.addEventListener("load", (event) => {
     if (document.querySelector(".partners-slider")) partners();
     if (document.querySelector(".modal")) modals();
     if (document.querySelector("[type='tel']")) phoneMask();
+    if (document.querySelector("[data-code]")) codeMask();
     if (document.querySelector(".form-checkbox")) checkboxes();
     if (document.querySelector(".nav")) sticky();
     if (document.querySelector(".header-burger")) burger();
@@ -326,6 +327,25 @@ function phoneMask() {
             input.value = newValue;
         }
         if (event.type === "blur" && input.value.length < 5) {
+            input.value = "";
+        }
+    }
+}
+
+function codeMask() {
+    document.querySelectorAll('[data-code]').forEach(input => {
+        input.addEventListener("input", maskCode);
+        input.addEventListener("blur", maskCode);
+    });
+
+    function maskCode(event) {
+        let input = event.target;
+        let val = input.value.replace(/\D/g, ''); // Убираем всё, кроме цифр
+        if (val.length > 4) val = val.slice(0, 4); // Ограничиваем 4 цифрами
+        input.value = val;
+
+        // Если блюр и введено меньше 4 символов — очищаем
+        if (event.type === "blur" && val.length < 4) {
             input.value = "";
         }
     }

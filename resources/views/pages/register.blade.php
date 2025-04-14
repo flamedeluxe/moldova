@@ -63,6 +63,7 @@
                                     <input type="text"
                                            x-model="form.code"
                                            placeholder="Введите код"
+                                           data-code
                                            :class="{ 'has-error': errors.code }">
                                     <span class="error" x-text="errors.code ? errors.code[0] : ''"></span>
 
