@@ -73,6 +73,7 @@ class LoginController extends Controller
     {
         $validated = $request->validate([
             'phone' => ['required'],
+            'code' => ['required'],
         ]);
 
         $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
@@ -80,8 +81,14 @@ class LoginController extends Controller
         $citizen = Citizen::query()->where('phone', $validated['phone'])->first();
         $user = User::query()->where(['phone' => $validated['phone']])->first();
 
-        $result = $this->sendCode($validated['phone']);
+        $result = $this->checkCode($validated['code']);
 
+        if(!$result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Не верно введен код',
+            ], 422);
+        }
         if($citizen && !$user) {
             User::query()->create([
                 'name' => $citizen->name,
@@ -99,18 +106,10 @@ class LoginController extends Controller
             $citizen->delete();
         }
 
-        if($result) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Код выслан на ваш телефон',
-            ]);
-        }
-
         return response()->json([
-            'errors' => [
-                'phone' => ['Пользователь не зарегистрирован']
-            ]
-        ], 422);
+            'success' => true,
+            'message' => 'Вы были успешно авторизированны'
+        ]);
     }
 
     public function register(Request $request): JsonResponse
