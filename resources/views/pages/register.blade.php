@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" @click.prevent="register()" class="btn btn--default" style="width: 100%;">
-                                        Получить код
+                                        <span x-text="!loading ? 'Получить код' : 'Подождите...'"></span>
                                     </button>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" @click.prevent="confirm_register()" class="btn btn--default" style="width: 100%;">
-                                        Зарегистрироваться
+                                        <span x-text="!loading ? 'Зарегистрироваться' : 'Подождите...'"></span>
                                     </button>
                                 </div>
                             </div>
@@ -154,6 +154,7 @@
                 errors: {},
                 headers: {},
                 interval: null,
+                loading: false,
 
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
@@ -168,6 +169,7 @@
 
                 async request(url) {
                     try {
+                        this.loading = true;
                         const response = await fetch(url, {
                             method: "POST",
                             headers: this.headers,
@@ -192,6 +194,8 @@
                     } catch (e) {
                         console.error("Ошибка запроса:", e);
                         return null;
+                    } finally {
+                        this.loading = false;
                     }
                 },
 
