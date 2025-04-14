@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="p-account__social">
-                            @foreach($profile->socials as $item)
+                            @forelse($profile->socials as $item)
                                 @if(str_contains($item, 'vk.com'))
                                 <a href="{{ $item }}">
                                     <img src="img/vk.svg" alt="">
@@ -55,7 +55,7 @@
                                         <span>Вконтакте</span>
                                     </a>
                                 @endif
-                            @endforeach
+                            @endforelse
                         </div>
                     </div>
                     <div class="col-12 col-sm-4" x-show="profile.count < 8" x-cloak>
