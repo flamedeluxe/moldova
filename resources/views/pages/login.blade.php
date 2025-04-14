@@ -120,7 +120,6 @@
                 errors: {},
                 headers: {},
                 interval: null,
-
                 init() {
                     this.token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
                     this.timeout = parseInt(localStorage.getItem('code_timeout')) || 0;
@@ -131,7 +130,6 @@
                         "X-CSRF-TOKEN": this.token
                     };
                 },
-
                 async request(url) {
                     try {
                         const response = await fetch(url, {
@@ -160,7 +158,6 @@
                         return null;
                     }
                 },
-
                 async getCode() {
                     const result = await this.request('api/getCode');
 
@@ -169,22 +166,13 @@
                         this.startTimer(45);
                     }
                 },
-
-                async checkCode() {
-                    if(await this.request('api/checkCode')) {
-                        location.href = '/account';
-                    }
-                },
-
                 async send() {
                     const result = await this.request('api/login');
 
-                    if (result) {
-                        this.step = 2;
-                        this.startTimer(45);
+                    if (result.success) {
+                        location.href = '/account';
                     }
                 },
-
                 startTimer(seconds) {
                     this.timeout = seconds;
                     localStorage.setItem('code_timeout', this.timeout);
