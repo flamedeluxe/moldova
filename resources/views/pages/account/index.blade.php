@@ -38,30 +38,24 @@
                             </div>
                         </div>
                         <div class="p-account__social">
-                            <template x-for="item in profile.socials" :key="item">
-                                <div>
-                                    <template x-if="item.includes('vk.com')">
-                                        <a :href="item">
-                                            <img src="img/vk.svg" alt="">
-                                            <span>Вконтакте</span>
-                                        </a>
-                                    </template>
-
-                                    <template x-if="item.includes('t.me')">
-                                        <a :href="item">
-                                            <img src="img/te.svg" alt="">
-                                            <span>Телеграм</span>
-                                        </a>
-                                    </template>
-
-                                    <template x-if="item.includes('ok.ru')">
-                                        <a :href="item">
-                                            <img src="img/ok.svg" alt="">
-                                            <span>Одноклассники</span>
-                                        </a>
-                                    </template>
-                                </div>
-                            </template>
+                            @foreach($profile->socials as $item)
+                                @if(str_contains($item, 'vk.com'))
+                                <a href="{{ $item }}">
+                                    <img src="img/vk.svg" alt="">
+                                    <span>Вконтакте</span>
+                                </a>
+                                @elseif(str_contains($item, 't.me'))
+                                    <a href="{{ $item }}">
+                                        <img src="img/te.svg" alt="">
+                                        <span>Вконтакте</span>
+                                    </a>
+                                @elseif(str_contains($item, 'ok.ru'))
+                                    <a href="{{ $item }}">
+                                        <img src="img/ok.svg" alt="">
+                                        <span>Вконтакте</span>
+                                    </a>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-12 col-sm-4" x-show="profile.count < 8" x-cloak>
