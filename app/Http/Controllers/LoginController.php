@@ -46,7 +46,7 @@ class LoginController extends Controller
             ['phone' => $phone],
             [
                 'phone' => $phone,
-                'name' => 'unknown',
+                'name' => 'аноним',
             ]
         )) {
             return false;
