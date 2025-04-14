@@ -49,16 +49,6 @@ class LoginController extends Controller
         ], 422);
     }
 
-    public function checkCode(string $code): bool
-    {
-        if($user = User::query()->where(['verification_code' => $code])->first()) {
-            $user->update(['verification_code' => null, 'active' => 1]);
-            return true;
-        }
-
-        return false;
-    }
-
     public function confirm_register(Request $request)
     {
         $validated = $request->validate([
@@ -92,18 +82,19 @@ class LoginController extends Controller
             'code' => ['required'],
         ]);
 
-        if(!$this->checkCode($validated['code'])) {
+        $validated['phone'] = $this->cleanPhone($validated['phone']);
+
+        if(!$user = User::query()->where(['verification_code' => $validated['code'], 'phone' => $validated['phone']])->first()) {
             return response()->json([
                 'success' => true,
-                'message' => ['Не верно введен код'],
+                'message' => 'Не верно введен код',
                 'errors' => [
                     'code' => ['Не верно введен код']
                 ]
             ], 422);
         }
 
-        $validated['phone'] = $this->cleanPhone($validated['phone']);
-        $user = User::query()->where(['phone' => $validated['phone']])->first();
+        $user->update(['verification_code' => null, 'active' => 1]);
 
         Auth::login($user);
 
