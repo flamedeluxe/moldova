@@ -41,7 +41,7 @@ class IndexController extends Controller
 
         $count = 0;
         foreach($this->rules as $field => $rule) {
-            if($profile->$field !== '') $count++;
+            if($profile->$field != '') $count++;
         }
         $profile->count = $count;
 
