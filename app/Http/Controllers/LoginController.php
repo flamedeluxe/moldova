@@ -59,15 +59,25 @@ class LoginController extends Controller
         return false;
     }
 
-    public function confirm_register(Request $request): bool
+    public function confirm_register(Request $request)
     {
-        if($user = User::query()->where(['verification_code' => $request->code])->first()) {
+        $phone = $this->cleanPhone($request['phone']);
+        if($user = User::query()->where(['verification_code' => $request->code, 'phone' => $phone])->first()) {
             $user->update(['verification_code' => null, 'active' => 1]);
             Auth::login($user);
-            return true;
+            return response()->json([
+                'success' => true,
+                'message' => 'Вы были успешно зарегистрированы'
+            ]);
         }
 
-        return false;
+        return response()->json([
+            'success' => false,
+            'message' => 'Не верный код',
+            'errors' => [
+                'code' => ['Не верный код']
+            ]
+        ]);
     }
 
     public function login(Request $request): JsonResponse
