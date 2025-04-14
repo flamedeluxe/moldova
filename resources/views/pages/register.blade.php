@@ -43,7 +43,7 @@
                                 <div class="form-group">
                                     <div class="form-checkbox d-flex">
                                         <label class="checkbox">
-                                            <input type="checkbox" x-model="form.agree">
+                                            <input type="checkbox" :checked="form.agree == 1">
                                             <span></span>
                                         </label>
                                         <span>

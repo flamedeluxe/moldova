@@ -2142,6 +2142,10 @@ h5 {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
+.p-account__edit {
+    display: flex;
+    justify-content: flex-end;
+}
 .p-account__edit a {
     color: var(--accent);
     font-weight: 600;

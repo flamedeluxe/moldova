@@ -112,6 +112,8 @@ class LoginController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
             'agree' => ['required', 'accepted'],
+        ], [
+            'name.required' => 'Введите полностью Фамилия Имя Отчество',
         ]);
 
         $validated['phone'] = $this->cleanPhone($validated['phone']);
