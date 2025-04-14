@@ -59,6 +59,17 @@ class LoginController extends Controller
         return false;
     }
 
+    public function confirm_register(Request $request): bool
+    {
+        if($user = User::query()->where(['verification_code' => $request->code])->first()) {
+            $user->update(['verification_code' => null]);
+            Auth::login($user);
+            return true;
+        }
+
+        return false;
+    }
+
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -77,25 +88,7 @@ class LoginController extends Controller
         }
 
         $validated['phone'] = $this->cleanPhone($validated['phone']);
-        $citizen = Citizen::query()->where('phone', str_replace('+', '', $validated['phone']))->first();
         $user = User::query()->where(['phone' => $validated['phone']])->first();
-
-        if($citizen && !$user) {
-            User::query()->create([
-                'name' => $citizen->name,
-                'phone' => $validated['phone'],
-                'password' => Hash::make(Str::random(20)),
-                'active' => false,
-                'role' => 'user',
-                'card' => $citizen->card,
-                'surname' => $citizen->surname,
-                'patronymic' => $citizen->patronymic,
-                'email' => $citizen->email,
-                'number' => $citizen->id_number,
-                'ext_id' => $citizen->ext_id
-            ]);
-            $citizen->delete();
-        }
 
         Auth::login($user);
 
@@ -115,7 +108,7 @@ class LoginController extends Controller
             'agree' => ['required', 'accepted'],
         ]);
 
-        $validated['phone'] = str_replace(['+', ' ', ')', '(', '-'], '', $validated['phone']);
+        $validated['phone'] = $this->cleanPhone($validated['phone']);
 
         if (User::query()->where('phone', $validated['phone'])->first()){
             return response()->json([
@@ -127,7 +120,7 @@ class LoginController extends Controller
         }
 
         $fio = explode(' ', $validated['name']);
-        User::query()->create([
+        $user = User::query()->create([
             'name' => $fio[0],
             'surname' => $fio[1],
             'patronymic' => $fio[2],
@@ -138,11 +131,32 @@ class LoginController extends Controller
             'role' => 'user'
         ]);
 
-        $result = $this->sendCode($validated['phone']);
+        if($citizen = Citizen::query()
+            ->where('phone', str_replace('+', '', $validated['phone']))
+            ->first()
+        ) {
+            User::query()->create([
+                'name' => $citizen->name,
+                'phone' => $validated['phone'],
+                'password' => Hash::make(Str::random(20)),
+                'active' => false,
+                'role' => 'user',
+                'card' => $citizen->card,
+                'surname' => $citizen->surname,
+                'patronymic' => $citizen->patronymic,
+                'email' => $citizen->email,
+                'number' => $citizen->id_number,
+                'ext_id' => $citizen->ext_id
+            ]);
+        }
+
+        $code = env('SMS_TEST') ? 9999 : rand(1111, 9999);
+        $user->update(['verification_code' => $code]);
+        $this->sendSms($validated['phone'], 'Ваш проверочный код: ' . $code);
 
         return response()->json([
             'success' => true,
-            'message' => 'Вы были успешно зарегистрированы',
+            'message' => 'Код выслан на ваш номер телефона',
         ]);
     }
 

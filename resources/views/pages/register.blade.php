@@ -1,23 +1,23 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="login" x-data="register()">
+    <div class="login" x-data="app()">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-6">
                     <div class="login__form">
-                        <form action="" @submit.prevent="send()">
+                        <form action="">
                             <div class="login__form-title">
                                 <strong>Регистрация</strong> <br>
                                 по номеру телефона
                             </div>
                             <div x-show="step == 1">
                                 <div class="form-group">
-                                    <input type="tel"
-                                           x-model="form.phone"
-                                           placeholder="Номер телефона"
-                                           :class="{ 'has-error': errors.phone }">
-                                    <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
+                                    <input type="text"
+                                           x-model="form.email"
+                                           placeholder="E-mail"
+                                           :class="{ 'has-error': errors.email }">
+                                    <span class="error" x-text="errors.email ? errors.email[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
                                     <input type="text"
@@ -27,18 +27,18 @@
                                     <span class="error" x-text="errors.name ? errors.name[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text"
-                                           x-model="form.email"
-                                           placeholder="E-mail"
-                                           :class="{ 'has-error': errors.email }">
-                                    <span class="error" x-text="errors.email ? errors.email[0] : ''"></span>
-                                </div>
-                                <div class="form-group">
                                     <input type="password"
                                            x-model="form.password"
                                            placeholder="Введите пароль"
                                            :class="{ 'has-error': errors.password }">
                                     <span class="error" x-text="errors.password ? errors.password[0] : ''"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel"
+                                           x-model="form.phone"
+                                           placeholder="Номер телефона"
+                                           :class="{ 'has-error': errors.phone }">
+                                    <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-checkbox d-flex">
@@ -53,7 +53,7 @@
                                     <span class="error" x-text="errors.agree ? errors.agree[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn--default" style="width: 100%;">
+                                    <button type="button" @click.prevent="register()" class="btn btn--default" style="width: 100%;">
                                         Получить код
                                     </button>
                                 </div>
@@ -74,7 +74,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn--default" style="width: 100%;">
+                                    <button type="button" @click.prevent="confirm_register()" class="btn btn--default" style="width: 100%;">
                                         Зарегистрироваться
                                     </button>
                                 </div>
@@ -139,7 +139,7 @@
     </div>
 
     <script>
-        function register() {
+        function app() {
             return {
                 form: {
                     name: '',
@@ -195,17 +195,13 @@
                     }
                 },
 
-                async getCode() {
-                    await this.request('api/getCode');
-                },
-
-                async checkCode() {
-                    if(await this.request('api/checkCode')) {
+                async confirm_register() {
+                    if(await this.request('api/confirm_register')) {
                         location.href = '/account';
                     }
                 },
 
-                async send() {
+                async register() {
                     const result = await this.request('api/register');
 
                     if (result) {

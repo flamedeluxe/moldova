@@ -43,6 +43,7 @@ Route::group(['middleware' => [AuthClient::class], 'as' => 'account.'], function
 });
 
 Route::post('/api/register', [LoginController::class, 'register']);
+Route::post('/api/confirm_register', [LoginController::class, 'confirm_register']);
 Route::post('/api/login', [LoginController::class, 'login']);
 Route::post('/api/checkCode', [LoginController::class, 'checkCode']);
 Route::post('/api/getCode', [LoginController::class, 'getCode']);
