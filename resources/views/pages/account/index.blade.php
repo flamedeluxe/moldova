@@ -124,7 +124,7 @@
                                     Участвуйте в мероприятиях культурно-образовательного центра Молдовы, зарабатывайте баллы и получайте поощрения
                                 </div>
                                 <div class="p-card__info-btn">
-                                    <a href="//mdcard.ru/" class="btn btn--default">
+                                    <a href="//mdcard.ru/" target="_blank" class="btn btn--default">
                                         Оформить карту
                                     </a>
                                 </div>
@@ -135,24 +135,23 @@
                     <div class="col-12 col-sm-4">
                         <div class="p-card__contacts">
                             <div class="p-card__contacts-title">
-                                <strong>Культурно-образовательный центр Молдовы</strong> в Москве
+                                <strong>Культурно-образовательный центр Молдовы</strong> в г. <span x-text="currentCity.title"></span>
                             </div>
                             <div class="p-card__top">
-                                <div class="p-card__top-social">
-                                    <a href="">
-                                        <img src="img/vk.svg" alt="">
-                                    </a>
-                                    <a href="">
-                                        <img src="img/te.svg" alt="">
-                                    </a>
+                                <div class="p-card__top-social" x-show="currentCity.social.length">
+                                    <template x-for="item in currentCity.social">
+                                        <a :href="item.link" target="_blank">
+                                            <img :src="`img/${item.service}.svg`" alt="">
+                                        </a>
+                                    </template>
                                 </div>
                                 <div class="p-card__top-phone">
-                                    <a href="">+7 (495) 540-45-15</a>
+                                    <a :href="`tel:${currentCity.phone}`" x-text="currentCity.phone"></a>
                                 </div>
                             </div>
                             <div class="p-card__address">
-                                <div>ул. Солянка, д. 1/2, стр. 1</div>
-                                <a href="">
+                                <div x-text="currentCity.address"></div>
+                                <a :href="currentCity.map" target="_blank" x-show="currentCity.map">
                                     <span>На карте</span>
                                     <svg width="12" height="7" xmlns="http://www.w3.org/2000/svg">
                                         <path d="m8.44 7-.686-.674 2.386-2.34H0v-.972h10.14L7.754.668 8.44 0 12 3.5z" fill="#ED1846" fill-rule="nonzero"/>
@@ -245,6 +244,7 @@
                 profile: @json($profile),
                 loading: false,
                 cities: @json($citiesAll),
+                currentCity: @json($city),
                 form: {
                     surname: '',
                     name: '',
@@ -338,7 +338,6 @@
 
                         this.alertSuccess = true;
                         this.profile = data.profile;
-                        this.loading = false;
                         this.errors = {};
                         setTimeout(() => {
                             this.alertSuccess = false;
@@ -347,6 +346,8 @@
 
                     } catch (error) {
                         console.log("Ошибка отправки данных:", error);
+                    } finally {
+                        this.loading = false;
                     }
                 },
                 async refresh() {

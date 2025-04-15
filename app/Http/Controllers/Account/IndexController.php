@@ -17,7 +17,7 @@ class IndexController extends Controller
         'patronymic' => 'required|string|max:100',
         'birthday' => 'required|date|before:today',
         'phone' => 'required|string|max:100',
-        'email' => 'required|email|max:100',
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'region' => 'required|exists:cities,title',
         'socials' => 'array|nullable|max:5',
     ];
@@ -38,6 +38,7 @@ class IndexController extends Controller
         $profile = Auth::user();
         $cities = City::active()->get();
         $events = (new PublicationService)->getPublications('event', $profile->region);
+        $city = City::query()->where('title', $profile->region)->first();
 
         $count = 0;
         foreach($this->rules as $field => $rule) {
@@ -50,6 +51,7 @@ class IndexController extends Controller
             'events' => $events['items'],
             'events_total' => $events['total'],
             'cities' => $cities,
+            'city' => $city
         ]);
     }
 

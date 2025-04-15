@@ -3,7 +3,8 @@
         Профиль
     </div>
     <div class="alert alert--success" x-show="alertSuccess" x-cloak>
-        Данные успешно сохранены
+        Данные успешно сохранены, страница будет перезагружена
+        для обновления данных
     </div>
     <div class="modal__group">
         <div class="form-group">
