@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="tel" x-model="form.contacts" placeholder="Номер телефона или Email" :class="{ 'has-error': errors.contacts }">
+                        <input type="text" x-model="form.contacts" placeholder="Номер телефона или Email" :class="{ 'has-error': errors.contacts }">
                         <span class="error" x-text="errors.contacts ? errors.contacts[0] : ''"></span>
                     </div>
 
