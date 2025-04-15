@@ -39,8 +39,10 @@ class FeedbackResource extends Resource
                     ->required(),
                 TextInput::make('phone')
                     ->label('Телефон')
-                    ->columnSpanFull()
-                    ->required(),
+                    ->columnSpanFull(),
+                TextInput::make('email')
+                    ->label('E-mail')
+                    ->columnSpanFull(),
                 Textarea::make('text')
                     ->label('Текст')
                     ->columnSpanFull()
@@ -58,6 +60,9 @@ class FeedbackResource extends Resource
                 TextColumn::make('phone')
                     ->searchable()
                     ->label('Телефон'),
+                TextColumn::make('email')
+                    ->searchable()
+                    ->label('E-mail'),
                 TextColumn::make('created_at')
                     ->searchable()
                     ->label('Текст'),

@@ -48,3 +48,4 @@ Route::post('/api/login', [LoginController::class, 'login']);
 Route::post('/api/checkCode', [LoginController::class, 'checkCode']);
 Route::post('/api/getCode', [LoginController::class, 'getCode']);
 Route::post('/api/feedback', [FormController::class, 'feedback']);
+Route::post('/api/question', [FormController::class, 'question']);

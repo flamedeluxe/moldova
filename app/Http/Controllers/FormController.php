@@ -28,4 +28,30 @@ class FormController extends BaseController
             'message' => 'Запрос успешно отправлен'
         ]);
     }
+
+    public function question(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'contacts' => 'required',
+            'text' => 'required|max:500',
+            'agree' => 'accepted',
+        ]);
+
+        $data = $request->except('_token', 'agree');
+        if(filter_var($data['contacts'], FILTER_VALIDATE_EMAIL))
+            $data['email'] = $data['contacts'];
+        else
+            $data['phone'] = $data['contacts'];
+        unset($data['contacts']);
+
+        Feedback::query()->create($data);
+
+        Mail::to(env('MAIL_TO'))->send(new FeedbackMail($data));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Запрос успешно отправлен'
+        ]);
+    }
 }

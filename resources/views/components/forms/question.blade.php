@@ -105,7 +105,7 @@
             },
             async send() {
                 try {
-                    const response = await fetch('api/feedback', {
+                    const response = await fetch('api/question', {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
