@@ -78,6 +78,7 @@ class PublicationResource extends Resource
                     ]),
                 Toggle::make('active')
                     ->columnSpan('full')
+                    ->default(true)
                     ->label('Активность'),
                 RichEditor::make('introtext')
                     ->label('Вводный текст')
