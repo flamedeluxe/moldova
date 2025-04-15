@@ -2438,7 +2438,7 @@ h5 {
     cursor: pointer;
     line-height: .4;
     z-index: 99999;
-    opacity: .3;
+    color: var(--accent);
     height: 2rem;
 }
 
@@ -3226,6 +3226,11 @@ h5 {
     .modal__city .dropdown__list ul,
     .header__menu .dropdown__list ul {
         column-count: 2;
+    }
+    .modal__city .modal__close {
+        font-size: 3rem;
+        right: .5rem;
+        top: 1rem;
     }
 }
 
