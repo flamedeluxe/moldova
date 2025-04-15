@@ -335,10 +335,7 @@ img {
     margin-bottom: 1rem;
 }
 .modal__city .dropdown__cities ul,
-.header__menu .dropdown__cities ul {
-    column-count: 3;
-    display: block;
-}
+.header__menu .dropdown__cities ul,
 .modal__city .dropdown__list ul,
 .header__menu .dropdown__list ul {
     column-count: 3;
@@ -3223,6 +3220,12 @@ h5 {
     .map,
     .events {
         padding: 2rem 0;
+    }
+    .modal__city .dropdown__cities ul,
+    .header__menu .dropdown__cities ul,
+    .modal__city .dropdown__list ul,
+    .header__menu .dropdown__list ul {
+        column-count: 2;
     }
 }
 
