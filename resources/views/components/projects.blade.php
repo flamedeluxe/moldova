@@ -9,7 +9,7 @@
                     <a href="{{ route('projects.show', $item->slug) }}">
                         <picture>
                             <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $item->image_m) }}">
-                            <img src="{{ asset('storage/' . $item->banner) }}" alt="{{ $item->title }}">
+                            <img src="{{ asset('storage/' . $item->banner_slider ?? $item->banner) }}" alt="{{ $item->title }}">
                         </picture>
                     </a>
                 </div>
