@@ -18,6 +18,7 @@ class PublicationController extends BaseController
                 default => $news,
             };
             return response()->json([
+                'categories' => $data['categories'],
                 'data' => $data['items'],
                 'total' => $data['total']
             ]);

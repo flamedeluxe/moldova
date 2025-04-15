@@ -72,6 +72,35 @@
             </button>
         </div>
     </div>
+
+    <div class="modal modal__city" id="modal_city">
+        <div class="wrap">
+            <div class="modal__close">
+                &times;
+            </div>
+            <div class="modal__content">
+                <div class="dropdown__cities">
+                    <ul>
+                        <li><a href="#" @click.prevent="city = 'Москва'; get()">Москва</a></li>
+                        <li><a href="#" @click.prevent="city = 'Санкт-Петербург'; get()">Санкт-Петербург</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown__list">
+                    <ul>
+                        <template x-for="item in cities" :key="item.id">
+                            <li>
+                                <a
+                                    @click.prevent="city = item.title; get()"
+                                    :href="`region/${item.slug}`"
+                                    x-text="item.title">
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     function events() {
@@ -98,6 +127,10 @@
             nextPage() {
                 this.page++;
                 this.get();
+            },
+            async selectCity(city) {
+                await this.get();
+                this.city = city.title;
             },
             selectDate(date) {
                 this.date = `${date.day} ${date.month}-${date.day} ${date.month}`
@@ -129,6 +162,7 @@
                     const r = await response.json();
                     this.items = r.data;
                     this.total = r.total;
+                    this.categories = r.categories;
                 } else {
                     this.error = 'Ошибка загрузки данных';
                 }
