@@ -71,6 +71,9 @@ class ProjectResource extends Resource
                                     ->label('Баннер десктоп'),
                                 FileUpload::make('image_m')
                                     ->label('Баннер телефон'),
+                                FileUpload::make('banner_slider')
+                                    ->columnSpanFull()
+                                    ->label('Баннер в слайдере'),
                             ]),
                     ]),
                 Section::make('Главный блок')
