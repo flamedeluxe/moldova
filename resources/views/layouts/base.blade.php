@@ -175,6 +175,8 @@
 
 @include('components.footer')
 
+@include('components.forms.question')
+
 @endif
 
 <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js"></script>

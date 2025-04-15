@@ -2554,11 +2554,72 @@ h5 {
 .modal__profile button {
     width: 100%;
 }
-
-
-
-
-
+.m-header__nav-menu {
+    width: fit-content;
+    margin: auto;
+}
+.question-button {
+    position: fixed;
+    right: 0;
+    top: 30%;
+    margin: auto;
+    cursor: pointer;
+    background: #FBB416;
+    color: #fff;
+    width: auto;
+    height: fit-content;
+    text-transform: uppercase;
+    padding: .5rem 1rem;
+    font-weight: 600;
+    transform: rotate(-90deg);
+    transform-origin: right bottom;
+    display: flex;
+    gap: 0 .5rem;
+    align-items: center;
+}
+.question-button img {
+    transform: rotate(90deg);
+    width: 1rem;
+    height: 1rem;
+}
+.modal__question {
+    justify-content: flex-end;
+}
+.modal__question .wrap {
+    margin: 0;
+    border-radius: 0;
+    width: 32rem;
+}
+.modal__question .faq__form-title {
+    font-weight: 700;
+    color: var(--accent);
+}
+.modal__question .login__nav-footer,
+.modal__question .login__nav-footer_social ul {
+    padding: 0;
+}
+.modal__question .login__nav-footer_email {
+    text-align: right;
+}
+.modal__question .login__nav-footer_email a {
+    color: var(--accent);
+}
+.modal__question .login__nav-footer_social a {
+    background-color: #ed18461c;
+    color: var(--accent);
+}
+.modal__question .login__nav-footer_social a img {
+    filter: brightness(0) saturate(100%) invert(22%) sepia(38%) saturate(6360%) hue-rotate(334deg) brightness(92%) contrast(103%)
+}
+.modal__question .modal__content {
+    height: 100%;
+}
+.modal__question-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 
 
