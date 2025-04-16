@@ -48,7 +48,7 @@
             <div class="row gx-4">
                 <template x-for="(item, idx) in items" :key="item.id">
                     <div class="col-12 col-sm-4">
-                        <a :href="`publicaions/${item.slug}`" class="item">
+                        <a :href="`publications/${item.slug}`" class="item">
                             <div class="item__caption" x-show="idx == 1 || idx == 5">
                                 <div class="item__caption-title" x-text="item.title">
                                 </div>

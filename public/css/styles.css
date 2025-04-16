@@ -3293,6 +3293,9 @@ h5 {
         right: .5rem;
         top: 1rem;
     }
+    .modal__question .wrap {
+        margin-top: 13rem;
+    }
 }
 
 
