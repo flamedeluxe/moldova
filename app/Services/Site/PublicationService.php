@@ -60,10 +60,12 @@ class PublicationService
         if(request()->city) {
             session()->put('city', request()->city);
             $query->where('city', request()->city);
+            $query->orWhere('city', '');
         }
 
         if ($city) {
             $query->where('city', $city);
+            $query->orWhere('city', '');
         }
 
         // Общее количество записей (без пагинации)
