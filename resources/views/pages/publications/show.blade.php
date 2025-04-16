@@ -67,6 +67,7 @@
 
                         <div class="p-page__aside-title">
                             <div>Мероприятия</div>
+                            {{--
                             <div class="events__select">
                                 <div>
                                     <span>календарь</span>
@@ -74,6 +75,7 @@
                                     <input type="text" name="date" placeholder="Выбрать даты" required>
                                 </div>
                             </div>
+                            --}}
                         </div>
                         <div class="p-page__aside-content">
                             @foreach($events as $item)
