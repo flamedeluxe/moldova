@@ -50,13 +50,13 @@ class PublicationController extends BaseController
             ->orderBy('published_at', 'desc')
             ->where('type', 'news')
             ->where('id', '!=', $publication->id)
-            ->limit(6)
+            ->limit(3)
             ->get();
         $events = Publication::active()
             ->orderBy('published_at', 'desc')
             ->where('type', 'news')
             ->where('id', '!=', $publication->id)
-            ->limit(6)
+            ->limit(3)
             ->get();
 
         return view('pages.publications.show', compact('publication', 'news', 'events'));
