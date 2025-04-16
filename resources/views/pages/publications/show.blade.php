@@ -1,4 +1,4 @@
-@extends('layouts.base')
+    @extends('layouts.base')
 
 @section('content')
     <div class="p-page">
@@ -53,7 +53,7 @@
                             </a>
                         </div>
                         <div class="p-page__aside-content">
-                            @foreach($publications as $item)
+                            @foreach($news as $item)
                             <a href="{{ route('publications.show', $item->slug) }}" class="item">
                                 <div class="item__title">
                                     {{ $item->title }}
@@ -76,44 +76,29 @@
                             </div>
                         </div>
                         <div class="p-page__aside-content">
-                            <a href="" class="item">
-                                <div class="item__img">
-                                    <div class="item__img-badge">Совет молодежи</div>
-                                    <img src="img/eee1.png" alt="">
-                                </div>
-                                <div class="item__date">
-                                    30 января в 15:00
-                                </div>
-                                <div class="item__title">
-                                    Экскурсия для молдавских студентов в Госдуму РФ
-                                </div>
-                                <div class="item__text">
-                                    Актив Совета молодежи Культурно-образовательного центра посетит Государственную Думу Российской Федерации. Ребятам представится уникальная…
-                                </div>
-                                <div class="item__loc">
-                                    <img src="img/loc.svg" alt="">
-                                    <span>Охотный ряд, 1</span>
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__img">
-                                    <div class="item__img-badge">Совет молодежи</div>
-                                    <img src="img/eee1.png" alt="">
-                                </div>
-                                <div class="item__date">
-                                    30 января в 15:00
-                                </div>
-                                <div class="item__title">
-                                    Экскурсия для молдавских студентов в Госдуму РФ
-                                </div>
-                                <div class="item__text">
-                                    Актив Совета молодежи Культурно-образовательного центра посетит Государственную Думу Российской Федерации. Ребятам представится уникальная…
-                                </div>
-                                <div class="item__loc">
-                                    <img src="img/loc.svg" alt="">
-                                    <span>Охотный ряд, 1</span>
-                                </div>
-                            </a>
+                            @foreach($events as $item)
+                                <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                                    <div class="item__img">
+                                        <div class="item__img-badge">{{ $item->category }}</div>
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="">
+                                    </div>
+                                    <div class="item__date">
+                                        {{ $item->date }}
+                                    </div>
+                                    <div class="item__title">
+                                        {{ $item->title }}
+                                    </div>
+                                    <div class="item__text">
+                                        {{ $item->introtext }}
+                                    </div>
+                                    {{--
+                                    <div class="item__loc">
+                                        <img src="img/loc.svg" alt="">
+                                        <span>Охотный ряд, 1</span>
+                                    </div>
+                                    --}}
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>

@@ -46,12 +46,19 @@ class PublicationController extends BaseController
     public function show($slug)
     {
         $publication = Publication::active()->where('slug', $slug)->firstOrFail();
-        $publications = Publication::active()
+        $news = Publication::active()
             ->orderBy('published_at', 'desc')
             ->where('type', 'news')
             ->where('id', '!=', $publication->id)
             ->limit(6)
             ->get();
-        return view('pages.publications.show', compact('publication', 'publications'));
+        $events = Publication::active()
+            ->orderBy('published_at', 'desc')
+            ->where('type', 'news')
+            ->where('id', '!=', $publication->id)
+            ->limit(6)
+            ->get();
+
+        return view('pages.publications.show', compact('publication', 'news', 'events'));
     }
 }
