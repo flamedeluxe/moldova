@@ -26,9 +26,9 @@
         </div>
 
         <div class="form-group">
-            <div class="form-checkbox d-flex">
+            <div class="form-checkbox d-flex" @click="form.agree = form.agree == false">
                 <label class="checkbox">
-                    <input type="checkbox" x-model="form.agree" :true-value="true">
+                    <input type="checkbox" x-model="form.agree">
                     <span></span>
                 </label>
                 <span>
