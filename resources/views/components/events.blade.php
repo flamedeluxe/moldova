@@ -66,7 +66,7 @@
             </template>
         </div>
 
-        <div class="events__more" x-show="items.length > total">
+        <div class="events__more" x-show="total > items.length">
             <button class="btn btn--default" @click.prevent="nextPage">
                 Предыдущие новости
             </button>
