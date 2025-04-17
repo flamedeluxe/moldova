@@ -5,6 +5,11 @@
         <div class="container" :class="loading ? 'opacity-50' : ''">
             <div class="p-projects__top">
                 <div class="p-projects__top-title">Новости</div>
+                <div class="events__select">
+                    <div>
+                        <input type="text" x-model="date" readonly name="date" @change="filter" placeholder="Выбрать даты" required>
+                    </div>
+                </div>
             </div>
 
             <div class="row gx-4">

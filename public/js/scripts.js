@@ -652,18 +652,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initDatepicker() {
-    const inputElement = document.querySelector('[x-model="date"]');
+    const inputElements = document.querySelectorAll('[x-model="date"]');
 
     function setRange(dp, days) {
         let startDate = new Date();
         let endDate = new Date(startDate);
         endDate.setDate(startDate.getDate() + days);
 
-        dp.clear(); // Очищаем предыдущие даты
-        dp.selectDate([startDate, endDate]); // Устанавливаем диапазон
-        dp.setViewDate(startDate); // Обновляем отображаемую дату
+        dp.clear();
+        dp.selectDate([startDate, endDate]);
+        dp.setViewDate(startDate);
 
-        triggerChangeEvent(inputElement);
+        triggerChangeEvent(dp.$el);
     }
 
     function triggerChangeEvent(element) {
@@ -673,49 +673,50 @@ function initDatepicker() {
         }
     }
 
-    let weekButton = {
-        content: 'Неделя',
-        className: 'button-select',
-        onClick: (dp) => {
-            setRange(dp, 7);
-        }
-    };
+    inputElements.forEach(inputElement => {
+        let weekButton = {
+            content: 'Неделя',
+            className: 'button-select',
+            onClick: (dp) => {
+                setRange(dp, 7);
+            }
+        };
 
-    let monthButton = {
-        content: 'Месяц',
-        className: 'button-select',
-        onClick: (dp) => {
-            setRange(dp, 30);
-        }
-    };
+        let monthButton = {
+            content: 'Месяц',
+            className: 'button-select',
+            onClick: (dp) => {
+                setRange(dp, 30);
+            }
+        };
 
-    let threeMonthsButton = {
-        content: '3 месяца',
-        className: 'button-select',
-        onClick: (dp) => {
-            setRange(dp, 30 * 3);
-        }
-    };
+        let threeMonthsButton = {
+            content: '3 месяца',
+            className: 'button-select',
+            onClick: (dp) => {
+                setRange(dp, 30 * 3);
+            }
+        };
 
-    let submitButton = {
-        content: 'Показать мероприятия',
-        className: 'button-submit',
-        onClick: (dp) => {
-            let selectedDates = dp.selectedDates.map(date => {
-                return date.toISOString().split('T')[0]; // Формат YYYY-MM-DD
-            });
-            dp.hide();
-            triggerChangeEvent(inputElement);
-        }
-    };
+        let submitButton = {
+            content: 'Показать мероприятия',
+            className: 'button-submit',
+            onClick: (dp) => {
+                let selectedDates = dp.selectedDates.map(date => {
+                    return date.toISOString().split('T')[0];
+                });
+                dp.hide();
+                triggerChangeEvent(dp.$el);
+            }
+        };
 
-    const datepicker = new AirDatepicker(inputElement, {
-        range: true,
-        position: 'bottom right',
-        buttons: [weekButton, monthButton, threeMonthsButton, submitButton],
-        multipleDatesSeparator: ' - ',
-        dateFormat: 'dd MMM',
+        new AirDatepicker(inputElement, {
+            range: true,
+            position: 'bottom right',
+            buttons: [weekButton, monthButton, threeMonthsButton, submitButton],
+            multipleDatesSeparator: ' - ',
+            dateFormat: 'dd MMM',
+        });
     });
 }
-
 
