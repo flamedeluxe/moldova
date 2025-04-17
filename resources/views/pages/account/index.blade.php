@@ -80,9 +80,6 @@
                         <div class="p-account__edit">
                             <a href="" data-modal="#modal_profile">Редактировать</a>
                         </div>
-                        <div class="p-account__edit">
-                            <a href="{{ route('account.logout') }}">Выйти</a>
-                        </div>
                     </div>
                 </div>
             </div>
