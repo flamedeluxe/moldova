@@ -8,8 +8,6 @@ class SearchController extends BaseController
 {
     public function index()
     {
-        public function index()
-    {
         $search = request('query');
 
         // Разбиваем запрос на отдельные слова
