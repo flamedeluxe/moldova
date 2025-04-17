@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use App\Models\Publication;
+use App\Models\Question;
 
 class SearchController extends BaseController
 {
