@@ -9,7 +9,6 @@ window.addEventListener("load", (event) => {
     if (document.querySelector(".modal")) modals();
     if (document.querySelector("[type='tel']")) phoneMask();
     if (document.querySelector("[data-code]")) codeMask();
-    if (document.querySelector(".form-checkbox")) checkboxes();
     if (document.querySelector(".nav")) sticky();
     if (document.querySelector(".header-burger")) burger();
     if (document.querySelector(".accordion-item")) accordion();

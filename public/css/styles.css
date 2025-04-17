@@ -104,7 +104,6 @@ form.disabled {
     margin-bottom: .5rem;
 }
 .form-checkbox {
-    cursor: pointer;
     font-size: .8rem;
     align-items: flex-start;
 }
