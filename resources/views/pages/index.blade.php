@@ -7,7 +7,13 @@
                 @foreach($slides as $slide)
                     <div class="keen-slider__slide slide">
                         <div class="img">
-                            <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                            @if(isset($slide->link) && !empty($slide->link))
+                                <a href="{{ $slide->link }}">
+                                    <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                                </a>
+                            @else
+                                <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                            @endif
                         </div>
                         <div class="caption">
                             <div class="caption__left">

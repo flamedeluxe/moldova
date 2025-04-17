@@ -14,9 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class SliderResource extends Resource
@@ -55,8 +53,11 @@ class SliderResource extends Resource
                                             ->label('Текст'),
                                         TextInput::make('badge')
                                             ->label('Бейдж'),
+                                        TextInput::make('link')
+                                            ->label('Ссылка'),
                                         Toggle::make('active')
                                             ->label('Активность'),
+
                                     ]),
                                 Group::make()
                                     ->schema([
