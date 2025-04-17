@@ -26,7 +26,13 @@
                                     </div>
                                 </div>
                                 <div class="caption__title">
-                                    {{ $slide['title'] }}
+                                    @if(isset($slide['link']) && !empty($slide['link']))
+                                        <a href="{{ $slide['link'] }}">
+                                            {{ $slide['title'] }}
+                                        </a>
+                                    @else
+                                        {{ $slide['title'] }}
+                                    @endif
                                 </div>
                             </div>
                             <div class="caption__right">

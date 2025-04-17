@@ -486,6 +486,13 @@ img {
     margin-top: .2rem;
     padding-right: 4rem;
 }
+.hero .slide .caption__title a {
+    border-bottom: 0;
+    color: var(--accent2);
+}
+.hero .slide .caption__title a:hover {
+    color: var(--accent);
+}
 .hero .slide .caption__right {
     padding-left: 4rem;
     display: flex;
