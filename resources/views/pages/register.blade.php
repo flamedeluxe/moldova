@@ -41,12 +41,12 @@
                                     <span class="error" x-text="errors.phone ? errors.phone[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
-                                    <div class="form-checkbox d-flex" @click="form.agree = form.agree == false">
+                                    <div class="form-checkbox d-flex">
                                         <label class="checkbox">
                                             <input type="checkbox" x-model="form.agree">
                                             <span></span>
                                         </label>
-                                        <span>
+                                        <span @click="form.agree = form.agree == false">
                                         Соглашаюсь с политикой <a href="/policy" target="_blank">конфиденциальности в отношении персональных дынных</a>
                                     </span>
                                     </div>
