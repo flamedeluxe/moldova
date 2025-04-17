@@ -8,33 +8,55 @@ class SearchController extends BaseController
 {
     public function index()
     {
+        public function index()
+    {
         $search = request('query');
 
-        // Сначала пытаемся найти точное совпадение
-        $results = Publication::query()
-            ->when($search, function ($query, $search) {
-                // Поиск точного совпадения
-                $query->where('title', 'LIKE', '%' . $search . '%')
-                    ->orWhere('content', 'LIKE', '%' . $search . '%');
+        // Разбиваем запрос на отдельные слова
+        $words = explode(' ', $search);
+
+        // Ищем в каждой модели
+        $results = collect();
+
+        // Поиск в модели Publication
+        $publicationResults = Publication::query()
+            ->where(function ($query) use ($words) {
+                foreach ($words as $word) {
+                    $query->where('title', 'LIKE', '%' . $word . '%')
+                        ->orWhere('content', 'LIKE', '%' . $word . '%');
+                }
             })
-            ->paginate(10)
-            ->appends(['query' => $search]);
+            ->get();
 
-        // Если результаты пустые, пытаемся искать по отдельным словам
-        if ($results->isEmpty() && $search) {
-            $words = explode(' ', $search); // Разбиваем строку на отдельные слова
+        $results = $results->merge($publicationResults);
 
-            $results = Publication::query()
-                ->where(function ($query) use ($words) {
-                    foreach ($words as $word) {
-                        $query->where('title', 'LIKE', '%' . $word . '%')
-                            ->orWhere('content', 'LIKE', '%' . $word . '%');
-                    }
-                })
-                ->paginate(10)
-                ->appends(['query' => $search]);
-        }
+        // Поиск в модели Page
+        $pageResults = Page::query()
+            ->where(function ($query) use ($words) {
+                foreach ($words as $word) {
+                    $query->where('title', 'LIKE', '%' . $word . '%')
+                        ->orWhere('content', 'LIKE', '%' . $word . '%');
+                }
+            })
+            ->get();
 
-        return view('pages.search', compact('results', 'search'));
+        $results = $results->merge($pageResults);
+
+        // Поиск в модели Question
+        $questionResults = Question::query()
+            ->where(function ($query) use ($words) {
+                foreach ($words as $word) {
+                    $query->where('title', 'LIKE', '%' . $word . '%')
+                        ->orWhere('content', 'LIKE', '%' . $word . '%');
+                }
+            })
+            ->get();
+
+        $results = $results->merge($questionResults);
+
+        // Пагинируем результаты (если нужно, добавим кастомную пагинацию, если результат не помещается)
+        $paginatedResults = $results->paginate(10);
+
+        return view('pages.search', compact('paginatedResults', 'search'));
     }
 }
