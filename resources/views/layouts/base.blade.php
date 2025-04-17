@@ -73,9 +73,7 @@
             <li><a href="{{ route('about') }}">О нас</a></li>
             <li><a href="{{ route('projects.index') }}">Наши проекты</a></li>
             <li><a href="{{ route('publications.index') }}">Новости</a></li>
-            <li>
-                <a href="#">Мы в регионах</a>
-            </li>
+            <li><a href="#" data-modal="#modal_city2">Мы в регионах</a></li>
             <li><a href="{{ route('faq') }}">Вопросы и ответы</a></li>
         </ul>
 
@@ -231,5 +229,28 @@
     }
 </script>
 @endif
+
+<div class="modal modal__city" id="modal_city2">
+    <div class="wrap">
+        <div class="modal__close">
+            &times;
+        </div>
+        <div class="modal__content">
+            <div class="dropdown__cities">
+                <ul>
+                    <li><a href="region/moskva">Москва</a></li>
+                    <li><a href="region/sankt-peterburg">Санкт-Петербург</a></li>
+                </ul>
+            </div>
+            <div class="dropdown__list">
+                <ul>
+                    @foreach($cities as $city)
+                        <li><a href="{{ route('region', $city->slug) }}">{{ $city->title }}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
