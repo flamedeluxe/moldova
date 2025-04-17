@@ -1873,6 +1873,7 @@ h5 {
 .p-search__results .item {
     margin-bottom: 3rem;
 }
+.p-search__results .item__title,
 .p-search__results .item__title a {
     border-bottom: 0;
     font-size: 1.2rem;

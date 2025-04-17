@@ -19,15 +19,29 @@
                             <div class="row">
                                 <div class="col-12 col-md-8">
                                     <div class="item__title">
-                                        <a href="{{ route('publications.show', $result->slug) }}">
+                                        @if($result instanceof App\Models\Publication && $result->slug)
+                                            <a href="{{ route('publications.show', $result->slug) }}">
+                                                <span>{!! highlightSearch($result->title, $search) !!}</span>
+                                            </a>
+                                        @elseif($result instanceof App\Models\Page && $result->slug)
+                                            <a href="{{ route('pages.show', $result->slug) }}">
+                                                <span>{!! highlightSearch($result->title, $search) !!}</span>
+                                            </a>
+                                        @elseif($result instanceof App\Models\Question)
                                             <span>{!! highlightSearch($result->title, $search) !!}</span>
-                                        </a>
+                                        @else
+                                            <span>{!! highlightSearch($result->title, $search) !!}</span>
+                                        @endif
                                     </div>
                                     <div class="item__text">
                                         {!! highlightSearch($result->content, $search) !!}
                                     </div>
                                     <div class="item__link">
-                                        <a href="{{ route('publications.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
+                                        @if($result instanceof App\Models\Publication && $result->slug)
+                                            <a href="{{ route('publications.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
+                                        @elseif($result instanceof App\Models\Page && $result->slug)
+                                            <a href="{{ route('pages.show', $result->slug) }}">{{ route('pages.show', $result->slug) }}</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
@@ -36,6 +50,8 @@
                             </div>
                         </div>
                     @endforeach
+
+
                 </div>
 
                 <div class="pagination">
