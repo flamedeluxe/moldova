@@ -2170,6 +2170,12 @@ h5 {
     line-height: 2.5rem;
     color: var(--accent2);
 }
+.p-account__title a {
+    color: var(--accent);
+    border-bottom: 0;
+    font-size: 1.2rem;
+    text-transform: none;
+}
 .p-account__info {
     display: flex;
     gap: 0 3rem;

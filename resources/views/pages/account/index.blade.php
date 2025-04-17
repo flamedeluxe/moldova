@@ -6,7 +6,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-sm-8">
-                        <div class="p-account__title" x-text="profile.fullname">
+                        <div class="p-account__title">
+                            <span x-text="profile.fullname"></span>
+                            <a href="{{ route('account.logout') }}">Выйти</a>
                         </div>
                         <div class="p-account__verified" x-show="profile.card" x-cloak>
                             <img src="img/verified.svg" alt="">
