@@ -174,7 +174,7 @@
                     <div class="p-projects__top-title">Посещайте мероприятия</div>
                     <div class="events__select">
                         <div>
-                            <input type="text" x-model="date" placeholder="Выбрать даты" required>
+                            <input type="text" x-model="date" readonly placeholder="Выбрать даты" required>
                         </div>
                         <div class="keen-slider__controls">
                             <button class="keen-slider-arrow keen-slider-arrow--left">

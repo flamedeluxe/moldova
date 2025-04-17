@@ -39,7 +39,7 @@
                     </div>
                     <div class="events__select">
                         <div>
-                            <input type="text" x-model="date" name="date" @change="filter" placeholder="Выбрать даты" required>
+                            <input type="text" x-model="date" readonly name="date" @change="filter" placeholder="Выбрать даты" required>
                         </div>
                     </div>
                 </div>
