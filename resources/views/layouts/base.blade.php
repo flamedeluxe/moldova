@@ -131,8 +131,8 @@
                                 </div>
                                 <div class="dropdown__list">
                                     <ul>
-                                        @foreach($cities as $city)
-                                        <li><a href="{{ route('region', $city->slug) }}">{{ $city->title }}</a></li>
+                                        @foreach($cities as $item)
+                                        <li><a href="{{ route('region', $item->slug) }}">{{ $item->title }}</a></li>
                                         @endforeach
                                     </ul>
                                 </div>

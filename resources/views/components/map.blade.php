@@ -15,8 +15,8 @@
                         </div>
                         <div class="map__cities-list">
                             <ul>
-                                @foreach($cities as $city)
-                                    <li><a href="{{ route('region', $city->slug) }}">{{ $city->title }}</a></li>
+                                @foreach($cities as $item)
+                                    <li><a href="{{ route('region', $item->slug) }}">{{ $item->title }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -39,6 +39,9 @@
         });
 
         const cities = @json($regions);
+        const activeCity = '{{ $city->title ?? '' }}';
+
+        let activePlacemark = null;
 
         cities.forEach(city => {
             if (city.coors) {
@@ -48,25 +51,25 @@
 
                 var placemark = new ymaps.Placemark(coordinates, {
                     balloonContent: `
-                    <div class="map-balloon">
-                        <div class="map-balloon__top">
-                            <div class="map-balloon__top-title">
-                                <h3>${city.title}</h3>
-                            </div>
-                            ${socialBlock}
+                <div class="map-balloon">
+                    <div class="map-balloon__top">
+                        <div class="map-balloon__top-title">
+                            <h3>${city.title}</h3>
                         </div>
-                        <div class="map-balloon__text">
-                            <p>${city.phone || ''}</p>
-                            <p>${city.email || ''}</p>
-                        </div>
-                        <div class="map-balloon__bottom">
-                            <a href="regions/${city.slug}">
-                                <span>Подробнее</span>
-                                <img src="img/more.svg" alt="">
-                            </a>
-                        </div>
+                        ${socialBlock}
                     </div>
-                `
+                    <div class="map-balloon__text">
+                        <p>${city.phone || ''}</p>
+                        <p>${city.email || ''}</p>
+                    </div>
+                    <div class="map-balloon__bottom">
+                        <a href="region/${city.slug}">
+                            <span>Подробнее</span>
+                            <img src="img/more.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            `
                 }, {
                     iconLayout: 'default#image',
                     iconImageHref: 'img/marker.svg',
@@ -75,9 +78,20 @@
                 });
 
                 myMap.geoObjects.add(placemark);
-            }
 
-            myMap.setBounds(myMap.geoObjects.getBounds());
+                // Сохраняем пласмарк активного города
+                if (city.title === activeCity) {
+                    activePlacemark = { placemark, coordinates };
+                }
+            }
         });
+
+        // Центрируем и открываем балун, если активный город найден
+        if (activePlacemark) {
+            myMap.setCenter(activePlacemark.coordinates, 12, { duration: 500 });
+            activePlacemark.placemark.balloon.open();
+        } else {
+            myMap.setBounds(myMap.geoObjects.getBounds(), { checkZoomRange: true });
+        }
     });
 </script>
