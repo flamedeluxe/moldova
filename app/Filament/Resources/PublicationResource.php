@@ -74,6 +74,7 @@ class PublicationResource extends Resource
                             ->schema([
                                 FileUpload::make('image')
                                     ->label('Изображение')
+                                    ->imageEditor()
                                     ->imageCropAspectRatio('12:7'),
                             ]),
                     ]),
@@ -92,6 +93,7 @@ class PublicationResource extends Resource
                     ->label('Галерея')
                     ->panelLayout('grid')
                     ->previewable(true)
+                    ->imageEditor()
                     ->reorderable(true)
                     ->imageCropAspectRatio('12:7')
                     ->multiple()

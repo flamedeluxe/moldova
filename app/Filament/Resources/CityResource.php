@@ -104,6 +104,7 @@ class CityResource extends Resource
                     ->reorderable(true)
                     ->multiple()
                     ->imageCropAspectRatio('12:7')
+                    ->imageEditor()
                     ->columnSpan('full'),
                 Repeater::make('social')
                     ->label('Соц. сети')
