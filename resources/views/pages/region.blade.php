@@ -43,7 +43,7 @@
                             </div>
                             @endif
                         </div>
-                        @if($cit->boss_name)
+                        @if($city->boss_name)
                         <div class="wrapper">
                             <div class="p-region__boss">
                                 <div class="p-region__boss-img">
