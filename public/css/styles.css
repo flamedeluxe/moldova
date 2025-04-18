@@ -3390,18 +3390,24 @@ h5 {
     --adp-overlay-transition-ease: ease-out;
     --adp-overlay-z-index: 99
 }
-
+.air-datepicker .button-reset,
 .air-datepicker .button-submit {
     position: absolute;
-    bottom: 5px;
+    bottom: 45px;
     width: calc(100% - 10px);
     background-color: var(--accent);
     color: #fff;
     text-transform: uppercase;
     font-weight: 600;
 }
+.air-datepicker .button-reset {
+    bottom: 5px;
+    background: none;
+    color: var(--accent);
+    border: 1px solid;
+}
 .air-datepicker {
-    padding-bottom: 40px;
+    padding-bottom: 83px;
 }
 .air-datepicker .button-select {
     background-color: #EDF0F7   ;

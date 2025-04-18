@@ -661,37 +661,41 @@ function initDatepicker() {
     }
 
     inputElements.forEach(inputElement => {
-        let weekButton = {
+        const weekButton = {
             content: 'Неделя',
             className: 'button-select',
-            onClick: (dp) => {
-                setRange(dp, 7);
-            }
+            onClick: (dp) => setRange(dp, 7)
         };
 
-        let monthButton = {
+        const monthButton = {
             content: 'Месяц',
             className: 'button-select',
-            onClick: (dp) => {
-                setRange(dp, 30);
-            }
+            onClick: (dp) => setRange(dp, 30)
         };
 
-        let threeMonthsButton = {
+        const threeMonthsButton = {
             content: '3 месяца',
             className: 'button-select',
-            onClick: (dp) => {
-                setRange(dp, 30 * 3);
-            }
+            onClick: (dp) => setRange(dp, 90)
         };
 
-        let submitButton = {
+        const showButton = {
             content: 'Показать мероприятия',
             className: 'button-submit',
             onClick: (dp) => {
-                let selectedDates = dp.selectedDates.map(date => {
+                const selectedDates = dp.selectedDates.map(date => {
                     return date.toISOString().split('T')[0];
                 });
+                dp.hide();
+                triggerChangeEvent(dp.$el);
+            }
+        };
+
+        const resetButton = {
+            content: 'Сбросить',
+            className: 'button-reset',
+            onClick: (dp) => {
+                dp.clear();
                 dp.hide();
                 triggerChangeEvent(dp.$el);
             }
@@ -700,10 +704,11 @@ function initDatepicker() {
         new AirDatepicker(inputElement, {
             range: true,
             position: 'bottom right',
-            buttons: [weekButton, monthButton, threeMonthsButton, submitButton],
+            buttons: [weekButton, monthButton, threeMonthsButton, showButton, resetButton],
             multipleDatesSeparator: ' - ',
             dateFormat: 'dd MMM',
         });
     });
 }
+
 

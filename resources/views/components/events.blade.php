@@ -120,9 +120,11 @@
                 this.category = 'Все';
             },
             filter() {
-                this.category = '';
-                this.date = document.querySelector('[x-model="date"]').value;
-                this.get();
+                this.$nextTick(() => {
+                    this.category = '';
+                    this.date = document.querySelector('[x-model="date"]').value;
+                    this.get();
+                })
             },
             nextPage() {
                 this.page++;

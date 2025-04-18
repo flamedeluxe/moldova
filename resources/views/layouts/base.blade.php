@@ -193,8 +193,10 @@
             page: 1,
             error: '',
             filter() {
-                this.date = document.querySelector('[x-model="date"]').value;
-                this.get();
+                this.$nextTick(() => {
+                    this.date = document.querySelector('[x-model="date"]').value;
+                    this.get();
+                })
             },
             nextPage() {
                 this.page++;
