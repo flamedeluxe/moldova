@@ -2602,6 +2602,7 @@ h5 {
     margin: 0;
     border-radius: 0;
     width: 32rem;
+    max-width: 100%;
 }
 .modal__question .faq__form-title {
     font-weight: 700;
@@ -3307,7 +3308,7 @@ h5 {
         top: 1rem;
     }
     .modal__question .wrap {
-        margin-top: 13rem;
+        margin-top: 3rem;
     }
 }
 
