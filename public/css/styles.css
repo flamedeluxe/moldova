@@ -1757,7 +1757,7 @@ h5 {
 }
 .p-region__boss {
     display: flex;
-    gap: 0 .5rem;
+    gap: 0 1.4rem;
     margin-top: 2rem;
 }
 .p-region__boss-img {
