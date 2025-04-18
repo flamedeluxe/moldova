@@ -1,8 +1,8 @@
-<div x-data="feedback()">
+<div x-data="feedback()" id="faq">
     <div x-show="success" class="alert alert--success">
         Ваше обращение успешно отправлено
     </div>
-    <form @submit.prevent="send()" class="faq__form" id="faq" x-show="!success">
+    <form @submit.prevent="send()" class="faq__form" x-show="!success">
         <div class="faq__form-title">
             <strong>Помощь</strong> юриста
         </div>

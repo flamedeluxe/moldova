@@ -13,8 +13,6 @@ window.addEventListener("load", (event) => {
     if (document.querySelector(".header-burger")) burger();
     if (document.querySelector(".accordion-item")) accordion();
     document.querySelectorAll(".tabs").forEach(tabs);
-    scrollTo();
-    sticky();
     if (document.querySelector('.events__select')) {
         initDatepicker();
     }
@@ -465,10 +463,6 @@ function burger() {
 
 function scrollTo() {
     const anchors = document.querySelectorAll('a[href^="#"]');
-    const nav = document.querySelector(".nav"); // Фиксированное меню
-
-    console.log("Anchors found:", anchors.length); // Логируем количество якорей
-
     anchors.forEach(anchor => {
         anchor.addEventListener("click", function (e) {
             e.preventDefault();
@@ -476,19 +470,7 @@ function scrollTo() {
             const targetId = anchor.getAttribute("href").substring(1); // Убираем #
             const target = document.getElementById(targetId); // Получаем элемент по ID
 
-            console.log("Clicked anchor:", anchor);
-            console.log("Target ID:", targetId);
-            console.log("Found target:", target);
-
-            if (!target) {
-                console.warn("Target not found for:", targetId);
-                return; // Если элемента нет, ничего не делаем
-            }
-
-            const navHeight = nav ? nav.offsetHeight : 0; // Высота меню
-            const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
-
-            console.log("Scrolling to:", targetPosition, "with navHeight:", navHeight);
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY;
 
             window.scrollTo({
                 top: targetPosition,

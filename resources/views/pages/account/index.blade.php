@@ -159,7 +159,7 @@
                             </div>
                             <div class="p-card__links">
                                 <a href="{{ route('faq') }}">Вопросы и ответы</a>
-                                <a href="#faq">Юридическая помощь</a>
+                                <a href="account#faq">Юридическая помощь</a>
                             </div>
                         </div>
                     </div>
