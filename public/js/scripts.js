@@ -48,18 +48,6 @@ function closeModals() {
     html.classList.remove("overflow");
 }
 
-function checkboxes() {
-    document.querySelectorAll(".form-checkbox").forEach(checkboxContainer => {
-        checkboxContainer.addEventListener("click", event => {
-            // Проверяем, не кликнули ли по ссылке
-            if (event.target.tagName.toLowerCase() === "a") return;
-
-            const checkbox = checkboxContainer.querySelector("input[type='checkbox']");
-            checkbox.checked = !checkbox.checked;
-        });
-    });
-}
-
 function initSlider(selector, options) {
     const sliderElement = document.querySelector(selector);
     const slider = new KeenSlider(sliderElement, options);
