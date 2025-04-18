@@ -41,7 +41,7 @@
                             <div class="left">
                                 {!! $block['data']['content'] !!}
                             </div>
-                            @if($block['data']['link'])
+                            @if(!empty($block['data']['link']))
                                 <a href="{{ $block['data']['link'] }}">
                                     <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
                                 </a>
@@ -54,7 +54,7 @@
                 @case('image_left')
                     <div class="p-about__block --with-image-left">
                         <div class="wrapper">
-                            @if($block['data']['link'])
+                            @if(!empty($block['data']['link']))
                                 <a href="{{ $block['data']['link'] }}">
                                     <img src="{{ asset('storage/' . $block['data']['image']) }}" alt="">
                                 </a>
