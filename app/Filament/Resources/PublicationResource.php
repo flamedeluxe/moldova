@@ -72,8 +72,9 @@ class PublicationResource extends Resource
 
                         Group::make() // Группа для второй колонки
                             ->schema([
-                                Forms\Components\FileUpload::make('image')
-                                    ->label('Изображение'),
+                                FileUpload::make('image')
+                                    ->label('Изображение')
+                                    ->imageCropAspectRatio('12:7'),
                             ]),
                     ]),
                 Toggle::make('active')
@@ -92,6 +93,7 @@ class PublicationResource extends Resource
                     ->panelLayout('grid')
                     ->previewable(true)
                     ->reorderable(true)
+                    ->imageCropAspectRatio('12:7')
                     ->multiple()
                     ->columnSpan('full'),
             ]);

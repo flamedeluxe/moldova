@@ -46,9 +46,11 @@
                         @if($city->boss_name)
                         <div class="wrapper">
                             <div class="p-region__boss">
+                                @if($city->boss_image)
                                 <div class="p-region__boss-img">
                                     <img src="{{ asset('storage/' . $city->boss_image) }}" alt="{{ $city->boss_name }}">
                                 </div>
+                                @endif
                                 <div class="p-region__boss-caption">
                                     <div class="p-region__boss-caption__title">
                                         Руководитель центра
