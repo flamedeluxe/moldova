@@ -43,18 +43,18 @@
                             </div>
                             @endif
                         </div>
-                        @if($user)
+                        @if($cit->boss_name)
                         <div class="wrapper">
                             <div class="p-region__boss">
                                 <div class="p-region__boss-img">
-                                    <img src="{{ isset($user->avatar) ? asset('storage/' . $user->avatar) : '' }}" alt="{{ $user->name }}">
+                                    <img src="{{ asset('storage/' . $city->boss_image) }}" alt="{{ $city->boss_name }}">
                                 </div>
                                 <div class="p-region__boss-caption">
                                     <div class="p-region__boss-caption__title">
                                         Руководитель центра
                                     </div>
                                     <div class="p-region__boss-caption__name">
-                                        {{ $user->fullname }}
+                                        {{ $city->boss_name }}
                                     </div>
                                 </div>
                             </div>

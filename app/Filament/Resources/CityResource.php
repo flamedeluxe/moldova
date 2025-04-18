@@ -11,6 +11,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -86,6 +87,16 @@ class CityResource extends Resource
                 Toggle::make('active')
                     ->columnSpan('full')
                     ->label('Активность'),
+                Section::make('Руководитель')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                FileUpload::make('boss_image')
+                                    ->label('Фото'),
+                                TextInput::make('boss_name')
+                                    ->label('Имя')
+                            ]),
+                    ]),
                 FileUpload::make('gallery')
                     ->label('Галерея')
                     ->panelLayout('grid')

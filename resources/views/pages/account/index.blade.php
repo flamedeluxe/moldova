@@ -137,7 +137,7 @@
                                 <strong>Культурно-образовательный центр Молдовы</strong> в г. <span x-text="currentCity.title"></span>
                             </div>
                             <div class="p-card__top">
-                                <div class="p-card__top-social" x-show="currentCity.social.length">
+                                <div class="p-card__top-social" x-show="currentCity.social !== null">
                                     <template x-for="item in currentCity.social">
                                         <a :href="item.link" target="_blank">
                                             <img :src="`img/${item.service}.svg`" alt="">
