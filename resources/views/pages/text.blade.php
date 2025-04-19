@@ -2,9 +2,6 @@
 
 @section('content')
     <div class="p-about p-text">
-        <div class="p-text__title wrapper">
-            <h1>{{ $page->title }}</h1>
-        </div>
         @foreach($page->blocks as $block)
                 @switch($block['type'])
                     @case('heading')
