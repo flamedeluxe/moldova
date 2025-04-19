@@ -16,6 +16,17 @@ class ProjectController extends BaseController
     public function show(string $slug)
     {
         $project = Project::active()->where('slug', $slug)->firstOrFail();
-        return view('pages.projects.show', compact('project'));
+        $news = Publication::active()
+            ->orderBy('published_at', 'desc')
+            ->where('type', 'news')
+            ->limit(3)
+            ->get();
+        $events = Publication::active()
+            ->orderBy('published_at', 'desc')
+            ->where('type', 'news')
+            ->limit(3)
+            ->get();
+
+        return view('pages.projects.show', compact('project', 'news', 'events'));
     }
 }

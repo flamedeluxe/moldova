@@ -155,48 +155,27 @@
                     <div class="p-page__aside">
                         <div class="p-page__aside-title">
                             <div>Новости</div>
-                            <a href="">
+                            <a href="{{ route('publications.index') }}">
                                 <span>Все</span>
-                                <img src="img/v.svg" alt="">
+                                <img src="img/v.svg" alt="Все новости">
                             </a>
                         </div>
                         <div class="p-page__aside-content">
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__title">
-                                    Спортивные эстафеты, мастер-классы, песни и танцы – маленькие гости праздника «Молдавские колядки» в полном восторге!
-                                </div>
-                                <div class="item__date">
-                                    19 марта 2025, 14:00
-                                </div>
-                            </a>
+                            @foreach($news as $item)
+                                <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                                    <div class="item__title">
+                                        {{ $item->title }}
+                                    </div>
+                                    <div class="item__date">
+                                        {{ $item->date }}
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
 
                         <div class="p-page__aside-title">
                             <div>Мероприятия</div>
+                            {{--
                             <div class="events__select">
                                 <div>
                                     <span>календарь</span>
@@ -204,46 +183,32 @@
                                     <input type="text" name="date" placeholder="Выбрать даты" required>
                                 </div>
                             </div>
+                            --}}
                         </div>
                         <div class="p-page__aside-content">
-                            <a href="" class="item">
-                                <div class="item__img">
-                                    <div class="item__img-badge">Совет молодежи</div>
-                                    <img src="img/eee1.png" alt="">
-                                </div>
-                                <div class="item__date">
-                                    30 января в 15:00
-                                </div>
-                                <div class="item__title">
-                                    Экскурсия для молдавских студентов в Госдуму РФ
-                                </div>
-                                <div class="item__text">
-                                    Актив Совета молодежи Культурно-образовательного центра посетит Государственную Думу Российской Федерации. Ребятам представится уникальная…
-                                </div>
-                                <div class="item__loc">
-                                    <img src="img/loc.svg" alt="">
-                                    <span>Охотный ряд, 1</span>
-                                </div>
-                            </a>
-                            <a href="" class="item">
-                                <div class="item__img">
-                                    <div class="item__img-badge">Совет молодежи</div>
-                                    <img src="img/eee1.png" alt="">
-                                </div>
-                                <div class="item__date">
-                                    30 января в 15:00
-                                </div>
-                                <div class="item__title">
-                                    Экскурсия для молдавских студентов в Госдуму РФ
-                                </div>
-                                <div class="item__text">
-                                    Актив Совета молодежи Культурно-образовательного центра посетит Государственную Думу Российской Федерации. Ребятам представится уникальная…
-                                </div>
-                                <div class="item__loc">
-                                    <img src="img/loc.svg" alt="">
-                                    <span>Охотный ряд, 1</span>
-                                </div>
-                            </a>
+                            @foreach($events as $item)
+                                <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                                    <div class="item__img">
+                                        <div class="item__img-badge">{{ $item->category }}</div>
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="">
+                                    </div>
+                                    <div class="item__date">
+                                        {{ $item->date }}
+                                    </div>
+                                    <div class="item__title">
+                                        {{ $item->title }}
+                                    </div>
+                                    <div class="item__text">
+                                        {{ $item->introtext }}
+                                    </div>
+                                    {{--
+                                    <div class="item__loc">
+                                        <img src="img/loc.svg" alt="">
+                                        <span>Охотный ряд, 1</span>
+                                    </div>
+                                    --}}
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                 </div>
