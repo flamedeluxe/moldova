@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
+    @if($slides)
     <div class="hero">
         <div class="container">
             <div class="keen-slider">
@@ -54,6 +55,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <div class="events" x-data="news()">
         <div class="container" :class="loading ? 'opacity-50' : ''">
