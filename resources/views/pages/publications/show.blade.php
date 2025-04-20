@@ -25,7 +25,7 @@
                             </div>
                             @endforeach
                         </div>
-                        @if(count($publication->gallery))
+                        @if(count($publication->gallery) > 1)
                             <div class="keen-slider__controls">
                                 <button class="keen-slider-arrow keen-slider-arrow--left">
                                     <img src="img/prev.svg" alt="">
