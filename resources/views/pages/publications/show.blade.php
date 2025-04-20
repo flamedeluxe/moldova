@@ -18,22 +18,24 @@
                         {{ $publication->date }}
                     </div>
                     @if($publication->gallery)
-                    <div class="p-page__slider keen-slider">
-                        @foreach($publication->gallery as $idx => $item)
-                        <div class="keen-slider__slide">
-                            <img src="{{ asset('storage/' . $item) }}" alt="">
+                        <div class="p-page__slider keen-slider">
+                            @foreach($publication->gallery as $idx => $item)
+                            <div class="keen-slider__slide">
+                                <img src="{{ asset('storage/' . $item) }}" alt="">
+                            </div>
+                            @endforeach
                         </div>
-                        @endforeach
-                    </div>
-                    <div class="keen-slider__controls">
-                        <button class="keen-slider-arrow keen-slider-arrow--left">
-                            <img src="img/prev.svg" alt="">
-                        </button>
-                        <div class="keen-slider-dots"></div>
-                        <button class="keen-slider-arrow keen-slider-arrow--right">
-                            <img src="img/next.svg" alt="">
-                        </button>
-                    </div>
+                        @if(count($publication->gallery))
+                            <div class="keen-slider__controls">
+                                <button class="keen-slider-arrow keen-slider-arrow--left">
+                                    <img src="img/prev.svg" alt="">
+                                </button>
+                                <div class="keen-slider-dots"></div>
+                                <button class="keen-slider-arrow keen-slider-arrow--right">
+                                    <img src="img/next.svg" alt="">
+                                </button>
+                            </div>
+                        @endif
                     @else
                     <div class="p-page__slider">
                         <img src="{{ asset('storage/' . $publication->image) }}" alt="{{ $publication->title }}">
