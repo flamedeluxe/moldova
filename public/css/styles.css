@@ -699,6 +699,11 @@ img {
     padding: 4rem 0;
     overflow: hidden;
 }
+.projects picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .title {
     font-size: 2rem;
     font-weight: 700;
