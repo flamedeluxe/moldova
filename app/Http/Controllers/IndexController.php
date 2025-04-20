@@ -33,7 +33,7 @@ class IndexController extends BaseController
             'events' => $events['items'],
             'events_total' => $events['total'],
             'projects' => $projects,
-            'slides' => $slides->slides,
+            'slides' => $slides->slides ?? [],
             'faq' => $faq,
             'dates' => $dates,
         ]);
