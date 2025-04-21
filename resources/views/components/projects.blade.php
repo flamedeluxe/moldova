@@ -6,7 +6,7 @@
         <div class="keen-slider">
             @foreach($projects as $item)
                 <div class="keen-slider__slide slide">
-                    <a href="{{ route('projects.show', $item->slug) }}">
+                    <a href="{{ $item->link ?? route('projects.show', $item->slug) }}">
                         <picture>
                             <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $item->image_m) }}">
                             <img src="{{ asset('storage/' . $item->banner_slider ?? $item->banner) }}" alt="{{ $item->title }}">
