@@ -132,7 +132,7 @@ class ProjectResource extends Resource
                         Builder\Block::make('gallery')
                             ->label('Галерея')
                             ->schema([
-                                Forms\Components\FileUpload::make('gallery')
+                                FileUpload::make('gallery')
                                     ->label('Галерея')
                                     ->panelLayout('grid')
                                     ->previewable(true)
