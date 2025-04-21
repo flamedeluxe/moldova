@@ -19,6 +19,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 
 class PageResource extends Resource
@@ -39,14 +40,13 @@ class PageResource extends Resource
             ->schema([
                 TextInput::make('title')
                     ->label('Заголовок')
-                    ->columnSpanFull()
-                    ->required()
-                    ->maxLength(255),
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn ($state, callable $set) =>
+                        $set('slug', Str::slug($state))
+                    ),
                 TextInput::make('slug')
                     ->label('Алиас')
-                    ->columnSpanFull()
-                    ->required()
-                    ->maxLength(255),
+                    ->unique(ignoreRecord: true),
                 Toggle::make('active')
                     ->label('Активность'),
                 Builder::make('blocks')
