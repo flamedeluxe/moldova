@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\QuestionResource\Pages;
 use App\Models\Question;
 use Filament\Forms\Components\Builder;
@@ -76,7 +77,7 @@ class QuestionResource extends Resource
                         Builder\Block::make('paragraph')
                             ->label('Параграф')
                             ->schema([
-                                RichEditor::make('content')
+                                TinyEditor::make('content')
                                     ->label('Содержимое')
                                     ->required(),
                             ]),
@@ -106,7 +107,7 @@ class QuestionResource extends Resource
                                 TextInput::make('title')
                                     ->label('Заголовок')
                                     ->required(),
-                                RichEditor::make('content')
+                                TinyEditor::make('content')
                                     ->label('Текст')
                                     ->required(),
                             ]),
@@ -129,7 +130,7 @@ class QuestionResource extends Resource
                                             ->label('Фото')
                                             ->image()
                                             ->required(),
-                                        RichEditor::make('content')
+                                        TinyEditor::make('content')
                                             ->label('Текст')
                                             ->required(),
                                         TextInput::make('link')
@@ -141,7 +142,7 @@ class QuestionResource extends Resource
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
-                                        RichEditor::make('content')
+                                        TinyEditor::make('content')
                                             ->label('Текст')
                                             ->required(),
                                         FileUpload::make('image')

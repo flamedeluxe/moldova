@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\CompanyResource\Pages;
 use App\Filament\Resources\CompanyResource\RelationManagers;
 use App\Models\City;
@@ -84,7 +85,7 @@ class CompanyResource extends Resource
                             ->required()
                             ->label('Отрасль'),
                     ]),
-                RichEditor::make('content')
+                TinyEditor::make('content')
                     ->columnSpanFull()
                     ->label('Контент'),
                 Grid::make(3)

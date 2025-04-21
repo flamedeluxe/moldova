@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\PublicationResource\Pages;
 use App\Filament\Resources\PublicationResource\RelationManagers;
 use App\Models\City;
@@ -82,10 +83,10 @@ class PublicationResource extends Resource
                     ->columnSpan('full')
                     ->default(true)
                     ->label('Активность'),
-                RichEditor::make('introtext')
+                TinyEditor::make('introtext')
                     ->label('Вводный текст')
                     ->columnSpan('full'),
-                RichEditor::make('content')
+                TinyEditor::make('content')
                     ->label('Содержимое')
                     ->required()
                     ->columnSpan('full'),

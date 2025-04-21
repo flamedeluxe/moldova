@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\GiftResource\Pages;
 use App\Models\Gift;
 use Filament\Forms;
@@ -38,7 +39,7 @@ class GiftResource extends Resource
                     ->columnSpanFull()
                     ->required()
                     ->maxLength(255),
-                RichEditor::make('content')
+                TinyEditor::make('content')
                     ->label('Содержимое')
                     ->required()
                     ->columnSpan('full'),

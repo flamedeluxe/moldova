@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
 use Filament\Forms;
@@ -109,14 +110,14 @@ class ProjectResource extends Resource
                             ->label('Заголовок')
                             ->columns(1)
                             ->schema([
-                                RichEditor::make('text')
+                                TinyEditor::make('text')
                                     ->label('Текст')
                                     ->required(),
                             ]),
                         Builder\Block::make('paragraph')
                             ->label('Параграф')
                             ->schema([
-                                RichEditor::make('content')
+                                TinyEditor::make('content')
                                     ->label('Содержимое')
                                     ->required(),
                             ]),
@@ -146,7 +147,7 @@ class ProjectResource extends Resource
                                 TextInput::make('title')
                                     ->label('Заголовок')
                                     ->required(),
-                                RichEditor::make('content')
+                                TinyEditor::make('content')
                                     ->label('Текст')
                                     ->required(),
                             ]),
@@ -169,7 +170,7 @@ class ProjectResource extends Resource
                                             ->label('Фото')
                                             ->image()
                                             ->required(),
-                                        RichEditor::make('content')
+                                        TinyEditor::make('content')
                                             ->label('Текст')
                                             ->required(),
                                     ]),
@@ -179,7 +180,7 @@ class ProjectResource extends Resource
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
-                                        RichEditor::make('content')
+                                        TinyEditor::make('content')
                                             ->label('Текст')
                                             ->required(),
                                         FileUpload::make('image')
