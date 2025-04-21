@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
                     $cities = City::active()->whereNotIn('title', ['Москва', 'Санкт-Петербург'])->get();
                     $citiesAll = City::active()->get();
                     $regions = City::active()->get();
-                    $faq = Question::active()->get();
+                    $faq = Question::active()->take(5)->get();
                     $view->with(compact('projects', 'cities', 'regions', 'faq', 'citiesAll'));
                 });
 
