@@ -42,6 +42,11 @@ class PageResource extends Resource
                     ->columnSpanFull()
                     ->required()
                     ->maxLength(255),
+                TextInput::make('slug')
+                    ->label('Алиас')
+                    ->columnSpanFull()
+                    ->required()
+                    ->maxLength(255),
                 Toggle::make('active')
                     ->label('Активность'),
                 Builder::make('blocks')
