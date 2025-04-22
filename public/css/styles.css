@@ -887,7 +887,7 @@ img {
 .faq__list .item.active .item__title {
     color: var(--accent);
 }
-.faq__list .item__title {
+.faq__list .item__title a {
     font-size: 1.2rem;
     line-height: 1.7rem;
     font-weight: 700;
@@ -895,12 +895,11 @@ img {
     cursor: pointer;
     position: relative;
     padding-right: 2rem;
+    border-bottom: 0;
 }
 .faq__list .item__title:after {
     content: "";
     display: block;
-    width: 1rem;
-    height: 1rem;
     background: url(../img/plus-circle.svg) no-repeat center;
     background-size: 100%;
     width: 2.2rem;
