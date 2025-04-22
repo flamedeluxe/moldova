@@ -8,18 +8,17 @@
             <div class="col-12 col-sm-8">
                 <div class="faq__list">
                     @foreach($faq as $idx => $item)
-                        <div class="item accordion-item">
-                            <div class="item__title accordion-header">
-                                {!! $item->title !!}
-                            </div>
-                            <div class="item__content accordion-content">
-                                {!! $item->content !!}
+                        <div class="item">
+                            <div class="item__title">
+                                <a href="{{ route('faq.show', $item->slug) }}">
+                                    {!! $item->title !!}
+                                </a>
                             </div>
                         </div>
                     @endforeach
                 </div>
                 <div class="faq__more">
-                    <a href="{{ route('faq') }}">
+                    <a href="{{ route('faq.index') }}">
                         <span>Все вопросы и ответы</span>
                         <img src="img/more.svg" alt="Все вопросы и ответы">
                     </a>

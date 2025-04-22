@@ -7,7 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegionController;
-use App\Http\Controllers\FaqController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PublicationController;
@@ -26,7 +26,8 @@ Route::get('/companies', [CompanyController::class, 'index'])->name('companies.i
 Route::get('/companies/{slug}', [CompanyController::class, 'show'])->name('companies.show');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/region/{slug}', [RegionController::class, 'index'])->name('region');
-Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+Route::get('/faq', [QuestionController::class, 'index'])->name('faq.index');
+Route::get('/faq/{slug}', [QuestionController::class, 'show'])->name('faq.show');
 Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 Route::get('/login', [AccountController::class, 'login'])->name('login');
 Route::get('/restore-password', [AccountController::class, 'restorePassword'])->name('restore-password');

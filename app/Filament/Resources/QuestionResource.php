@@ -20,6 +20,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class QuestionResource extends Resource
 {
@@ -38,9 +39,14 @@ class QuestionResource extends Resource
             ->schema([
                 TextInput::make('title')
                     ->label('Заголовок')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn ($state, callable $set) =>
+                        $set('slug', Str::slug($state))
+                    ),
+                TextInput::make('slug')
+                    ->label('Алиас')
                     ->required()
-                    ->columnSpanFull()
-                    ->maxLength(255),
+                    ->unique(ignoreRecord: true),
                 Toggle::make('active')
                     ->columnSpan('full')
                     ->label('Активность'),

@@ -39,7 +39,7 @@
                                     <li><a href="{{ route('about') }}">О нас</a></li>
                                     <li><a href="{{ route('publications.index') }}">Новости</a></li>
                                     <li><a href="">Мы в регионах</a></li>
-                                    <li><a href="{{ route('faq') }}">Вопросы и ответы</a></li>
+                                    <li><a href="{{ route('faq.index') }}">Вопросы и ответы</a></li>
                                 </ul>
                             </div>
                         </div>

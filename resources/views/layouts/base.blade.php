@@ -74,7 +74,7 @@
             <li><a href="{{ route('projects.index') }}">Наши проекты</a></li>
             <li><a href="{{ route('publications.index') }}">Новости</a></li>
             <li><a href="#" data-modal="#modal_city2">Мы в регионах</a></li>
-            <li><a href="{{ route('faq') }}">Вопросы и ответы</a></li>
+            <li><a href="{{ route('faq.index') }}">Вопросы и ответы</a></li>
         </ul>
 
         <a href="{{ route('account.index') }}" class="btn btn--transperant">
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li><a href="{{ route('faq') }}">Вопросы и ответы</a></li>
+                        <li><a href="{{ route('faq.index') }}">Вопросы и ответы</a></li>
                     </ul>
                 </div>
                 <form action="{{ route('search') }}" method="get" class="header__search">

@@ -2009,12 +2009,13 @@ h5 {
     font-weight: 600;
     font-size: .9rem;
 }
-.p-questions__list .item__title {
+.p-questions__list .item__title a {
     font-size: 1.4rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--accent2);
     line-height: 1.8rem;
+    border-bottom: 0;
 }
 .p-questions__list .item__title strong {
     color: var(--accent);

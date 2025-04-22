@@ -9,12 +9,11 @@
             <div class="p-questions__list">
                 <ul>
                     @foreach($resources as $item)
-                    <li class="item accordion-item">
-                        <div class="item__title accordion-header">
-                            {!! $item->title !!}
-                        </div>
-                        <div class="item__content accordion-content">
-                            {!! $item->content !!}
+                    <li class="item">
+                        <div class="item__title">
+                            <a href="{{ route('faq.show', $item->slug) }}">
+                                {!! $item->title !!}
+                            </a>
                         </div>
                     </li>
                     @endforeach

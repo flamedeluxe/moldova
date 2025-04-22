@@ -158,7 +158,7 @@
                                 </a>
                             </div>
                             <div class="p-card__links">
-                                <a href="{{ route('faq') }}">Вопросы и ответы</a>
+                                <a href="{{ route('faq.index') }}">Вопросы и ответы</a>
                                 <a href="account#faq">Юридическая помощь</a>
                             </div>
                         </div>
