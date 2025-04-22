@@ -4,18 +4,14 @@ namespace App\Filament\Resources;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\PublicationResource\Pages;
-use App\Filament\Resources\PublicationResource\RelationManagers;
 use App\Models\City;
 use App\Models\Publication;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Pages\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -81,7 +77,8 @@ class PublicationResource extends Resource
                     ]),
                 Toggle::make('active')
                     ->columnSpan('full')
-                    ->default(true)
+                    ->default(false)
+                    ->disabled(fn () => Auth::user()->role !== 'admin')
                     ->label('Активность'),
                 TinyEditor::make('introtext')
                     ->label('Вводный текст')

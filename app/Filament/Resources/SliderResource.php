@@ -64,6 +64,10 @@ class SliderResource extends Resource
                                         FileUpload::make('image')
                                             ->label('Фото')
                                             ->columnSpanFull()
+                                            ->previewable(true),
+                                        FileUpload::make('image_m')
+                                            ->label('Фото (mobile)')
+                                            ->columnSpanFull()
                                             ->previewable(true)
                                     ])
                             ])

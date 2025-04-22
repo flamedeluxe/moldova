@@ -10,10 +10,16 @@
                         <div class="img">
                             @if(isset($slide['link']) && !empty($slide['link']))
                                 <a href="{{ $slide['link'] }}">
-                                    <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                                    <picture>
+                                        <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $slide['image_m']) }}">
+                                        <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                                    </picture>
                                 </a>
                             @else
-                                <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                                <picture>
+                                    <source media="(max-width: 768px)" srcset="{{ asset('storage/' . $slide['image_m']) }}">
+                                    <img src="{{ asset('storage/' . $slide['image']) }}" alt="">
+                                </picture>
                             @endif
                         </div>
                         <div class="caption">
