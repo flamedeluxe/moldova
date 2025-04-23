@@ -98,4 +98,10 @@ class FeedbackResource extends Resource
             'edit' => Pages\EditFeedback::route('/{record}/edit'),
         ];
     }
+
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+        return $user->role === 'admin';
+    }
 }

@@ -121,4 +121,10 @@ class SliderResource extends Resource
     {
         return false;
     }
+
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+        return $user->role === 'admin';
+    }
 }
