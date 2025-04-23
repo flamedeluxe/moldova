@@ -21,7 +21,7 @@ class NewPublicationCreated extends Mailable
     public function build(): self
     {
         return $this->subject('Создана новая публикация')
-            ->view('emails.new-publication')
+            ->view('mail.new-publication')
             ->with([
                 'title' => $this->publication->title,
                 'city' => $this->publication->city,

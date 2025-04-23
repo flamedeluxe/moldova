@@ -36,6 +36,16 @@ class PublicationResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $user = Auth::user();
+        if(!empty($user->city) && $user->role == 'manager') {
+            $cities = City::whereIn('title', $user->city)->pluck('title', 'title');
+            $city = is_array($user->city) ? $user->city[0] : $user->city;
+        }
+        else {
+            $cities = City::all()->pluck('title', 'title');
+            $city = '';
+        }
+
         return $form
             ->schema([
                 Grid::make(2)
@@ -60,7 +70,9 @@ class PublicationResource extends Resource
                                     ->maxDate(now()),
                                 Select::make('city')
                                     ->label('Город')
-                                    ->options(City::all()->pluck('title', 'title'))
+                                    ->required($user->role == 'manager')
+                                    ->default($city)
+                                    ->options($cities)
                                     ->columnSpanFull(),
                                 TextInput::make('category')
                                     ->label('Категория')
@@ -200,6 +212,5 @@ class PublicationResource extends Resource
         // Разрешаем редактирование только если город публикации есть в списке городов пользователя
         return in_array($record->city, $userCities);
     }
-
 
 }
