@@ -21,7 +21,8 @@ class CompanyService
         }
 
         if(request()->get('query')) {
-            $query->where('title', 'LIKE', '%'.request()->get('query').'%');
+            $query->where('title', 'LIKE', '%'.request()->get('query').'%')
+                ->orWhere('content', 'LIKE', '%'.request()->get('query').'%');
         }
 
         // Общее количество записей (без пагинации)
