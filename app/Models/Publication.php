@@ -21,7 +21,6 @@ class Publication extends Model
     {
         return [
             'news' => 'Новость',
-            'article' => 'Статья',
             'event' => 'Афиша',
         ];
     }
