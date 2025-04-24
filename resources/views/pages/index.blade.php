@@ -22,30 +22,32 @@
                                 </picture>
                             @endif
                         </div>
-                        <div class="caption">
-                            <div class="caption__left">
-                                <div class="caption__info">
-                                    <div class="caption__info-badge">
-                                        {{ $slide['badge'] }}
+                        @if($slide['title'])
+                            <div class="caption">
+                                <div class="caption__left">
+                                    <div class="caption__info">
+                                        <div class="caption__info-badge">
+                                            {{ $slide['badge'] }}
+                                        </div>
+                                        <div class="caption__info-date">
+                                            {{ Carbon\Carbon::parse($slide['date'])->translatedFormat('d M Y') }}
+                                        </div>
                                     </div>
-                                    <div class="caption__info-date">
-                                        {{ Carbon\Carbon::parse($slide['date'])->translatedFormat('d M Y') }}
-                                    </div>
-                                </div>
-                                <div class="caption__title">
-                                    @if(isset($slide['link']) && !empty($slide['link']))
-                                        <a href="{{ $slide['link'] }}">
+                                    <div class="caption__title">
+                                        @if(isset($slide['link']) && !empty($slide['link']))
+                                            <a href="{{ $slide['link'] }}">
+                                                {{ $slide['title'] }}
+                                            </a>
+                                        @else
                                             {{ $slide['title'] }}
-                                        </a>
-                                    @else
-                                        {{ $slide['title'] }}
-                                    @endif
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="caption__right">
+                                    {{ $slide['text'] }}
                                 </div>
                             </div>
-                            <div class="caption__right">
-                                {{ $slide['text'] }}
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 @endforeach
             </div>

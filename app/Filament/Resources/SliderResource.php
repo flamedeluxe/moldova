@@ -44,11 +44,9 @@ class SliderResource extends Resource
                                 Group::make()
                                     ->schema([
                                         TextInput::make('title')
-                                            ->label('Заголовок')
-                                            ->required(),
+                                            ->label('Заголовок'),
                                         TextInput::make('text')
-                                            ->label('Текст')
-                                            ->required(),
+                                            ->label('Текст'),
                                         DatePicker::make('date')
                                             ->label('Текст'),
                                         TextInput::make('badge')
