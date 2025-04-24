@@ -892,10 +892,14 @@ img {
     line-height: 1.7rem;
     font-weight: 700;
     color: var(--accent2);
+    display: block;
     cursor: pointer;
     position: relative;
     padding-right: 2rem;
     border-bottom: 0;
+}
+.faq__list .item__title {
+    position: relative;
 }
 .faq__list .item__title:after {
     content: "";
@@ -2842,7 +2846,7 @@ h5 {
         padding-bottom: 0;
     }
     .hero .slide .img {
-        height: 22rem;
+        height: 46rem;
     }
     .hero .slide .img img {
         width: 100%;
@@ -3021,6 +3025,7 @@ h5 {
     .faq__list .item__title {
         font-size: 1rem;
         line-height: 1.4rem;
+        position: relative;
     }
     .btn {
         font-size: 1rem;
@@ -3329,6 +3334,9 @@ h5 {
     }
     .modal__question .wrap {
         margin-top: 3rem;
+    }
+    .faq__list .item__title:after {
+        right: 0;
     }
 }
 
