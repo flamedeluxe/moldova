@@ -22,8 +22,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class CompanyResource extends Resource
@@ -98,6 +96,15 @@ class CompanyResource extends Resource
                         TextInput::make('site')
                             ->label('Сайт'),
                     ]),
+                FileUpload::make('gallery')
+                    ->label('Галерея')
+                    ->panelLayout('grid')
+                    ->previewable(true)
+                    ->imageEditor()
+                    ->reorderable(true)
+                    ->imageCropAspectRatio('12:7')
+                    ->multiple()
+                    ->columnSpan('full'),
             ]);
 
 
