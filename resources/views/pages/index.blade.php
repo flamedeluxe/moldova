@@ -52,15 +52,17 @@
                 @endforeach
             </div>
 
-            <div class="keen-slider__controls">
-                <button class="keen-slider-arrow keen-slider-arrow--left">
-                    <img src="img/prev.svg" alt="">
-                </button>
-                <div class="keen-slider-dots"></div>
-                <button class="keen-slider-arrow keen-slider-arrow--right">
-                    <img src="img/next.svg" alt="">
-                </button>
-            </div>
+            @if(count($slides))
+                <div class="keen-slider__controls">
+                    <button class="keen-slider-arrow keen-slider-arrow--left">
+                        <img src="img/prev.svg" alt="">
+                    </button>
+                    <div class="keen-slider-dots"></div>
+                    <button class="keen-slider-arrow keen-slider-arrow--right">
+                        <img src="img/next.svg" alt="">
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
     @endif
