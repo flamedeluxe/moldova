@@ -3323,6 +3323,9 @@ h5 {
     .events {
         padding: 2rem 0;
     }
+    .map {
+        overflow: hidden;
+    }
     .modal__city .dropdown__cities ul,
     .header__menu .dropdown__cities ul,
     .modal__city .dropdown__list ul,
