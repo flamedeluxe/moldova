@@ -2972,6 +2972,8 @@ h5 {
         height: 20rem;
         margin-top: 2rem;
         border: .2rem solid #fff;
+        margin-left: -2rem;
+        width: calc(100% + 4rem);
     }
     .faq__more {
         display: flex;
