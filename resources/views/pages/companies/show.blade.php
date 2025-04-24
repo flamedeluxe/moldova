@@ -46,7 +46,7 @@
                         <div class="p-page__slider keen-slider">
                             @foreach($company->gallery as $image)
                             <div class="keen-slider__slide">
-                                <img src="{{ asset('storage/' . $image) }}" alt="{{ $item->title }}">
+                                <img src="{{ asset('storage/' . $image) }}" alt="{{ $company->title }}">
                             </div>
                             @endforeach
                         </div>
