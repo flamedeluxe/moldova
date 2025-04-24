@@ -32,7 +32,9 @@ class CompanyController extends BaseController
     public function show($slug)
     {
         $company = Company::active()->where('slug', $slug)->firstOrFail();
-        $companies = Company::active()->where('id', '!=', $company->id)->get();
+        $companies = Company::active()->where('id', '!=', $company->id)
+            ->where('way', $company->way)
+            ->get();
         return view('pages.companies.show', compact('company', 'companies'));
     }
 }
