@@ -3326,6 +3326,9 @@ h5 {
     .map {
         overflow: hidden;
     }
+    .m-header__nav-menu .btn {
+        padding: .5rem 1.5rem;
+    }
     .modal__city .dropdown__cities ul,
     .header__menu .dropdown__cities ul,
     .modal__city .dropdown__list ul,
