@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="p-about p-text">
-        <h1 class="p-about__title wrapper">
+        <h1 class="p-about__title wrapper mb-0">
             {!! $page->title !!}
         </h1>
         @foreach($page->blocks as $block)
