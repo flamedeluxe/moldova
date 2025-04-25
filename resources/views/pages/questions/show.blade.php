@@ -6,6 +6,7 @@
             {{ $page->title }}
         </h1>
         @foreach($page->blocks as $block)
+            @switch($block['type'])
             @case('gallery')
                 <div class="keen-slider">
                     @foreach($block['data']['gallery'] as $idx => $item)
