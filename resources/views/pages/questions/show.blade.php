@@ -2,13 +2,10 @@
 
 @section('content')
     <div class="p-about p-text">
+        <h1 class="p-about__title wrapper">
+            {{ $page->title }}
+        </h1>
         @foreach($page->blocks as $block)
-            @switch($block['type'])
-                @case('heading')
-                    <{{ $block['data']['level'] }} class="p-about__title wrapper">
-                            {{ $block['data']['text'] }}
-            </{{ $block['data']['level'] }}>
-            @break
             @case('gallery')
                 <div class="keen-slider">
                     @foreach($block['data']['gallery'] as $idx => $item)

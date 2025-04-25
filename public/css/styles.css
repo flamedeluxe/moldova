@@ -1170,6 +1170,9 @@ img {
     text-transform: uppercase;
     font-weight: 600;
 }
+.p-about__title strong {
+    color: var(--accent);
+}
 .p-about__block {
     padding: 2rem 0;
 }
