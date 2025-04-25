@@ -88,7 +88,7 @@
             loading: false,
 
             ways: @json($ways),
-            cities: @json($cities),
+            cities: @json($citiesAll),
 
             items: @json($companies),
             total: @json($total),

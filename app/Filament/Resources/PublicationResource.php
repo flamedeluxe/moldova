@@ -149,6 +149,9 @@ class PublicationResource extends Resource
                 SelectFilter::make('type')
                     ->label('Тип')
                     ->options(Publication::getTypeOptions()),
+                SelectFilter::make('city')
+                    ->label('Город')
+                    ->options(City::pluck('title', 'title')->toArray()),
                 Tables\Filters\Filter::make('active')
                     ->label('Активность'),
             ])
