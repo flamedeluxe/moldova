@@ -3,7 +3,7 @@
 @section('content')
     <div class="p-about p-text">
         <h1 class="p-about__title wrapper">
-            {{ $page->title }}
+            {!! $page->title !!}
         </h1>
         @foreach($page->blocks as $block)
             @switch($block['type'])
