@@ -4,7 +4,9 @@
     <div class="p-page {{ $project->page_class }}">
         <div class="p-page__hero" style="background-image: url({{ asset('storage/' . $project->image_back) }});">
             <div class="container">
+                @if($project->image)
                 <img src="{{ asset('storage/' . $project->image) }}" class="p-page__hero-img" alt="">
+                @endif
                 <div class="row">
                     <div class="col-12 col-sm-4">
                         <div class="wrapper">
