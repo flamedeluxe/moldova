@@ -87,6 +87,12 @@ class PublicationResource extends Resource
                                     ->imageCropAspectRatio('12:7'),
                             ]),
                     ]),
+                TextInput::make('seo_title')
+                    ->label('SEO заголовок')
+                    ->maxLength(255),
+                TextInput::make('seo_description')
+                    ->label('SEO описание')
+                    ->maxLength(255),
                 Toggle::make('active')
                     ->columnSpan('full')
                     ->default(false)
