@@ -33,13 +33,19 @@ class PublicationController extends BaseController
             ];
         }
 
+        $resource = (object)[
+            'title' => 'Публикации',
+            'description' => ''
+        ];
+
         return view('pages.publications.index', [
             'categories' => $events['categories'],
             'events' => $events['items'],
             'news' => $news['items'],
             'news_total' => $news['total'],
             'events_total' => $events['total'],
-            'dates' => $dates
+            'dates' => $dates,
+            'resource' => $resource
         ]);
     }
 

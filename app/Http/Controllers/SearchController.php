@@ -66,9 +66,15 @@ class SearchController extends BaseController
             ['path' => request()->url(), 'query' => request()->query()]
         );
 
+        $resource = (object)[
+            'title' => 'Поиск по сайту',
+            'description' => ''
+        ];
+
         return view('pages.search', [
             'results' => $paginatedResults,
             'search' => $search,
+            'resource' => $resource,
         ]);
     }
 

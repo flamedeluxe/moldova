@@ -46,12 +46,18 @@ class IndexController extends Controller
         }
         $profile->count = $count;
 
+        $resource = (object)[
+            'title' => 'Личный кабинет',
+            'description' => ''
+        ];
+
         return view('pages.account.index', [
             'profile' => $profile,
             'events' => $events['items'],
             'events_total' => $events['total'],
             'cities' => $cities,
-            'city' => $city
+            'city' => $city,
+            'resource' => $resource
         ]);
     }
 
@@ -81,7 +87,7 @@ class IndexController extends Controller
 
         return response()->json([
             'success' => true,
-            'profile' => $profile
+            'profile' => $profile,
         ]);
     }
 }

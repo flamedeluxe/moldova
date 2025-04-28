@@ -9,8 +9,13 @@ class ProjectController extends BaseController
 {
     public function index()
     {
+        $resource = (object)[
+            'title' => 'Проекты',
+            'description' => ''
+        ];
+
         $projects = Project::activeSorted()->get();
-        return view('pages.projects.index', compact('projects'));
+        return view('pages.projects.index', compact('projects', 'resource'));
     }
 
     public function show(string $slug)
@@ -27,6 +32,7 @@ class ProjectController extends BaseController
             ->limit(3)
             ->get();
 
-        return view('pages.projects.show', compact('project', 'news', 'events'));
+        $resource = $project;
+        return view('pages.projects.show', compact('project', 'news', 'events', 'resource'));
     }
 }

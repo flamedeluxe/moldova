@@ -8,19 +8,34 @@ class AccountController extends BaseController
 {
     public function index()
     {
-        return view('pages.account.index');
+        $resource = (object)[
+            'title' => 'Личный кабинет',
+            'description' => ''
+        ];
+
+        return view('pages.account.index', compact('resource'));
     }
 
     public function register()
     {
+        $resource = (object)[
+            'title' => 'Регистрация',
+            'description' => ''
+        ];
+
         if(Auth::check()) return redirect()->route('account.index');
-        return view('pages.register');
+        return view('pages.register', compact('resource'));
     }
 
     public function login()
     {
+        $resource = (object)[
+            'title' => 'Вход в личный кабинет',
+            'description' => ''
+        ];
+
         if(Auth::check()) return redirect()->route('account.index');
-        return view('pages.login');
+        return view('pages.login', compact('resource'));
     }
 
     public function logout()
@@ -30,7 +45,12 @@ class AccountController extends BaseController
 
     public function confirmPassword()
     {
-        return view('pages.reset-password');
+        $resource = (object)[
+            'title' => 'Сброс пароля',
+            'description' => ''
+        ];
+
+        return view('pages.reset-password', compact('resource'));
     }
 
     public function forgotPassword()

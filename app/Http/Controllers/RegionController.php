@@ -8,7 +8,7 @@ use App\Services\Site\PublicationService;
 
 class RegionController extends BaseController
 {
-    public function index($slug)
+    public function show($slug)
     {
         $city = City::query()->where('slug', $slug)->firstOrFail();
         $user = User::query()->whereJsonContains('city', $city->title)->first();
@@ -27,6 +27,8 @@ class RegionController extends BaseController
             ];
         }
 
+        $resource = $city;
+
         return view('pages.region', [
             'city' => $city,
             'user' => $user,
@@ -36,6 +38,7 @@ class RegionController extends BaseController
             'news_total' => $news['total'],
             'events_total' => $events['total'],
             'dates' => $dates,
+            'resource' => $resource
         ]);
     }
 }

@@ -22,19 +22,29 @@ class CompanyController extends BaseController
             ]);
         }
 
+        $resource = (object)[
+            'title' => 'Организации',
+            'description' => ''
+        ];
+
         return view('pages.companies.index', [
             'companies' => $companies['items'],
             'total' => $companies['total'],
-            'ways' => $ways
+            'ways' => $ways,
+            'resource' => $resource,
         ]);
     }
 
     public function show($slug)
     {
+
         $company = Company::active()->where('slug', $slug)->firstOrFail();
         $companies = Company::active()->where('id', '!=', $company->id)
             ->where('way', $company->way)
             ->get();
-        return view('pages.companies.show', compact('company', 'companies'));
+
+        $resource = $company;
+
+        return view('pages.companies.show', compact('company', 'companies', 'resource'));
     }
 }

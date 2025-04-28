@@ -26,6 +26,11 @@ class IndexController extends BaseController
             ];
         }
 
+        $resource = (object)[
+            'title' => 'Главная',
+            'description' => ''
+        ];
+
         return view('pages.index', [
             'categories' => $events['categories'],
             'news' => $news['items'],
@@ -36,6 +41,7 @@ class IndexController extends BaseController
             'slides' => $slides->slides ?? [],
             'faq' => $faq,
             'dates' => $dates,
+            'resource' => $resource
         ]);
     }
 }
