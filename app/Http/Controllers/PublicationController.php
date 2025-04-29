@@ -65,6 +65,8 @@ class PublicationController extends BaseController
             ->limit(3)
             ->get();
 
-        return view('pages.publications.show', compact('publication', 'news', 'events'));
+        $resource = $publication;
+
+        return view('pages.publications.show', compact('publication', 'news', 'events', 'resource'));
     }
 }
