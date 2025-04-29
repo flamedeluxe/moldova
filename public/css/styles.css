@@ -644,11 +644,19 @@ img {
     font-weight: 600;
 }
 .events .item__info {
-    margin-top: 1rem;
+    margin-top: .5rem;
 }
 .events .item__info-date {
     color: var(--accent);
     font-weight: 600;
+    margin-top: 1rem;
+}
+.events .item__info-date span:last-child {
+    color: #000;
+    position: relative;
+}
+.events .item__info-date span:last-child:before {
+    content: " / ";
 }
 .events .item__info-title {
     color: var(--accent2);

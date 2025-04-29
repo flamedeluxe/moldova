@@ -53,9 +53,11 @@
                         <div class="item__img">
                             <img :src="`storage/${item.image}`" :alt="item.title">
                         </div>
+                        <div class="item__info-date">
+                            <span x-text="item.date"></span>
+                            <span x-text="item.city" x-show="item.city"></span>
+                        </div>
                         <div class="item__info">
-                            <div class="item__info-date" x-html="item.date">
-                            </div>
                             <div class="item__info-title" x-html="item.title">
                             </div>
                             <div class="item__info-text" x-html="item.introtext">
