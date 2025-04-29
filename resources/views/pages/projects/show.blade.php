@@ -51,7 +51,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-8">
-
+                    @if($project->gallery)
+                        <div class="p-page__slider keen-slider mb-4">
+                            @foreach($project->gallery as $idx => $item)
+                                <div class="keen-slider__slide">
+                                    <img src="{{ asset('storage/' . $item) }}" alt="">
+                                </div>
+                            @endforeach
+                        </div>
+                        @if(count($project->gallery) > 1)
+                            <div class="keen-slider__controls">
+                                <button class="keen-slider-arrow keen-slider-arrow--left">
+                                    <img src="img/prev.svg" alt="">
+                                </button>
+                                <div class="keen-slider-dots"></div>
+                                <button class="keen-slider-arrow keen-slider-arrow--right">
+                                    <img src="img/next.svg" alt="">
+                                </button>
+                            </div>
+                        @endif
+                    @endif
                     @foreach($project->blocks as $block)
                         @switch($block['type'])
                             @case('heading')
