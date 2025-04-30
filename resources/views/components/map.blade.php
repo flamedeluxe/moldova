@@ -95,11 +95,6 @@
         if (activePlacemark) {
             myMap.setCenter(activePlacemark.coords, 12, { duration: 500 });
             activePlacemark.placemark.balloon.open();
-        } else if (myMap.geoObjects.getLength()) {
-            myMap.setBounds(myMap.geoObjects.getBounds(), {
-                checkZoomRange: true,
-                zoomMargin: 50
-            });
         }
     });
 </script>
