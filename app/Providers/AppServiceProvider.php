@@ -38,7 +38,10 @@ class AppServiceProvider extends ServiceProvider
                     $citiesAll = City::active()->get();
                     $regions = City::active()->get();
                     $faq = Question::active()->take(5)->get();
-                    $resource = (object)[];
+                    $resource = (object)[
+                        'title' => '',
+                        'description' => '',
+                    ];
                     $view->with(compact('projects', 'cities', 'regions', 'faq', 'citiesAll', 'resource'));
                 });
 
