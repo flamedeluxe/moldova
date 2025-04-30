@@ -24,7 +24,6 @@ class SliderResource extends Resource
     protected static ?string $label = 'Слайд';
     protected static ?string $navigationLabel = 'Слайды';
     protected static ?string $pluralLabel = 'Слайды';
-
     protected static ?string $breadcrumb = 'Слайды';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -62,10 +61,12 @@ class SliderResource extends Resource
                                         FileUpload::make('image')
                                             ->label('Фото')
                                             ->columnSpanFull()
+                                            ->helperText('2560×896')
                                             ->previewable(true),
                                         FileUpload::make('image_m')
                                             ->label('Фото (mobile)')
                                             ->columnSpanFull()
+                                            ->helperText('750×1100')
                                             ->previewable(true)
                                     ])
                             ])

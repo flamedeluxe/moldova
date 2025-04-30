@@ -68,10 +68,13 @@ class ProjectResource extends Resource
                         Grid::make(2)
                             ->schema([
                                 FileUpload::make('banner')
+                                    ->helperText('2560×896')
                                     ->label('Баннер десктоп'),
                                 FileUpload::make('image_m')
+                                    ->helperText('750×1100')
                                     ->label('Баннер телефон'),
                                 FileUpload::make('banner_slider')
+                                    ->helperText('1680x644')
                                     ->columnSpanFull()
                                     ->label('Баннер в слайдере на главной странице'),
                             ]),
