@@ -85,9 +85,11 @@
                                 <div class="item__img-badge" x-text="item.category">
                                 </div>
                             </div>
+                            <div class="item__info-date">
+                                <span x-text="item.date"></span>
+                                <span x-text="item.city" x-show="item.city"></span>
+                            </div>
                             <div class="item__info" x-show="item.image">
-                                <div class="item__info-date" x-text="item.date">
-                                </div>
                                 <div class="item__info-title" x-text="item.title">
                                 </div>
                             </div>
