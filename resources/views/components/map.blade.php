@@ -32,7 +32,7 @@
 <script>
     ymaps.ready(function () {
         var myMap = new ymaps.Map('map', {
-            center: [61.5240, 105.3188], // Центр России
+            center: [58.281825, 47.269673], // Центр России
             zoom: 4,
             controls: [],
             behaviors: ['drag', 'multiTouch']
