@@ -38,7 +38,8 @@ class AppServiceProvider extends ServiceProvider
                     $citiesAll = City::active()->get();
                     $regions = City::active()->get();
                     $faq = Question::active()->take(5)->get();
-                    $view->with(compact('projects', 'cities', 'regions', 'faq', 'citiesAll'));
+                    $resource = (object)[];
+                    $view->with(compact('projects', 'cities', 'regions', 'faq', 'citiesAll', 'resource'));
                 });
 
                 foreach ($configs as $config) {
