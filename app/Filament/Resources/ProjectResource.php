@@ -74,7 +74,7 @@ class ProjectResource extends Resource
                                     ->helperText('750×1100')
                                     ->label('Баннер телефон'),
                                 FileUpload::make('banner_slider')
-                                    ->helperText('1680x644')
+                                    ->helperText('1660x900')
                                     ->columnSpanFull()
                                     ->label('Баннер в слайдере на главной странице'),
                             ]),
