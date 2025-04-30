@@ -32,8 +32,8 @@
 <script>
     ymaps.ready(function () {
         var myMap = new ymaps.Map('map', {
-            center: [55.76, 37.64], // Москва
-            zoom: 10,
+            center: [61.5240, 105.3188], // Центр России
+            zoom: 4,
             controls: [],
             behaviors: ['drag', 'multiTouch']
         });
@@ -45,31 +45,38 @@
 
         cities.forEach(city => {
             if (city.coors) {
-                var coordinates = city.coors.split(',').map(Number);
-                var socialLinks = city.social ? city.social.map(s => `<a href="${s.link}"><img src="img/${s.service}.svg" alt=""></a>`).join('') : '';
-                var socialBlock = socialLinks ? `<div class="map-balloon__top-social">${socialLinks}</div>` : '';
+                const coords = city.coors.split(',').map(Number);
+                if (coords.length !== 2 || coords.some(isNaN)) return; // пропуск невалидных координат
 
-                var placemark = new ymaps.Placemark(coordinates, {
+                const socialLinks = Array.isArray(city.social)
+                    ? city.social.map(s => `<a href="${s.link}" target="_blank" rel="noopener"><img src="img/${s.service}.svg" alt=""></a>`).join('')
+                    : '';
+
+                const socialBlock = socialLinks
+                    ? `<div class="map-balloon__top-social">${socialLinks}</div>`
+                    : '';
+
+                const placemark = new ymaps.Placemark(coords, {
                     balloonContent: `
-                <div class="map-balloon">
-                    <div class="map-balloon__top">
-                        <div class="map-balloon__top-title">
-                            <h3>${city.title}</h3>
+                    <div class="map-balloon">
+                        <div class="map-balloon__top">
+                            <div class="map-balloon__top-title">
+                                <h3>${city.title}</h3>
+                            </div>
+                            ${socialBlock}
                         </div>
-                        ${socialBlock}
+                        <div class="map-balloon__text">
+                            <p>${city.phone || ''}</p>
+                            <p>${city.email || ''}</p>
+                        </div>
+                        <div class="map-balloon__bottom">
+                            <a href="region/${city.slug}">
+                                <span>Подробнее</span>
+                                <img src="img/more.svg" alt="">
+                            </a>
+                        </div>
                     </div>
-                    <div class="map-balloon__text">
-                        <p>${city.phone || ''}</p>
-                        <p>${city.email || ''}</p>
-                    </div>
-                    <div class="map-balloon__bottom">
-                        <a href="region/${city.slug}">
-                            <span>Подробнее</span>
-                            <img src="img/more.svg" alt="">
-                        </a>
-                    </div>
-                </div>
-            `
+                `
                 }, {
                     iconLayout: 'default#image',
                     iconImageHref: 'img/marker.svg',
@@ -79,19 +86,20 @@
 
                 myMap.geoObjects.add(placemark);
 
-                // Сохраняем пласмарк активного города
                 if (city.title === activeCity) {
-                    activePlacemark = { placemark, coordinates };
+                    activePlacemark = { placemark, coords };
                 }
             }
         });
 
-        // Центрируем и открываем балун, если активный город найден
         if (activePlacemark) {
-            myMap.setCenter(activePlacemark.coordinates, 12, { duration: 500 });
+            myMap.setCenter(activePlacemark.coords, 12, { duration: 500 });
             activePlacemark.placemark.balloon.open();
-        } else {
-            myMap.setBounds(myMap.geoObjects.getBounds(), { checkZoomRange: true });
+        } else if (myMap.geoObjects.getLength()) {
+            myMap.setBounds(myMap.geoObjects.getBounds(), {
+                checkZoomRange: true,
+                zoomMargin: 50
+            });
         }
     });
 </script>
