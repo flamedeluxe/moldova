@@ -21,9 +21,11 @@
                                 <img :src="`storage/${item.image}`" :alt="item.title">
                                 <div class="item__img-badge" x-html="item.category" x-show="item.category"></div>
                             </div>
+                            <div class="item__info-date">
+                                <span x-text="item.date"></span>
+                                <span x-text="item.city" x-show="item.city"></span>
+                            </div>
                             <div class="item__info">
-                                <div class="item__info-date" x-html="item.date">
-                                </div>
                                 <div class="item__info-title" x-html="item.title">
                                 </div>
                             </div>
