@@ -909,20 +909,6 @@ img {
 .faq__list .item__title {
     position: relative;
 }
-.faq__list .item__title:after {
-    content: "";
-    display: block;
-    background: url(../img/plus-circle.svg) no-repeat center;
-    background-size: 100%;
-    width: 2.2rem;
-    height: 2.2rem;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: -1rem;
-    margin: auto;
-    transition: all .3s ease;
-}
 .faq__list .item.active .item__title:after {
     transform: rotate(45deg);
     filter: brightness(0) saturate(100%) invert(19%) sepia(64%) saturate(5154%) hue-rotate(338deg) brightness(94%) contrast(98%);
