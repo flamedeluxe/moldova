@@ -12,7 +12,7 @@
                         <div class="wrapper">
                             <div class="p-page__top">
                                 <div class="p-page__back">
-                                    <a style="color:{{ $project->text_color }}" href="{{ route('projects.index') }}">
+                                    <a style="{{ $project->text_color ? "color:" . $project->text_color : '' }}" href="{{ route('projects.index') }}">
                                         <svg width="13" height="13">
                                             <g fill="currentColor" fill-rule="evenodd">
                                                 <circle opacity=".2" cx="6.5" cy="6.5" r="6.5"/>
@@ -22,10 +22,10 @@
                                         <span>Наши проекты</span>
                                     </a>
                                 </div>
-                                <div class="p-page__title">
+                                <div class="p-page__title" style="{{ $project->text_color ? "color:" . $project->text_color : '' }}">
                                     {{ $project->title }}
                                 </div>
-                                <div class="p-page__text">
+                                <div class="p-page__text" style="{{ $project->text_color ? "color:" . $project->text_color : '' }}">
                                     {{ $project->introtext }}
                                 </div>
                             </div>
