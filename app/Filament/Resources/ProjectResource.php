@@ -6,6 +6,7 @@ use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Models\Project;
 use Filament\Forms;
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
@@ -48,6 +49,8 @@ class ProjectResource extends Resource
                 TextInput::make('slug')
                     ->label('Алиас')
                     ->unique(ignoreRecord: true),
+                ColorPicker::make('text_color')
+                    ->label('Цвет текста'),
                 TextInput::make('link')
                     ->label('Ссылка'),
                 TextInput::make('page_class')
@@ -84,6 +87,7 @@ class ProjectResource extends Resource
                             Grid::make(2)
                                 ->schema([
                                     FileUpload::make('image_back')
+                                        ->helperText('1440x448')
                                         ->label('Фон'),
                                     FileUpload::make('image')
                                         ->label('Изображение'),

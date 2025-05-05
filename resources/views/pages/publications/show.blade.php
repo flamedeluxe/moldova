@@ -15,7 +15,7 @@
                         <h1>{{ $publication->title }}</h1>
                     </div>
                     <div class="p-page__date">
-                        {{ $publication->date }}
+                        <span>{{ $publication->date }}</span> / {{ $publication->city }}
                     </div>
                     @if($publication->gallery)
                         <div class="p-page__slider keen-slider">

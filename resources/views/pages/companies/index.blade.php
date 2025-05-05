@@ -100,8 +100,8 @@
             },
 
             nextPage() {
-                this.get();
                 this.page++;
+                this.get();
             },
 
             async get() {
@@ -127,6 +127,7 @@
                 if (response.ok) {
                     const r = await response.json();
                     this.total = r.total;
+                    console.log(r)
                     if(this.page === 1) {
                         this.items = r.data;
                     }
