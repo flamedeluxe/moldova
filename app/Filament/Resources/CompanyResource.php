@@ -62,6 +62,8 @@ class CompanyResource extends Resource
                         Group::make()
                             ->schema([
                                 FileUpload::make('image')
+                                    ->imageEditor()
+                                    ->imageCropAspectRatio('1:1')
                                     ->label('Изображение'),
                             ]),
                     ]),
