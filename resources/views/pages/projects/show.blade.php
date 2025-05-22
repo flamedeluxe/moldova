@@ -183,7 +183,7 @@
                         </div>
                         <div class="p-page__aside-content">
                             @foreach($news as $item)
-                                <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                                <a href="{{ route('news.show', $item->slug) }}" class="item">
                                     <div class="item__title">
                                         {{ $item->title }}
                                     </div>

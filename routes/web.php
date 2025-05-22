@@ -21,7 +21,7 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/projects/{slug}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('/news', [PublicationController::class, 'index'])->name('news.index');
-Route::get('/news/{slug}', [PublicationController::class, 'show'])->name('publications.show');
+Route::get('/news/{slug}', [PublicationController::class, 'show'])->name('news.show');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
 Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
