@@ -6,6 +6,10 @@
             <div class="row">
                 <div class="col-12 col-sm-6 d-flex flex-column justify-content-between order-2 order-sm-1">
                     <div class="wrapper">
+                        <div class="login__text">
+                            Регистрируйтесь в личном кабинете <br>
+                            и получайте приглашения на мероприятия!
+                        </div>
                         <div class="login__logo">
                             <img src="img/logo-big.svg" alt="">
                         </div>

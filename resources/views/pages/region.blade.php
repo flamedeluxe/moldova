@@ -109,7 +109,7 @@
             <div class="row gx-4">
                 <template x-for="item in items" x-key="item.id">
                     <div class="col-12 col-sm-4">
-                        <a :href="`publications/${item.slug}`" class="item">
+                        <a :href="`news/${item.slug}`" class="item">
                             <div class="item__img">
                                 <img :src="`storage/${item.image}`" :alt="item.title">
                                 <div class="item__img-badge" x-html="item.category" x-show="item.category"></div>
