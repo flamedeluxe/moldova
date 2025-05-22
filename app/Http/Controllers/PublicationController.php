@@ -7,9 +7,9 @@ use App\Services\Site\PublicationService;
 
 class PublicationController extends BaseController
 {
-    public function news()
+    public function index()
     {
-        $news = (new PublicationService)->getPublications('news');
+        $news = (new PublicationService)->getPublications('news', '', 3);
 
         if(request()->ajax()) {
             return response()->json([
