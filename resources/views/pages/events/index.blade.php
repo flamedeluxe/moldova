@@ -154,7 +154,7 @@
                         city: this.city,
                         date: this.date
                     });
-                    const response = await fetch(`/publications?${params.toString()}`, {
+                    const response = await fetch(`/events?${params.toString()}`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",

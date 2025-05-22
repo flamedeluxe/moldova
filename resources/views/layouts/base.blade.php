@@ -214,7 +214,7 @@
                     page: this.page,
                     date: this.date,
                 });
-                const response = await fetch(`/publications?${params.toString()}`, {
+                const response = await fetch(`/news?${params.toString()}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
