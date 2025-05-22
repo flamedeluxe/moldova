@@ -11,7 +11,7 @@ class IndexController extends BaseController
 {
     public function index()
     {
-        $news = (new PublicationService)->getPublications('news');
+        $news = (new PublicationService)->getPublications('news', '', 3);
         $events = (new PublicationService)->getPublications('event', session('city'));
         $projects = Project::activeSorted()->get();
         $slides = Slider::find(1);

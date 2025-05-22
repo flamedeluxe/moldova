@@ -7,25 +7,20 @@ use App\Services\Site\PublicationService;
 
 class PublicationController extends BaseController
 {
-    public function index()
+    public function news()
     {
         $news = (new PublicationService)->getPublications('news');
-        $events = (new PublicationService)->getPublications('event', session('city'));
 
         if(request()->ajax()) {
-            $data = match (request()->get('type')) {
-                'events' => $events,
-                default => $news,
-            };
             return response()->json([
-                'categories' => $data['categories'],
-                'data' => $data['items'],
-                'total' => $data['total']
+                'categories' => $news['categories'],
+                'data' => $news['items'],
+                'total' => $news['total']
             ]);
         }
 
         $dates = [];
-        foreach($events['dates'] as $date) {
+        foreach($news['dates'] as $date) {
             $dates[] = [
                 'day' => $date->day,
                 'month' => mb_substr($date->locale('ru')->monthName, 0, 3),
@@ -39,15 +34,13 @@ class PublicationController extends BaseController
         ];
 
         return view('pages.publications.index', [
-            'categories' => $events['categories'],
-            'events' => $events['items'],
             'news' => $news['items'],
             'news_total' => $news['total'],
-            'events_total' => $events['total'],
             'dates' => $dates,
             'resource' => $resource
         ]);
     }
+
 
     public function show($slug)
     {

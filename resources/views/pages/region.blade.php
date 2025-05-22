@@ -99,7 +99,7 @@
                         </div>
                     </div>
                     <div class="col-6 col-sm-6">
-                        <a href="{{ route('publications.index') }}" class="events__top-all">
+                        <a href="{{ route('news.index') }}" class="events__top-all">
                             <span>Все новости</span>
                             <img src="img/more.svg" alt="">
                         </a>

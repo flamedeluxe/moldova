@@ -40,7 +40,7 @@ class PublicationService
         return [$dateStart, $dateEnd];
     }
 
-    public function getPublications(string $type, $city = ''): array
+    public function getPublications(string $type, $city = '', $limit = 6): array
     {
         // Основной запрос с фильтрацией
         $query = Publication::active()->where('type', $type);
@@ -73,8 +73,8 @@ class PublicationService
 
         // Применяем пагинацию
         $resources = $query->orderBy('published_at', 'DESC')
-            ->offset(max(0, (request()->page - 1) * 6))
-            ->limit(6)
+            ->offset(max(0, (request()->page - 1) * $limit))
+            ->limit($limit)
             ->get();
 
         // Категории (фильтр по текущему типу публикаций)

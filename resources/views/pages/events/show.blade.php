@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-12 col-sm-8">
                     <div class="p-page__back">
-                        <a href="{{ route('news.index') }}">
+                        <a href="{{ route('events.index') }}">
                             <img src="img/back2.svg" alt="">
-                            <span>Новости</span>
+                            <span>Афиша</span>
                         </a>
                     </div>
                     <div class="p-page__h1">
@@ -48,40 +48,16 @@
                 <div class="col-12 col-sm-4">
                     <div class="p-page__aside">
                         <div class="p-page__aside-title">
-                            <div>Новости</div>
-                            <a href="{{ route('news.index') }}">
+                            <div>Другие мероприятия</div>
+                            <a href="{{ route('events.index') }}">
                                 <span>Все</span>
                                 <img src="img/v.svg" alt="Все новости">
                             </a>
                         </div>
-                        <div class="p-page__aside-content">
-                            @foreach($news as $item)
-                            <a href="{{ route('publications.show', $item->slug) }}" class="item">
-                                <div class="item__title">
-                                    {{ $item->title }}
-                                </div>
-                                <div class="item__date">
-                                    {{ $item->date }}
-                                </div>
-                            </a>
-                            @endforeach
-                        </div>
 
-                        <div class="p-page__aside-title">
-                            <div>Мероприятия</div>
-                            {{--
-                            <div class="events__select">
-                                <div>
-                                    <span>календарь</span>
-                                    <img src="img/v.svg" alt="">
-                                    <input type="text" name="date" placeholder="Выбрать даты" required>
-                                </div>
-                            </div>
-                            --}}
-                        </div>
                         <div class="p-page__aside-content">
                             @foreach($events as $item)
-                                <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                                <a href="{{ route('events.show', $item->slug) }}" class="item">
                                     <div class="item__img">
                                         <div class="item__img-badge">{{ $item->category }}</div>
                                         <img src="{{ asset('storage/' . $item->image) }}" alt="">

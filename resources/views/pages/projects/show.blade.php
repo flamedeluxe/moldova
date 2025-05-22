@@ -176,7 +176,7 @@
                     <div class="p-page__aside">
                         <div class="p-page__aside-title">
                             <div>Новости</div>
-                            <a href="{{ route('publications.index') }}">
+                            <a href="{{ route('news.index') }}">
                                 <span>Все</span>
                                 <img src="img/v.svg" alt="Все новости">
                             </a>

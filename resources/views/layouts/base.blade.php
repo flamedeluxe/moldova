@@ -72,7 +72,8 @@
         <ul>
             <li><a href="{{ route('about') }}">О нас</a></li>
             <li><a href="{{ route('projects.index') }}">Наши проекты</a></li>
-            <li><a href="{{ route('publications.index') }}">Новости</a></li>
+            <li><a href="{{ route('news.index') }}">Новости</a></li>
+            <li><a href="{{ route('events.index') }}">Афиша</a></li>
             <li><a href="#" data-modal="#modal_city2">Мы в регионах</a></li>
             <li><a href="{{ route('faq.index') }}">Вопросы и ответы</a></li>
         </ul>
@@ -117,8 +118,11 @@
                         <li class="{{ $routeName == 'projects.index' ? 'active' : '' }}">
                             <a href="{{ route('projects.index') }}">Наши проекты</a>
                         </li>
-                        <li class="{{ $routeName == 'publications.index' ? 'active' : '' }}">
-                            <a href="{{ route('publications.index') }}">Новости</a>
+                        <li class="{{ $routeName == 'news.index' ? 'active' : '' }}">
+                            <a href="{{ route('news.index') }}">Новости</a>
+                        </li>
+                        <li class="{{ $routeName == 'events.index' ? 'active' : '' }}">
+                            <a href="{{ route('events.index') }}">Афиша</a>
                         </li>
                         <li>
                             <a href="#">Мы в регионах</a>
@@ -182,7 +186,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 <script src="js/scripts.js"></script>
 
-@if(in_array($routeName, ['index', 'publications.index', 'region', '']))
+@if(in_array($routeName, ['index', 'news.index', 'region', '']))
 <script>
     function news() {
         return {
