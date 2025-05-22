@@ -208,7 +208,7 @@
                         </div>
                         <div class="p-page__aside-content">
                             @foreach($events as $item)
-                                <a href="{{ route('publications.show', $item->slug) }}" class="item">
+                                <a href="{{ route('news.show', $item->slug) }}" class="item">
                                     <div class="item__img">
                                         <div class="item__img-badge">{{ $item->category }}</div>
                                         <img src="{{ asset('storage/' . $item->image) }}" alt="">

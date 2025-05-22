@@ -20,7 +20,7 @@
                                 <div class="col-12 col-md-8">
                                     <div class="item__title">
                                         @if($result instanceof App\Models\Publication && $result->slug)
-                                            <a href="{{ route('publications.show', $result->slug) }}">
+                                            <a href="{{ route('news.show', $result->slug) }}">
                                                 <span>{!! highlightSearch($result->title, $search) !!}</span>
                                             </a>
                                         @elseif($result instanceof App\Models\Page && $result->slug)
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="item__link">
                                         @if($result instanceof App\Models\Publication && $result->slug)
-                                            <a href="{{ route('publications.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
+                                            <a href="{{ route('news.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
                                         @elseif($result instanceof App\Models\Page && $result->slug)
                                             <a href="{{ route('pages.show', $result->slug) }}">{{ route('pages.show', $result->slug) }}</a>
                                         @endif
