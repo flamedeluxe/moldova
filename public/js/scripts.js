@@ -141,6 +141,24 @@ function hero() {
                 }
             },
         },
+        created(sliderInstance) {
+            // Автопрокрутка каждые 3 секунды
+            const interval = setInterval(() => {
+                sliderInstance.next();
+            }, 3000);
+
+            // Остановить autoplay при наведении (опционально)
+            sliderInstance.container.addEventListener("mouseenter", () => {
+                clearInterval(interval);
+            });
+
+            // Перезапустить при уходе курсора (опционально)
+            sliderInstance.container.addEventListener("mouseleave", () => {
+                setInterval(() => {
+                    sliderInstance.next();
+                }, 3000);
+            });
+        },
     });
 }
 
