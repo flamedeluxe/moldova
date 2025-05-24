@@ -145,7 +145,7 @@ function hero() {
             // Автопрокрутка каждые 3 секунды
             const interval = setInterval(() => {
                 sliderInstance.next();
-            }, 3000);
+            }, 5000);
 
             // Остановить autoplay при наведении (опционально)
             sliderInstance.container.addEventListener("mouseenter", () => {
