@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="item__link">
                                         @if($result instanceof App\Models\Publication && $result->slug)
-                                            <a href="{{ route('news.show', $result->slug) }}">{{ route('publications.show', $result->slug) }}</a>
+                                            <a href="{{ route('news.show', $result->slug) }}">{{ route('news.show', $result->slug) }}</a>
                                         @elseif($result instanceof App\Models\Page && $result->slug)
                                             <a href="{{ route('pages.show', $result->slug) }}">{{ route('pages.show', $result->slug) }}</a>
                                         @endif
