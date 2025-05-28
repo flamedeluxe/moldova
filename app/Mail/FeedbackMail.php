@@ -21,7 +21,7 @@ class FeedbackMail extends Mailable
     {
         return $this->markdown('mail.feedback')
             ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
-            ->subject('Помощь юриста ' . env('APP_NAME'))
+            ->subject('Помощь юриста ' . env('APP_NAME', 'moldovaonline.ru'))
             ->with($this->message);
     }
 }
