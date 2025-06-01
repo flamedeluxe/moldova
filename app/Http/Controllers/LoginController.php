@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Services\Site\SmsService;
+use App\Services\Site\MangoService;
 use stdClass;
 
 class LoginController extends Controller
@@ -203,19 +203,8 @@ class LoginController extends Controller
 
     private function sendSms($to, $text): void
     {
-        $sigma = new SmsService(env('SIGMA_API_TOKEN'));
-
-        $params = array(
-            "type"       => "sms",
-            "recipient"  => $to,
-            "payload"    => array(
-                "sender" => "B-Media",
-                "text"   => $text
-            )
-        );
-
-        $result = $sigma->send_msg($params);
-
+        $mango = new MangoService(env('MANGO_API_KEY'), env('MANGO_API_SALT'));
+        $result = $mango->send_msg($to, $text);
         Log::info(json_encode($result));
     }
 
