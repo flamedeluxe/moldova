@@ -78,12 +78,10 @@
             <li><a href="{{ route('faq.index') }}">Вопросы и ответы</a></li>
         </ul>
 
-        {{--
         <a href="{{ route('account.index') }}" class="btn btn--transperant">
             <img src="img/acc.svg" alt="">
             <span>Личный кабинет</span>
         </a>
-        --}}
     </div>
     <div class="m-header__nav-footer">
         <div class="m-header__nav-footer_email">
@@ -158,14 +156,12 @@
                         <img src="img/search.svg" alt="">
                     </button>
                 </div>
-                {{--
                 <div class="header__controls-acc">
                     <a href="{{ route('account.index') }}" class="btn btn--transperant">
                         <img src="img/acc.svg" alt="">
                         <span>Личный кабинет</span>
                     </a>
                 </div>
-                --}}
             </div>
         </div>
     </div>
