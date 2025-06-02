@@ -34,8 +34,23 @@ class MangoService
         curl_setopt($ch, CURLOPT_HEADER, 0);
         
         $response = curl_exec($ch);
+        
+        if ($response === false) {
+            throw new \Exception('Curl error: ' . curl_error($ch));
+        }
+        
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpCode !== 200) {
+            throw new \Exception('HTTP error: ' . $httpCode . ', Response: ' . $response);
+        }
+        
         curl_close($ch);
         
-        return json_decode($response, true);
+        $result = json_decode($response, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('JSON decode error: ' . json_last_error_msg());
+        }
+        
+        return $result;
     }
 } 

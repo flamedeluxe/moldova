@@ -431,7 +431,8 @@ img {
 }
 .hero .slide {
     position: relative;
-    padding-bottom: 3rem;;
+    padding-bottom: 3rem;
+    flex: 0 0 100%;
 }
 .hero .slide .caption {
     display: flex;
