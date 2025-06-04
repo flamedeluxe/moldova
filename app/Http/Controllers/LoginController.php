@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\RestoreMail;
 use App\Models\Citizen;
 use App\Models\User;
+use App\Services\Site\MangoOffice;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -203,8 +204,8 @@ class LoginController extends Controller
 
     private function sendSms($to, $text): void
     {
-        $mango = new MangoService(env('MANGO_API_KEY'), env('MANGO_API_SALT'));
-        $result = $mango->send_msg($to, $text);
+        $mango = new MangoOffice(env('MANGO_API_KEY'), env('MANGO_API_SALT'));
+        $result = $mango->sendSms($text, '908', $to, 'KOZHM');
         Log::info(json_encode($result));
     }
 
