@@ -204,6 +204,7 @@ class LoginController extends Controller
 
     private function sendSms($to, $text): void
     {
+        $to = str_replace('+', '', $to);
         $mango = new MangoOffice(env('MANGO_API_KEY'), env('MANGO_API_SALT'));
         $result = $mango->sendSms($text, '908', $to, 'KOZHM');
         Log::info(json_encode($result));
