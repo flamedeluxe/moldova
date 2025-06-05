@@ -192,7 +192,7 @@ Class MangoOffice {
             }
             $data['command_id'] = $command_id;
         }
-        
+
         $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $post = [
             'vpbx_api_key' => $this->vpbx_api_key,
@@ -203,43 +203,15 @@ Class MangoOffice {
         $url   = $this->mango_base_url . $method;
         $query = http_build_query($post);
 
-        // Отладочная информация
-        echo "URL: " . $url . "\n";
-        echo "POST data:\n";
-        print_r($post);
-        echo "\nQuery string:\n" . $query . "\n\n";
+        if ($curl = curl_init()) {
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $query);
+            $data = curl_exec($curl);
+            curl_close($curl);
+        }
 
-        if (0) {
-            /**
-             * FILE GET CONTENTS
-             */
-            $opts    = [
-                'http' => [
-                    'method'  => 'POST',
-                    'header'  => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => $query
-                ]
-            ];
-            $context = stream_context_create($opts);
-            $data    = @file_get_contents($url, false, $context);
-            var_dump($data);
-            if (!$data) {
-                return false;
-            }
-        }
-        else {
-            /**
-             * CURL
-             */
-            if ($curl = curl_init()) {
-                curl_setopt($curl, CURLOPT_URL, $url);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $query);
-                $data = curl_exec($curl);
-                curl_close($curl);
-            }
-        }
         if ($ret = json_decode($data)) {
             return $ret;
         }
@@ -387,4 +359,4 @@ Class MangoOffice {
 
         return $this->putCmd('commands/sms', $data, $command_id);
     }
-} 
+}
