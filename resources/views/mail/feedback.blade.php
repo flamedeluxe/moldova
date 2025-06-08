@@ -1,9 +1,9 @@
 @component('mail::message')
 # Новый запрос на помощь юриста
 
-Имя: {{ $name }}
-Телефон: {{ $phone }}
-Текст: {{ $text }}
+Имя: {{ $name }} <br>
+Телефон: {{ $phone }} <br>
+Текст: {{ $text }} <br>
 
 Спасибо,<br>
 {{ config('app.name') }}

@@ -39,11 +39,6 @@ class FormController extends BaseController
         ]);
 
         $data = $request->except('_token', 'agree');
-        if(filter_var($data['contacts'], FILTER_VALIDATE_EMAIL))
-            $data['email'] = $data['contacts'];
-        else
-            $data['phone'] = $data['contacts'];
-        unset($data['contacts']);
 
         Feedback::query()->create($data);
 
