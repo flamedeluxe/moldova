@@ -27,13 +27,6 @@
                                     <span class="error" x-text="errors.name ? errors.name[0] : ''"></span>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password"
-                                           x-model="form.password"
-                                           placeholder="Введите пароль"
-                                           :class="{ 'has-error': errors.password }">
-                                    <span class="error" x-text="errors.password ? errors.password[0] : ''"></span>
-                                </div>
-                                <div class="form-group">
                                     <input type="tel"
                                            x-model="form.phone"
                                            placeholder="Номер телефона"
