@@ -111,7 +111,6 @@ class LoginController extends Controller
             'name' => ['required', 'string', 'max:255', 'regex:/^(\S+\s+){2,}\S+$/u'],
             'phone' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
             'agree' => ['required', 'accepted'],
         ], [
             'name.required' => 'Введите полностью Фамилия Имя Отчество',
@@ -135,7 +134,7 @@ class LoginController extends Controller
             'patronymic' => $fio[2],
             'email' => $validated['email'],
             'phone' => $validated['phone'],
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make(Str::random(10)),
             'active' => false,
             'role' => 'user'
         ]);
