@@ -21,7 +21,7 @@ class FormController extends BaseController
         $data = $request->except('_token', 'agree');
         Feedback::query()->create($data);
 
-        Mail::to(env('MAIL_TO'))->send(new FeedbackMail($data));
+        Mail::to(env('MAIL_FEEDBACK_TO'))->send(new FeedbackMail($data));
 
         return response()->json([
             'success' => true,
@@ -42,7 +42,7 @@ class FormController extends BaseController
 
         Feedback::query()->create($data);
 
-        Mail::to(env('MAIL_TO'))->send(new FeedbackMail($data));
+        Mail::to(env('MAIL_QUESTION_TO'))->send(new FeedbackMail($data));
 
         return response()->json([
             'success' => true,
