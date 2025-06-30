@@ -125,14 +125,15 @@ class FileResource extends Resource
             ])
             ->actions([
                 Action::make('copy_link')
-                    ->label('Скопировать ссылку')
+                    ->label('Показать ссылку')
                     ->icon('heroicon-o-clipboard')
                     ->action(function (File $record) {
                         $url = $record->full_url;
+                        
                         // Показываем уведомление с ссылкой
                         Notification::make()
-                            ->title('Ссылка скопирована')
-                            ->body($url)
+                            ->title('Ссылка на файл')
+                            ->body('Скопируйте ссылку: ' . $url)
                             ->success()
                             ->send();
                     }),
