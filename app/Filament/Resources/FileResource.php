@@ -104,7 +104,7 @@ class FileResource extends Resource
                     ->label('Превью')
                     ->circular()
                     ->size(50)
-                    ->visible(fn ($record) => $record->isImage()),
+                    ->visible(fn ($record) => $record && $record->isImage()),
                 
                 TextColumn::make('name')
                     ->label('Название')
