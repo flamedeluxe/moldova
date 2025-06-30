@@ -39,7 +39,7 @@ class FileResource extends Resource
     {
         return $form
             ->schema([
-                FileUpload::make('file')
+                FileUpload::make('path')
                     ->label('Выберите файл')
                     ->required()
                     ->acceptedFileTypes(['image/*', 'application/pdf', 'text/*', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
@@ -48,7 +48,7 @@ class FileResource extends Resource
                     ->preserveFilenames()
                     ->afterStateUpdated(function ($state, $set) {
                         if ($state) {
-                            $file = request()->file('file');
+                            $file = request()->file('path');
                             if ($file) {
                                 $set('original_name', $file->getClientOriginalName());
                                 $set('mime_type', $file->getMimeType());
