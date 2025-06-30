@@ -22,6 +22,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Notifications\Notification;
 
 class FileResource extends Resource
 {
@@ -128,17 +129,13 @@ class FileResource extends Resource
                     ->icon('heroicon-o-clipboard')
                     ->action(function (File $record) {
                         $url = $record->full_url;
-                        // Копируем в буфер обмена через JavaScript
-                        return response()->json([
-                            'message' => 'Ссылка скопирована в буфер обмена',
-                            'url' => $url
-                        ]);
-                    })
-                    ->extraAttributes([
-                        'x-data' => '{}',
-                        'x-on:click' => 'navigator.clipboard.writeText($event.target.closest("button").getAttribute("data-url")).then(() => { $dispatch("notify", { message: "Ссылка скопирована!" }) })',
-                        'data-url' => fn (File $record) => $record->full_url,
-                    ]),
+                        // Показываем уведомление с ссылкой
+                        Notification::make()
+                            ->title('Ссылка скопирована')
+                            ->body($url)
+                            ->success()
+                            ->send();
+                    }),
                 
                 ViewAction::make()
                     ->url(fn (File $record): string => $record->full_url)
