@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Название файла
-            $table->string('original_name'); // Оригинальное название файла
+            $table->string('original_name')->nullable(); // Оригинальное название файла
             $table->string('path'); // Путь к файлу
             $table->string('url')->nullable(); // Ссылка на файл
-            $table->string('mime_type'); // Тип файла
-            $table->bigInteger('size'); // Размер файла в байтах
-            $table->string('extension'); // Расширение файла
+            $table->string('mime_type')->nullable(); // Тип файла
+            $table->bigInteger('size')->nullable(); // Размер файла в байтах
+            $table->string('extension')->nullable(); // Расширение файла
             $table->text('description')->nullable(); // Описание файла
             $table->timestamps();
         });
