@@ -64,22 +64,6 @@ class FileResource extends Resource
                     ->required()
                     ->maxLength(255),
                 
-                TextInput::make('original_name')
-                    ->label('Оригинальное название')
-                    ->disabled(),
-                
-                TextInput::make('mime_type')
-                    ->label('Тип файла')
-                    ->disabled(),
-                
-                TextInput::make('size')
-                    ->label('Размер (байт)')
-                    ->disabled(),
-                
-                TextInput::make('extension')
-                    ->label('Расширение')
-                    ->disabled(),
-                
                 TextInput::make('url')
                     ->label('Внешняя ссылка')
                     ->url()
@@ -106,11 +90,6 @@ class FileResource extends Resource
                     ->label('Название')
                     ->searchable()
                     ->sortable(),
-                
-                TextColumn::make('original_name')
-                    ->label('Оригинальное название')
-                    ->searchable()
-                    ->limit(30),
                 
                 TextColumn::make('extension')
                     ->label('Тип')
@@ -144,6 +123,23 @@ class FileResource extends Resource
                     ]),
             ])
             ->actions([
+                Action::make('copy_link')
+                    ->label('Скопировать ссылку')
+                    ->icon('heroicon-o-clipboard')
+                    ->action(function (File $record) {
+                        $url = $record->full_url;
+                        // Копируем в буфер обмена через JavaScript
+                        return response()->json([
+                            'message' => 'Ссылка скопирована в буфер обмена',
+                            'url' => $url
+                        ]);
+                    })
+                    ->extraAttributes([
+                        'x-data' => '{}',
+                        'x-on:click' => 'navigator.clipboard.writeText($event.target.closest("button").getAttribute("data-url")).then(() => { $dispatch("notify", { message: "Ссылка скопирована!" }) })',
+                        'data-url' => fn (File $record) => $record->full_url,
+                    ]),
+                
                 ViewAction::make()
                     ->url(fn (File $record): string => $record->full_url)
                     ->openUrlInNewTab(),
