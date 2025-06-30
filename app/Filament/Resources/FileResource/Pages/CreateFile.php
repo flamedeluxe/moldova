@@ -35,6 +35,11 @@ class CreateFile extends CreateRecord
             }
         }
 
+        // Убеждаемся, что все обязательные поля заполнены
+        if (empty($data['name'])) {
+            $data['name'] = 'Без названия';
+        }
+
         return $data;
     }
 }

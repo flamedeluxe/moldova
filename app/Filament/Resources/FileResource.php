@@ -66,23 +66,19 @@ class FileResource extends Resource
                 
                 TextInput::make('original_name')
                     ->label('Оригинальное название')
-                    ->disabled()
-                    ->dehydrated(false),
+                    ->disabled(),
                 
                 TextInput::make('mime_type')
                     ->label('Тип файла')
-                    ->disabled()
-                    ->dehydrated(false),
+                    ->disabled(),
                 
                 TextInput::make('size')
                     ->label('Размер (байт)')
-                    ->disabled()
-                    ->dehydrated(false),
+                    ->disabled(),
                 
                 TextInput::make('extension')
                     ->label('Расширение')
-                    ->disabled()
-                    ->dehydrated(false),
+                    ->disabled(),
                 
                 TextInput::make('url')
                     ->label('Внешняя ссылка')

@@ -41,6 +41,10 @@ class File extends Model
      */
     public function getFormattedSizeAttribute()
     {
+        if (!$this->size) {
+            return '0 B';
+        }
+        
         $bytes = $this->size;
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         
@@ -56,7 +60,7 @@ class File extends Model
      */
     public function isImage()
     {
-        return str_starts_with($this->mime_type, 'image/');
+        return $this->mime_type && str_starts_with($this->mime_type, 'image/');
     }
 
     /**
@@ -64,6 +68,10 @@ class File extends Model
      */
     public function isDocument()
     {
+        if (!$this->mime_type) {
+            return false;
+        }
+        
         $documentTypes = [
             'application/pdf',
             'application/msword',
