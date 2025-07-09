@@ -142,21 +142,30 @@ function hero() {
             },
         },
         created(sliderInstance) {
-            // Автопрокрутка каждые 3 секунды
-            const interval = setInterval(() => {
-                sliderInstance.next();
-            }, 5000);
+            let autoplayInterval;
 
-            // Остановить autoplay при наведении (опционально)
+            function startAutoplay() {
+                autoplayInterval = setInterval(() => {
+                    sliderInstance.next();
+                }, 5000);
+            }
+
+            function stopAutoplay() {
+                if (autoplayInterval) clearInterval(autoplayInterval);
+            }
+
+            // Запуск автопрокрутки
+            startAutoplay();
+
+            // Наведение — стоп
             sliderInstance.container.addEventListener("mouseenter", () => {
-                clearInterval(interval);
+                stopAutoplay();
             });
 
-            // Перезапустить при уходе курсора (опционально)
+            // Уход — заново запустить
             sliderInstance.container.addEventListener("mouseleave", () => {
-                setInterval(() => {
-                    sliderInstance.next();
-                }, 3000);
+                stopAutoplay();
+                startAutoplay();
             });
         },
     });
