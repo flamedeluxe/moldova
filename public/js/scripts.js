@@ -142,34 +142,45 @@ function hero() {
             },
         },
         created(sliderInstance) {
-            let autoplayInterval;
+            let autoplayInterval = null;
 
             function startAutoplay() {
+                stopAutoplay(); // Очищаем перед запуском нового интервала
                 autoplayInterval = setInterval(() => {
                     sliderInstance.next();
                 }, 5000);
             }
 
             function stopAutoplay() {
-                if (autoplayInterval) clearInterval(autoplayInterval);
+                if (autoplayInterval !== null) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                }
             }
 
             // Запуск автопрокрутки
             startAutoplay();
 
-            // Наведение — стоп
-            sliderInstance.container.addEventListener("mouseenter", () => {
-                stopAutoplay();
-            });
+            // Наведение на слайдер — стоп
+            sliderInstance.container.addEventListener("mouseenter", stopAutoplay);
 
-            // Уход — заново запустить
-            sliderInstance.container.addEventListener("mouseleave", () => {
+            // Уход курсора — перезапуск
+            sliderInstance.container.addEventListener("mouseleave", startAutoplay);
+
+            // Если есть кастомные стрелки или точки — можно сбросить таймер
+            const resetOnClick = () => {
                 stopAutoplay();
                 startAutoplay();
+            };
+
+            // Пример: кнопки .arrow и .dot внутри .hero
+            document.querySelectorAll(".hero .arrow, .hero .dot").forEach(el => {
+                el.addEventListener("click", resetOnClick);
             });
         },
     });
 }
+
 
 function projectsSlider() {
     initSlider(".projects .keen-slider", {
