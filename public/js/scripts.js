@@ -141,14 +141,18 @@ function hero() {
                 }
             },
         },
+        animation: {
+            duration: 1200, // 💡 Увеличиваем длительность анимации (мс)
+            easing: t => t // по желанию: ease-in-out, cubic bezier и т.п.
+        },
         created(sliderInstance) {
             let autoplayInterval = null;
 
             function startAutoplay() {
-                stopAutoplay(); // Очищаем перед запуском нового интервала
+                stopAutoplay();
                 autoplayInterval = setInterval(() => {
                     sliderInstance.next();
-                }, 5000);
+                }, 8000); // ⏱ Интервал в 8 секунд
             }
 
             function stopAutoplay() {
@@ -158,28 +162,26 @@ function hero() {
                 }
             }
 
-            // Запуск автопрокрутки
+            // Автозапуск
             startAutoplay();
 
-            // Наведение на слайдер — стоп
+            // Стоп при наведении
             sliderInstance.container.addEventListener("mouseenter", stopAutoplay);
-
-            // Уход курсора — перезапуск
             sliderInstance.container.addEventListener("mouseleave", startAutoplay);
 
-            // Если есть кастомные стрелки или точки — можно сбросить таймер
+            // Перезапуск при клике на элементы управления
             const resetOnClick = () => {
                 stopAutoplay();
                 startAutoplay();
             };
 
-            // Пример: кнопки .arrow и .dot внутри .hero
             document.querySelectorAll(".hero .arrow, .hero .dot").forEach(el => {
                 el.addEventListener("click", resetOnClick);
             });
         },
     });
 }
+
 
 
 function projectsSlider() {
