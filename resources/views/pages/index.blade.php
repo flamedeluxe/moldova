@@ -74,24 +74,20 @@
                     <div class="col-12 col-sm-4">
                         <a :href="`news/${item.slug}`" class="item">
                             <div class="item__caption" x-show="!item.image">
-                                <div class="item__caption-title" x-text="item.title">
-                                </div>
-                                <div class="item__caption-date" x-text="item.date">
-                                </div>
+                                <div class="item__caption-title" x-text="item.title"></div>
+                                <div class="item__caption-date" x-text="item.date"></div>
                             </div>
 
                             <div class="item__img" x-show="item.image">
                                 <img :src="`storage/${item.image}`" alt="">
-                                <div class="item__img-badge" x-text="item.category">
-                                </div>
+                                <div class="item__img-badge" x-text="item.category"></div>
                             </div>
                             <div class="item__info-date">
                                 <span x-text="item.date"></span>
                                 <span x-text="item.city" x-show="item.city"></span>
                             </div>
                             <div class="item__info" x-show="item.image">
-                                <div class="item__info-title" x-text="item.title">
-                                </div>
+                                <div class="item__info-title" x-text="item.title"></div>
                             </div>
                         </a>
                     </div>
