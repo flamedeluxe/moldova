@@ -44,6 +44,21 @@
                     <div class="p-page__content2">
                         {!! $publication->content !!}
                     </div>
+                    <div class="p-page__footer">
+                        <a href="" data-modal="#modal_feedback" class="btn btn--default">
+                            Форма обратной связи
+                        </a>
+                        <div class="modal modal__feedback" id="modal_feedback">
+                            <div class="wrap">
+                                <div class="modal__close">
+                                    <img src="img/close.svg" alt="">
+                                </div>
+                                <div class="modal__content">
+                                    @include('components.forms.feedback_modal')
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12 col-sm-4">
                     <div class="p-page__aside">

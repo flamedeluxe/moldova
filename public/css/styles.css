@@ -44,6 +44,9 @@ a {
 a:hover {
     color: var(--accent);
 }
+.bold {
+    font-weight: bold;
+}
 
 .icon {
     width: 1.4rem;
